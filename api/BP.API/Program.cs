@@ -1,8 +1,12 @@
 using BP_Data;
+using BP.API.Services;
 using BP.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// use urls
+builder.WebHost.UseUrls("http://localhost:5000", "http://0.0.0.0:5000");
 
 // Add configuration
 builder.Configuration
@@ -12,6 +16,7 @@ builder.Configuration
 
 
 // Add services to the container.
+builder.Services.AddScoped<ReadingService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
