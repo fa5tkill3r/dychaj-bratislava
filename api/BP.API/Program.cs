@@ -1,4 +1,3 @@
-using BP_Data;
 using BP.API.Services;
 using BP.Data;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // use urls
-builder.WebHost.UseUrls("http://localhost:5000", "http://0.0.0.0:5000");
+builder.WebHost.UseUrls("http://localhost:9000", "http://0.0.0.0:9000");
 
 // Add configuration
 builder.Configuration

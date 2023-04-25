@@ -1,8 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace BP.Data.DbModels;
 
-[Index(nameof(UniqueId), IsUnique = true)]
 public class Module
 {
     public int Id { get; set; }

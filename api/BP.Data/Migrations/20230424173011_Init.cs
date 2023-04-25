@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace BP_Data.Migrations
+namespace BP.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -12,18 +12,42 @@ namespace BP_Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Location",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    Lon = table.Column<double>(type: "double precision", nullable: false),
+                    Lat = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Location", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Module",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Location = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    UniqueId = table.Column<string>(type: "text", nullable: false),
+                    LocationId = table.Column<int>(type: "integer", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "text", nullable: false),
+                    EspId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Module", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Module_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +93,11 @@ namespace BP_Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Module_LocationId",
+                table: "Module",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reading_SensorId",
                 table: "Reading",
                 column: "SensorId");
@@ -90,6 +119,9 @@ namespace BP_Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Module");
+
+            migrationBuilder.DropTable(
+                name: "Location");
         }
     }
 }
