@@ -58,11 +58,6 @@ namespace BP.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("LocationId")
@@ -71,6 +66,9 @@ namespace BP.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UniqueId")
                         .IsRequired()
@@ -81,10 +79,6 @@ namespace BP.Data.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Module");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Module");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("BP.Data.DbModels.Reading", b =>
@@ -94,6 +88,9 @@ namespace BP.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("SensorId")
                         .HasColumnType("integer");
@@ -117,13 +114,16 @@ namespace BP.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ModuleId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UniqueId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -136,31 +136,6 @@ namespace BP.Data.Migrations
                     b.HasIndex("ModuleId");
 
                     b.ToTable("Sensor");
-                });
-
-            modelBuilder.Entity("BP.Data.DbModels.Modules.CykloKoalicia", b =>
-                {
-                    b.HasBaseType("BP.Data.DbModels.Module");
-
-                    b.HasDiscriminator().HasValue("CykloKoalicia");
-                });
-
-            modelBuilder.Entity("BP.Data.DbModels.Modules.Esp", b =>
-                {
-                    b.HasBaseType("BP.Data.DbModels.Module");
-
-                    b.Property<string>("EspId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasDiscriminator().HasValue("Esp");
-                });
-
-            modelBuilder.Entity("BP.Data.DbModels.Modules.SensorCommunity", b =>
-                {
-                    b.HasBaseType("BP.Data.DbModels.Module");
-
-                    b.HasDiscriminator().HasValue("SensorCommunity");
                 });
 
             modelBuilder.Entity("BP.Data.DbModels.Module", b =>

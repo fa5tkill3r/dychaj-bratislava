@@ -6,4 +6,5 @@ public class Reading
     public int SensorId { get; set; }
     public Sensor Sensor { get; set; }
     public decimal Value { get; set; }
+    public DateTime DateTime { get; set; } = DateTime.UtcNow;
 }

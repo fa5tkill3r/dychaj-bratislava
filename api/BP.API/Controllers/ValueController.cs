@@ -6,19 +6,19 @@ namespace BP.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReadingController : ControllerBase
+public class ValueController : ControllerBase
 {
-    private readonly ReadingService _readingService;
+    private readonly ValueService _valueService;
 
-    public ReadingController(ReadingService readingService)
+    public ValueController(ValueService valueService)
     {
-        _readingService = readingService;
+        _valueService = valueService;
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddReading([FromBody] SensorData sensorData)
+    public async Task<IActionResult> AddValue([FromBody] SensorData sensorData)
     {
-        await _readingService.AddReading(sensorData);
+        await _valueService.AddEspValue(sensorData);
         return Ok();
     }
 

@@ -1,5 +1,4 @@
 using BP.Data.DbModels;
-using BP.Data.DbModels.Modules;
 using Microsoft.EntityFrameworkCore;
 
 namespace BP.Data;
@@ -8,6 +7,7 @@ public class Context : DbContext
 {
     public Context(DbContextOptions<Context> options) : base(options)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +31,4 @@ public class Context : DbContext
 
     public DbSet<Sensor> Sensor { get; set; }
     public DbSet<Module> Module { get; set; }
-    public DbSet<Esp> Esp { get; set; }
-    public DbSet<CykloKoalicia> CykloKoalicia { get; set; }
-    public DbSet<SensorCommunity> SensorCommunities { get; set; }
 }

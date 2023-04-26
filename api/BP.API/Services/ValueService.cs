@@ -1,57 +1,67 @@
 ﻿using BP.Data;
+using BP.Data.DbHelpers;
 using BP.Data.DbModels;
-using BP.Data.DbModels.Modules;
 using BP.Data.Models.Sensor;
 using Microsoft.EntityFrameworkCore;
 
 namespace BP.API.Services;
 
-
-public class ReadingService
+public class ValueService
 {
     private readonly Context _context;
 
-    public ReadingService(Context context)
+    private string[] ignoreValues = {
+        "samples",
+        "min_micro",
+        "max_micro",
+        "signal",
+    };
+
+    public ValueService(Context context)
     {
         _context = context;
     }
-    
-    public async Task AddReading(SensorData sensorData)
+
+    public async Task AddEspValue(SensorData sensorData)
     {
-        var module = await _context.Esp
+        var module = await _context.Module
             .Include(e => e.Sensors)
-            .FirstOrDefaultAsync(e => e.EspId == sensorData.esp8266id);
+            .Where(m => m.Source == Source.Esp)
+            .FirstOrDefaultAsync(e => e.UniqueId == sensorData.esp8266id);
         if (module == null)
         {
-            module = new Esp()
+            module = new Module()
             {
                 Name = sensorData.esp8266id,
                 UniqueId = sensorData.esp8266id,
                 LocationId = null,
+                Source = Source.Esp,
             };
             await _context.Module.AddAsync(module);
+            await _context.SaveChangesAsync();
         }
-        
-        // module load sensors
+
         await _context.Entry(module).Collection(m => m.Sensors).LoadAsync();
 
         foreach (var sensorDataVal in sensorData.sensordatavalues)
         {
-            var sensor = module.Sensors.FirstOrDefault(s => s.Unit == sensorDataVal.value_type);
+            if (ignoreValues.Contains(sensorDataVal.value_type))
+                continue;
+
+            var sensor = module.Sensors.FirstOrDefault(s => s.UniqueId == sensorDataVal.value_type);
             if (sensor == null)
             {
                 sensor = new Sensor()
                 {
                     Name = sensorDataVal.value_type,
-                    Description = sensorDataVal.value_type,
                     Unit = sensorDataVal.value_type,
+                    UniqueId = sensorDataVal.value_type,
                     ModuleId = module.Id,
                 };
                 await _context.Sensor.AddAsync(sensor);
+                await _context.SaveChangesAsync();
             }
-            
-            sensorDataVal.value = sensorDataVal.value.Replace('.', ',');
-            
+
             var reading = new Reading()
             {
                 SensorId = sensor.Id,
@@ -62,4 +72,8 @@ public class ReadingService
 
         await _context.SaveChangesAsync();
     }
+    
+    
+    
+    
 }

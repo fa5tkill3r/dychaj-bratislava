@@ -1,2 +1,2 @@
 @echo off
-dotnet ef --startup-project Dashboard.API.csproj --project ../Dashboard.API.Data/Dashboard.API.Data.csproj %*
+dotnet ef --startup-project BP.API.csproj --project ../BP.Data/BP.Data.csproj %*
