@@ -34,14 +34,13 @@ namespace BP.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Lat")
+                    b.Property<double>("Latitude")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Lon")
+                    b.Property<double>("Longitude")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

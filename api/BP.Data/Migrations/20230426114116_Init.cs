@@ -18,10 +18,10 @@ namespace BP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: false),
-                    Lon = table.Column<double>(type: "double precision", nullable: false),
-                    Lat = table.Column<double>(type: "double precision", nullable: false)
+                    Longitude = table.Column<double>(type: "double precision", nullable: false),
+                    Latitude = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {

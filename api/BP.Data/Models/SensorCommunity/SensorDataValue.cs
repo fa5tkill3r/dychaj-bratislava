@@ -2,7 +2,7 @@
 
 public class SensorDataValue
 {
-    public string value { get; set; }
-    public object id { get; set; }
+    public decimal value { get; set; }
+    public long id { get; set; }
     public string value_type { get; set; }
 }
