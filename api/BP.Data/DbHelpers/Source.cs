@@ -4,5 +4,6 @@ public enum Source
 {
     Esp,
     CykloKoalicia,
-    SensorCommunity
+    SensorCommunity,
+    Shmu,
 }

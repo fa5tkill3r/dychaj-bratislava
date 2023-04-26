@@ -18,6 +18,7 @@ builder.Configuration
 builder.Services.AddScoped<ValueService>();
 builder.Services.AddScoped<GoogleService>();
 builder.Services.AddScoped<SensorCommunityService>();
+builder.Services.AddScoped<ShmuService>();
 
 
 builder.Services.AddControllers();
