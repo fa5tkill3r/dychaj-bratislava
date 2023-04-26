@@ -1,0 +1,37 @@
+﻿[
+  {
+    "sensor": {
+      "id": 50737,
+      "sensor_type": {
+        "id": 14,
+        "name": "SDS011",
+        "manufacturer": "Nova Fitness"
+      },
+      "pin": "1"
+    },
+    "timestamp": "2023-04-26 11:05:53",
+    "sensordatavalues": [
+      {
+        "id": 34011792567,
+        "value": "3.28",
+        "value_type": "P1"
+      },
+      {
+        "id": 34011792571,
+        "value": "1.40",
+        "value_type": "P2"
+      }
+    ],
+    "location": {
+      "altitude": "138.0",
+      "indoor": 0,
+      "latitude": "48.154",
+      "longitude": "17.126",
+      "id": 36703,
+      "country": "SK",
+      "exact_location": 0
+    },
+    "id": 15130975954,
+    "sampling_rate": null
+  }
+]
