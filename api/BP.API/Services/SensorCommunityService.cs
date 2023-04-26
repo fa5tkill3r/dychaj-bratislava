@@ -15,12 +15,14 @@ public class SensorCommunityService
     private readonly Context _context;
     private readonly ILogger<SensorCommunityService> _logger;
     private readonly IConfigurationRoot _configuration;
+    private readonly GoogleService _googleService;
 
-    public SensorCommunityService(Context context, ILogger<SensorCommunityService> logger, IConfigurationRoot configuration)
+    public SensorCommunityService(Context context, ILogger<SensorCommunityService> logger, IConfigurationRoot configuration, GoogleService googleService)
     {
         _context = context;
         _logger = logger;
         _configuration = configuration;
+        _googleService = googleService;
     }
 
     public async Task GetData()
@@ -104,15 +106,15 @@ public class SensorCommunityService
             }
             else
             {
-                var locationResponse = await Requests.Get<GeocodeResponse>($"https://maps.googleapis.com/maps/api/geocode/json?latlng={sensorCommunity.location.latitude},{sensorCommunity.location.longitude}&key={apiKey}");
-                if (locationResponse == null || locationResponse.results.Count == 0)
+                var loc = await _googleService.GetLocation(module.Location.Latitude, module.Location.Longitude);
+                if (loc == null)
                 {
                     _logger.LogWarning("SensorCommunityService: Failed to get location for sensor {SensorUniqueId}", sensorId);
                 }
                 else
                 {
-                    module.Location.Address = locationResponse.results[0].formatted_address;
-                    module.Location.Name = locationResponse.results[0].address_components.FirstOrDefault(a => a.types.Contains("route"))?.long_name;
+                    module.Location.Address = loc.Address;
+                    module.Location.Name = loc.StreetName;
                     _logger.LogInformation("SensorCommunityService: Found location for sensor {SensorUniqueId} - {Address}", sensorId, module.Location.Address);
                 }
             }
