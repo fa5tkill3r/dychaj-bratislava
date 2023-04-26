@@ -1,0 +1,83 @@
+﻿[
+  {
+    "station": {
+      "station_id": 99133,
+      "station_name": "Pezinok, Obrancov mieru",
+      "type": 1,
+      "has_iko": 1,
+      "gps_lat": 48.283341,
+      "gps_lon": 17.259744,
+      "pollutants": [
+        {
+          "pollutant_id": "t08017",
+          "pollutant_desc": "O3",
+          "order": 3
+        },
+        {
+          "pollutant_id": "t03017",
+          "pollutant_desc": "NO2",
+          "order": 4
+        },
+        {
+          "pollutant_id": "t35017",
+          "pollutant_desc": "NOX",
+          "order": 5
+        },
+        {
+          "pollutant_id": "t24001",
+          "pollutant_desc": "PM10",
+          "order": 1
+        },
+        {
+          "pollutant_id": "t39001",
+          "pollutant_desc": "PM2.5",
+          "order": 2
+        }
+      ]
+    },
+    "data": [
+      {
+        "dt": 1682535600,
+        "value": 73,
+        "pollutant_id": "t08017",
+        "limit_level": 2
+      },
+      {
+        "dt": 1682535600,
+        "value": 10,
+        "pollutant_id": "t03017",
+        "limit_level": 0
+      },
+      {
+        "dt": 1682535600,
+        "value": 11,
+        "pollutant_id": "t35017"
+      },
+      {
+        "dt": 1682535600,
+        "value": 7,
+        "pollutant_id": "t24001",
+        "limit_level": 0
+      },
+      {
+        "dt": 1682535600,
+        "value": 6,
+        "pollutant_id": "t39001",
+        "limit_level": 0
+      }
+    ],
+    "extra_data": [
+      {
+        "dt": 1682416800,
+        "value_avg": 4,
+        "value_max": 7,
+        "extra_pollutant_id": "DPR_PM10"
+      },
+      {
+        "dt": 1682535600,
+        "value": 6,
+        "extra_pollutant_id": "PM10_12H"
+      }
+    ]
+  }
+]
