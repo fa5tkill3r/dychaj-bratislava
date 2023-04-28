@@ -1,5 +1,6 @@
 ﻿using BP.API.Services;
 using BP.Data;
+using BP.Data.TestModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,12 +17,20 @@ builder.Configuration
 
 
 // Add services to the container.
-builder.Services.AddScoped<ValueService>();
-builder.Services.AddScoped<SensorCommunityService>();
+// builder.Services.AddScoped<ValueService>();
+// builder.Services.AddScoped<SensorCommunityService>();
 
 
 builder.Services.AddDbContext<Context>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");
+
+if (cyklokoaliciaConnection != null)
+{
+    builder.Services.AddDbContext<TestContext>(options =>
+        options.UseMySQL(cyklokoaliciaConnection));
+}
 
 builder.Services.AddHostedService<Worker.Worker>();
 

@@ -1,21 +1,26 @@
 ﻿using BP.API.Services;
+using BP.Data;
+using BP.Data.TestModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace Worker;
 
 public class Worker : BackgroundService
 {
-    private readonly SensorCommunityService _sensorCommunityService;
+    private readonly TestContext _cyklokoaliciaContext;
 
-    public Worker(SensorCommunityService sensorCommunityService)
+    public Worker(TestContext cyklokoaliciaContext)
     {
-        _sensorCommunityService = sensorCommunityService;
+        _cyklokoaliciaContext = cyklokoaliciaContext;
     }
 
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("Hello World!");
-        await _sensorCommunityService.GetData();
+
+        var x = await _cyklokoaliciaContext.TableNames.ToListAsync();
+        Console.WriteLine(x.Count);
     }
 }

@@ -1,5 +1,6 @@
 using BP.API.Services;
 using BP.Data;
+using BP.Data.TestModels;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<Context>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");
+
+if (cyklokoaliciaConnection != null)
+{
+    builder.Services.AddDbContext<TestContext>(options =>
+        options.UseMySQL(cyklokoaliciaConnection));
+}
+
+
 
 var app = builder.Build();
 
