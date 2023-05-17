@@ -1,6 +1,4 @@
-﻿using BP.API.Services;
-using BP.Data;
-using BP.Data.TestModels;
+﻿using BP.Data.CykloKoalicia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
@@ -8,9 +6,9 @@ namespace Worker;
 
 public class Worker : BackgroundService
 {
-    private readonly TestContext _cyklokoaliciaContext;
+    private readonly CkVzduchContext _cyklokoaliciaContext;
 
-    public Worker(TestContext cyklokoaliciaContext)
+    public Worker(CkVzduchContext cyklokoaliciaContext)
     {
         _cyklokoaliciaContext = cyklokoaliciaContext;
     }
@@ -20,7 +18,7 @@ public class Worker : BackgroundService
     {
         Console.WriteLine("Hello World!");
 
-        var x = await _cyklokoaliciaContext.TableNames.ToListAsync();
+        var x = await _cyklokoaliciaContext.Sensors.ToListAsync(stoppingToken);
         Console.WriteLine(x.Count);
     }
 }

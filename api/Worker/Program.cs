@@ -1,6 +1,5 @@
-﻿using BP.API.Services;
-using BP.Data;
-using BP.Data.TestModels;
+﻿using BP.Data;
+using BP.Data.CykloKoalicia;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +27,7 @@ var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cykloko
 
 if (cyklokoaliciaConnection != null)
 {
-    builder.Services.AddDbContext<TestContext>(options =>
+    builder.Services.AddDbContext<CkVzduchContext>(options =>
         options.UseMySQL(cyklokoaliciaConnection));
 }
 
