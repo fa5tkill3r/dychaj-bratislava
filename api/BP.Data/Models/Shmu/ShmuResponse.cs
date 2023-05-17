@@ -9,8 +9,8 @@ namespace BP.Data.Models.Shmu;
 public abstract class ShmuResponse
 {
     public Station station { get; set; }
-    public List<object> data { get; set; }
-    public List<object> extra_data { get; set; }
+    public List<Data> data { get; set; }
+    public List<ExtraData> extra_data { get; set; }
 }
 
 public abstract class Pollutant
@@ -29,4 +29,21 @@ public abstract class Station
     public double? gps_lat { get; set; }
     public double? gps_lon { get; set; }
     public List<Pollutant> pollutants { get; set; }
+}
+
+public abstract class Data
+{
+    public long dt { get; set; }
+    public decimal value { get; set; }
+    public string pollutant_id { get; set; }
+    public int limit_level { get; set; }
+}
+
+public abstract class ExtraData
+{
+    public long dt { get; set; }
+    public int value_avg { get; set; }
+    public int value_max { get; set; }
+    public int value { get; set; }
+    public string pollutant_id { get; set; }
 }

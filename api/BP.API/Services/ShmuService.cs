@@ -1,4 +1,5 @@
-﻿using BP.API.Utility;
+﻿using System.Web;
+using BP.API.Utility;
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
@@ -29,9 +30,55 @@ public class ShmuService
 
         foreach (var module in modules)
         {
-            var shmuUriBuilder = new UriBuilder($"https://www.shmu.sk/api/v1/airquality/getdata?station=99133&history=1&station_meta=1");
-            var station = await Requests.Get<List<ShmuResponse>>("https://www.shmu.sk/api/v1/airquality/getdata?&");
-    
+            var shmuUriBuilder = new UriBuilder($"https://www.shmu.sk/api/v1/airquality/");
+            
+            var query = HttpUtility.ParseQueryString(shmuUriBuilder.Query);
+            query["station"] = module.UniqueId;
+            query["history"] = "1";
+            
+            var station = await Requests.Get<List<ShmuResponse>>(shmuUriBuilder.ToString());
+            
+            if (station == null)
+            {
+                _logger.LogError("ShmuService: Failed to get data for station {StationId}", module.UniqueId);
+                continue;
+            }
+            
+            foreach (var shmuResponse in station)
+            {
+                foreach (var pollutant in shmuResponse.station.pollutants)
+                {
+                    var sensor = _context.Sensor.FirstOrDefault(s => s.UniqueId == pollutant.pollutant_id);
+                    if (sensor == null)
+                    {
+                        _logger.LogInformation("ShmuService: Sensor {SensorId} not found", pollutant.pollutant_id);
+                        continue;
+                    }
+                    
+                    var pollutantData = shmuResponse.data.FirstOrDefault(d => d.pollutant_id == pollutant.pollutant_id);
+                    if (pollutantData == null)
+                    {
+                        _logger.LogWarning("ShmuService: Pollutant {PollutantId} not found", pollutant.pollutant_id);
+                        continue;
+                    }
+                    
+                    var isReadingInDb = await _context.Reading.AnyAsync(r =>
+                        r.SensorId == sensor.Id && r.DateTime == DateTimeOffset.FromUnixTimeSeconds(pollutantData.dt));
+                    
+                    if (isReadingInDb)
+                        continue;
+
+                    var reading = new Reading()
+                    {
+                        Sensor = sensor,
+                        DateTime = DateTimeOffset.FromUnixTimeSeconds(pollutantData.dt).DateTime,
+                        Value = pollutantData.value
+                    };
+                    
+                    await _context.Reading.AddAsync(reading);
+                    await _context.SaveChangesAsync();
+                }
+            }
         }
     }
 
@@ -53,13 +100,21 @@ public class ShmuService
         else
         {
             var loc = await _googleService.GetLocation((double) shmuResponse.station.gps_lat, (double) shmuResponse.station.gps_lon);
-            location = new Location()
+            
+            if (loc == null)
             {
-                Address = loc.Address,
-                Name = loc.StreetName,
-                Latitude = loc.Latitude,
-                Longitude = loc.Longitude,
-            };
+                _logger.LogInformation("ShmuService: Failed to get location for station {StationId}", station.station_id);
+            }
+            else
+            {
+                location = new Location()
+                {
+                    Address = loc.Address,
+                    Name = loc.StreetName,
+                    Latitude = loc.Latitude,
+                    Longitude = loc.Longitude,
+                };
+            }
         }
         
 
