@@ -1,4 +1,5 @@
-﻿using BP.Data;
+﻿using BP.API.Services;
+using BP.Data;
 using BP.Data.CykloKoalicia;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,13 @@ builder.Configuration
 
 // Add services to the container.
 // builder.Services.AddScoped<ValueService>();
-// builder.Services.AddScoped<SensorCommunityService>();
+builder.Services.AddScoped<SensorCommunityService>();
+builder.Services.AddScoped<ShmuService>();
+builder.Services.AddScoped<GoogleService>();
 
 
-builder.Services.AddDbContext<Context>(options =>
+
+builder.Services.AddDbContext<BpContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");

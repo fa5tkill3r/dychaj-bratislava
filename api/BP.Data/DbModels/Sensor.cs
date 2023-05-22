@@ -1,3 +1,5 @@
+using ValueType = BP.Data.Models.ValueType;
+
 namespace BP.Data.DbModels;
 
 public class Sensor
@@ -8,6 +10,6 @@ public class Sensor
     public Module Module { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
-    public string Unit { get; set; }
+    public ValueType Type { get; set; }
     public List<Reading> Readings { get; set; }
 }

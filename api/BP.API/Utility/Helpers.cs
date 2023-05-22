@@ -1,12 +1,16 @@
-﻿namespace BP.API.Utility;
+﻿using ValueType = BP.Data.Models.ValueType;
+
+namespace BP.API.Utility;
 
 public class Helpers
 {
-    public static string GetUnitFromType(string valueType) => valueType switch
+    public static ValueType GetTypeFromString(string valueType) => valueType.ToLower() switch
     {
-        "temperature" => "°C",
-        "humidity" => "%",
-        "pressure" => "hPa",
-        _ => valueType
+        "temperature" => ValueType.TEMP,
+        "humidity" => ValueType.HUMIDITY,
+        "pressure" => ValueType.PRESSURE,
+        "p1" => ValueType.PM10,
+        "p2" => ValueType.PM25,
+        _ => ValueType.UNKNOWN
     };
 }
