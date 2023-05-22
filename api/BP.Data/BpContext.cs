@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BP.Data;
 
-public class Context : DbContext
+public class BpContext : DbContext
 {
-    public Context(DbContextOptions<Context> options) : base(options)
+    public BpContext(DbContextOptions<BpContext> options) : base(options)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }

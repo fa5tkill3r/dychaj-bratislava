@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BP.Data.Migrations
 {
     [DbContext(typeof(BpContext))]
-    [Migration("20230426114116_Init")]
-    partial class Init
+    [Migration("20230522112434_MakeUniqueIdNullable")]
+    partial class MakeUniqueIdNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,7 +73,6 @@ namespace BP.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UniqueId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -125,11 +124,10 @@ namespace BP.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UniqueId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Unit")
+                    b.Property<string>("UniqueId")
                         .IsRequired()
                         .HasColumnType("text");
 

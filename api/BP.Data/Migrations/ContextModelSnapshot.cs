@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BP.Data.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(BpContext))]
     partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -70,7 +70,6 @@ namespace BP.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UniqueId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -122,11 +121,10 @@ namespace BP.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UniqueId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Unit")
+                    b.Property<string>("UniqueId")
                         .IsRequired()
                         .HasColumnType("text");
 

@@ -6,10 +6,10 @@ namespace BP.API.Services;
 
 public class GoogleService
 {
-    private readonly ConfigurationRoot _configuration;
+    private readonly IConfiguration _configuration;
     private readonly ILogger<GoogleService> _logger;
 
-    public GoogleService(ConfigurationRoot configuration, ILogger<GoogleService> logger)
+    public GoogleService(IConfiguration configuration, ILogger<GoogleService> logger)
     {
         _configuration = configuration;
         _logger = logger;

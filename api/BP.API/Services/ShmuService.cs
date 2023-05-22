@@ -10,20 +10,20 @@ namespace BP.API.Services;
 
 public class ShmuService
 {
-    private readonly Context _context;
-    private readonly ILogger _logger;
+    private readonly BpContext _bpContext;
+    private readonly ILogger<ShmuService> _logger;
     private readonly GoogleService _googleService;
 
-    public ShmuService(Context context, ILogger logger, GoogleService googleService)
+    public ShmuService(BpContext bpContext, ILogger<ShmuService> logger, GoogleService googleService)
     {
-        _context = context;
+        _bpContext = bpContext;
         _logger = logger;
         _googleService = googleService;
     }
 
     public async Task GetData()
     {
-        var modules = await _context.Module
+        var modules = await _bpContext.Module
             .Where(m => m.Source == Source.Shmu)
             .Include(m => m.Sensors)
             .ToListAsync();
@@ -48,7 +48,7 @@ public class ShmuService
             {
                 foreach (var pollutant in shmuResponse.station.pollutants)
                 {
-                    var sensor = _context.Sensor.FirstOrDefault(s => s.UniqueId == pollutant.pollutant_id);
+                    var sensor = _bpContext.Sensor.FirstOrDefault(s => s.UniqueId == pollutant.pollutant_id);
                     if (sensor == null)
                     {
                         _logger.LogInformation("ShmuService: Sensor {SensorId} not found", pollutant.pollutant_id);
@@ -62,7 +62,7 @@ public class ShmuService
                         continue;
                     }
                     
-                    var isReadingInDb = await _context.Reading.AnyAsync(r =>
+                    var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
                         r.SensorId == sensor.Id && r.DateTime == DateTimeOffset.FromUnixTimeSeconds(pollutantData.dt));
                     
                     if (isReadingInDb)
@@ -75,8 +75,8 @@ public class ShmuService
                         Value = pollutantData.value
                     };
                     
-                    await _context.Reading.AddAsync(reading);
-                    await _context.SaveChangesAsync();
+                    await _bpContext.Reading.AddAsync(reading);
+                    await _bpContext.SaveChangesAsync();
                 }
             }
         }
@@ -125,7 +125,7 @@ public class ShmuService
             Location = location,
             Source = Source.Shmu,
         };
-        await _context.Module.AddAsync(module);  
+        await _bpContext.Module.AddAsync(module);  
         
         foreach (var stationPollutant in shmuResponse.station.pollutants)
         {
@@ -135,10 +135,10 @@ public class ShmuService
                 Description = stationPollutant.pollutant_desc,
                 Module = module,
             };
-            await _context.Sensor.AddAsync(sensor);
+            await _bpContext.Sensor.AddAsync(sensor);
         }
         
-        await _context.SaveChangesAsync();
+        await _bpContext.SaveChangesAsync();
         
         return module;
     }

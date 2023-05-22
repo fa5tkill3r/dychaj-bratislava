@@ -1,6 +1,7 @@
 using BP.API.Services;
 using BP.Data;
 using BP.Data.CykloKoalicia;
+using BP.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +18,14 @@ builder.Configuration
 
 // Add services to the container.
 builder.Services.AddScoped<ValueService>();
+builder.Services.AddScoped<PM25Service>();
+
+
 builder.Services.AddScoped<GoogleService>();
 builder.Services.AddScoped<SensorCommunityService>();
 builder.Services.AddScoped<ShmuService>();
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 
 builder.Services.AddControllers();
@@ -28,7 +34,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // builder.Services.AddDbContext<Context>();
 
-builder.Services.AddDbContext<Context>(options =>
+builder.Services.AddDbContext<BpContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");

@@ -3,12 +3,13 @@ using BP.Data.DbHelpers;
 using BP.Data.DbModels;
 using BP.Data.Models.Sensor;
 using Microsoft.EntityFrameworkCore;
+using static BP.API.Utility.Helpers;
 
 namespace BP.API.Services;
 
 public class ValueService
 {
-    private readonly Context _context;
+    private readonly BpContext _bpContext;
 
     private string[] ignoreValues = {
         "samples",
@@ -17,14 +18,14 @@ public class ValueService
         "signal",
     };
 
-    public ValueService(Context context)
+    public ValueService(BpContext bpContext)
     {
-        _context = context;
+        _bpContext = bpContext;
     }
 
     public async Task AddEspValue(SensorData sensorData)
     {
-        var module = await _context.Module
+        var module = await _bpContext.Module
             .Include(e => e.Sensors)
             .Where(m => m.Source == Source.Esp)
             .FirstOrDefaultAsync(e => e.UniqueId == sensorData.esp8266id);
@@ -37,11 +38,11 @@ public class ValueService
                 LocationId = null,
                 Source = Source.Esp,
             };
-            await _context.Module.AddAsync(module);
-            await _context.SaveChangesAsync();
+            await _bpContext.Module.AddAsync(module);
+            await _bpContext.SaveChangesAsync();
         }
 
-        await _context.Entry(module).Collection(m => m.Sensors).LoadAsync();
+        await _bpContext.Entry(module).Collection(m => m.Sensors).LoadAsync();
 
         foreach (var sensorDataVal in sensorData.sensordatavalues)
         {
@@ -54,12 +55,12 @@ public class ValueService
                 sensor = new Sensor()
                 {
                     Name = sensorDataVal.value_type,
-                    Unit = sensorDataVal.value_type,
+                    Type = GetTypeFromString(sensorDataVal.value_type),
                     UniqueId = sensorDataVal.value_type,
                     ModuleId = module.Id,
                 };
-                await _context.Sensor.AddAsync(sensor);
-                await _context.SaveChangesAsync();
+                await _bpContext.Sensor.AddAsync(sensor);
+                await _bpContext.SaveChangesAsync();
             }
 
             var reading = new Reading()
@@ -67,10 +68,10 @@ public class ValueService
                 SensorId = sensor.Id,
                 Value = decimal.Parse(sensorDataVal.value),
             };
-            await _context.Reading.AddAsync(reading);
+            await _bpContext.Reading.AddAsync(reading);
         }
 
-        await _context.SaveChangesAsync();
+        await _bpContext.SaveChangesAsync();
     }
     
     
