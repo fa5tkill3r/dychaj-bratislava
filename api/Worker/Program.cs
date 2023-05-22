@@ -19,7 +19,8 @@ builder.Configuration
 // Add services to the container.
 // builder.Services.AddScoped<ValueService>();
 builder.Services.AddScoped<SensorCommunityService>();
-builder.Services.AddScoped<ShmuService>();
+builder.Services.AddScoped<ShmuAirService>();
+builder.Services.AddScoped<ShmuWeatherService>();
 builder.Services.AddScoped<GoogleService>();
 
 

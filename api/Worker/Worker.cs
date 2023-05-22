@@ -10,20 +10,35 @@ public class Worker : BackgroundService
 {
     private readonly BpContext _bpContext;
     private readonly SensorCommunityService _sensorCommunity;
+    private readonly ShmuWeatherService _shmuWeatherService;
+    private readonly ShmuAirService _shmuAirService;
 
-    public Worker(BpContext bpContext, SensorCommunityService sensorCommunity)
+    public Worker(BpContext bpContext, SensorCommunityService sensorCommunity, ShmuWeatherService shmuWeatherService,
+        ShmuAirService shmuAirService)
     {
         _bpContext = bpContext;
         _sensorCommunity = sensorCommunity;
+        _shmuWeatherService = shmuWeatherService;
+        _shmuAirService = shmuAirService;
     }
 
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         // await AddModule();
-        await GetValue();
+        // await GetValue();
+
+        // await AddShmuAirModule("99112");
+
+        // await _shmuAirService.GetData();
+        
+        var weatherService = new WeatherWorker<ShmuWeatherService>(_shmuWeatherService, _bpContext);
+        await weatherService.AddModule("11813");
+        await weatherService.GetData();
     }
-    
+
+
+
     private async Task AddModule()
     {
         var module = new Module()

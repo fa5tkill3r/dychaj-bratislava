@@ -1,0 +1,3080 @@
+﻿{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 11898,
+      "properties": {
+        "prop_name": "Bansk\u00e1 Bystrica",
+        "prop_weather": {
+          "station_id": "11898",
+          "dt": 1684767600,
+          "ttt": 17.8,
+          "v_smer": "JZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1014.1",
+          "trb": null,
+          "rh": "100.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.115097,
+          48.733419
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11901,
+      "properties": {
+        "prop_name": "Bansk\u00e1 \u0160tiavnica",
+        "prop_weather": {
+          "station_id": "11901",
+          "dt": 1684767600,
+          "ttt": 13.9,
+          "v_smer": "SZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "14.42",
+          "tlak": "1014.8",
+          "trb": null,
+          "rh": "100.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.919689,
+          48.449061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11962,
+      "properties": {
+        "prop_name": "Bardejov",
+        "prop_weather": {
+          "station_id": "11962",
+          "dt": 1684767600,
+          "ttt": 23,
+          "v_smer": "SV",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1013.2",
+          "trb": "7.0",
+          "rh": "35.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.270903,
+          49.285045
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11862,
+      "properties": {
+        "prop_name": "Belu\u0161a",
+        "prop_weather": {
+          "station_id": "11862",
+          "dt": 1684767600,
+          "ttt": 19.7,
+          "v_smer": "SZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1014.3",
+          "trb": null,
+          "rh": "72.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.316389,
+          49.065833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11927,
+      "properties": {
+        "prop_name": "Bo\u013ekovce",
+        "prop_weather": {
+          "station_id": "11927",
+          "dt": 1684767600,
+          "ttt": 24.8,
+          "v_smer": "JV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.0",
+          "trb": "8.3",
+          "rh": "35.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Mal\u00e1 obla\u010dnos\u0165",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.733876,
+          48.339365
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11813,
+      "properties": {
+        "prop_name": "Bratislava - Koliba",
+        "prop_weather": {
+          "station_id": "11813",
+          "dt": 1684767600,
+          "ttt": 24.2,
+          "v_smer": "PREM",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.0",
+          "trb": "13.8",
+          "rh": "52.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.105833,
+          48.167778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11816,
+      "properties": {
+        "prop_name": "Bratislava - Letisko",
+        "prop_weather": {
+          "station_id": "11816",
+          "dt": 1684767600,
+          "ttt": 24.4,
+          "v_smer": "PREM",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.8",
+          "trb": "15.1",
+          "rh": "56.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.2075,
+          48.170278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11810,
+      "properties": {
+        "prop_name": "Bratislava-Mlynsk\u00e1 Dolina",
+        "prop_weather": {
+          "station_id": "11810",
+          "dt": 1684767600,
+          "ttt": 24.7,
+          "v_smer": "J",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.8",
+          "trb": null,
+          "rh": "51.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.067778,
+          48.152222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11917,
+      "properties": {
+        "prop_name": "Brezno",
+        "prop_weather": {
+          "station_id": "11917",
+          "dt": 1684767600,
+          "ttt": 20.1,
+          "v_smer": "JZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.2",
+          "trb": null,
+          "rh": "58.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.636517,
+          48.800347
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11902,
+      "properties": {
+        "prop_name": "Bzov\u00edk",
+        "prop_weather": {
+          "station_id": "11902",
+          "dt": 1684767600,
+          "ttt": 17.1,
+          "v_smer": "SZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "1.62",
+          "tlak": null,
+          "trb": null,
+          "rh": "77.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.0925,
+          48.318611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11866,
+      "properties": {
+        "prop_name": "\u010cadca",
+        "prop_weather": {
+          "station_id": "11866",
+          "dt": 1684767600,
+          "ttt": 24,
+          "v_smer": "S",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "38.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.806303,
+          49.425864
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11966,
+      "properties": {
+        "prop_name": "\u010caklov",
+        "prop_weather": {
+          "station_id": "11966",
+          "dt": 1684767600,
+          "ttt": 24.9,
+          "v_smer": "SZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "33.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.631389,
+          48.902778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11951,
+      "properties": {
+        "prop_name": "\u010cerven\u00fd Kl\u00e1\u0161tor",
+        "prop_weather": {
+          "station_id": "11951",
+          "dt": 1684767600,
+          "ttt": 21.1,
+          "v_smer": "SZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.9",
+          "trb": null,
+          "rh": "35.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.4225,
+          49.387222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11905,
+      "properties": {
+        "prop_name": "Doln\u00e9 Plachtince",
+        "prop_weather": {
+          "station_id": "11905",
+          "dt": 1684767600,
+          "ttt": 23,
+          "v_smer": "BEZV",
+          "v_rychlost": 0,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "69.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.311667,
+          48.203056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11841,
+      "properties": {
+        "prop_name": "Doln\u00fd Hri\u010dov",
+        "prop_weather": {
+          "station_id": "11841",
+          "dt": 1684767600,
+          "ttt": 22.2,
+          "v_smer": "JZ",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.1",
+          "trb": "11.6",
+          "rh": "51.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Poloobla\u010dno",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.614167,
+          49.2325
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11894,
+      "properties": {
+        "prop_name": "Donovaly",
+        "prop_weather": {
+          "station_id": "11894",
+          "dt": 1684767600,
+          "ttt": 16.5,
+          "v_smer": "J",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "61.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.223514,
+          48.875067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11880,
+      "properties": {
+        "prop_name": "Dudince",
+        "prop_weather": {
+          "station_id": "11880",
+          "dt": 1684767600,
+          "ttt": 24.2,
+          "v_smer": "PREM",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.9",
+          "trb": "13.2",
+          "rh": "50.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.876944,
+          48.169722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11818,
+      "properties": {
+        "prop_name": "Gab\u010d\u00edkovo",
+        "prop_weather": {
+          "station_id": "11818",
+          "dt": 1684767600,
+          "ttt": 27.2,
+          "v_smer": "J",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1012.6",
+          "trb": "12.9",
+          "rh": "41.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.566111,
+          47.897778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11952,
+      "properties": {
+        "prop_name": "G\u00e1novce",
+        "prop_weather": {
+          "station_id": "11952",
+          "dt": 1684767600,
+          "ttt": 21.7,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": "5.6",
+          "rh": "35.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.323284,
+          49.034741
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11800,
+      "properties": {
+        "prop_name": "Hol\u00ed\u010d",
+        "prop_weather": {
+          "station_id": "11800",
+          "dt": 1684767600,
+          "ttt": 22.1,
+          "v_smer": "JV",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "62.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.176128,
+          48.818783
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11858,
+      "properties": {
+        "prop_name": "Hurbanovo",
+        "prop_weather": {
+          "station_id": "11858",
+          "dt": 1684767600,
+          "ttt": 27.1,
+          "v_smer": "PREM",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.7",
+          "trb": "12.4",
+          "rh": "40.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Mal\u00e1 obla\u010dnos\u0165",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.193056,
+          47.8725
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11916,
+      "properties": {
+        "prop_name": "Chopok",
+        "prop_weather": {
+          "station_id": "11916",
+          "dt": 1684767600,
+          "ttt": 11.2,
+          "v_smer": "PREM",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "0.9",
+          "rh": "49.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Poloobla\u010dno",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.588889,
+          48.943333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11963,
+      "properties": {
+        "prop_name": "Jakubovany",
+        "prop_weather": {
+          "station_id": "11963",
+          "dt": 1684767600,
+          "ttt": 22.2,
+          "v_smer": "V",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1014.0",
+          "trb": null,
+          "rh": "37.5",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.139323,
+          49.108359
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11819,
+      "properties": {
+        "prop_name": "Jaslovsk\u00e9 Bohunice",
+        "prop_weather": {
+          "station_id": "11819",
+          "dt": 1684767600,
+          "ttt": 23.2,
+          "v_smer": "J",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.5",
+          "trb": "15.0",
+          "rh": "60.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.663889,
+          48.486111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11838,
+      "properties": {
+        "prop_name": "Kamanov\u00e1",
+        "prop_weather": {
+          "station_id": "11838",
+          "dt": 1684767600,
+          "ttt": 25.5,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "53.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.102778,
+          48.470278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11993,
+      "properties": {
+        "prop_name": "Kamenica nad Cirochou",
+        "prop_weather": {
+          "station_id": "11993",
+          "dt": 1684767600,
+          "ttt": 24.9,
+          "v_smer": "SZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.8",
+          "trb": "10.0",
+          "rh": "39.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Mal\u00e1 obla\u010dnos\u0165",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.994444,
+          48.934722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11958,
+      "properties": {
+        "prop_name": "Koj\u0161ovsk\u00e1 ho\u013ea",
+        "prop_weather": {
+          "station_id": "11958",
+          "dt": 1684767600,
+          "ttt": 16.3,
+          "v_smer": "BEZV",
+          "v_rychlost": 0,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "3.2",
+          "rh": "41.5",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.987222,
+          48.783056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11968,
+      "properties": {
+        "prop_name": "Ko\u0161ice",
+        "prop_weather": {
+          "station_id": "11968",
+          "dt": 1684767600,
+          "ttt": 23.5,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.2",
+          "trb": "8.0",
+          "rh": "37.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Mal\u00e1 obla\u010dnos\u0165",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.238661,
+          48.670761
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11969,
+      "properties": {
+        "prop_name": "Ko\u0161ice-Podhradov\u00e1",
+        "prop_weather": {
+          "station_id": "11969",
+          "dt": 1684767600,
+          "ttt": 25.4,
+          "v_smer": "SV",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.3",
+          "trb": null,
+          "rh": "35.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.245302,
+          48.753188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11817,
+      "properties": {
+        "prop_name": "Kr\u00e1\u013eov\u00e1 pri Senci",
+        "prop_weather": {
+          "station_id": "11817",
+          "dt": 1684767600,
+          "ttt": 27.1,
+          "v_smer": "Z",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "41.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.513692,
+          48.198091
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11977,
+      "properties": {
+        "prop_name": "Kr\u00e1sny Brod",
+        "prop_weather": {
+          "station_id": "11977",
+          "dt": 1684767600,
+          "ttt": 23.8,
+          "v_smer": "S",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "33.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.910686,
+          49.245103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11879,
+      "properties": {
+        "prop_name": "Kremnick\u00e9 Bane",
+        "prop_weather": {
+          "station_id": "11879",
+          "dt": 1684767600,
+          "ttt": 18.8,
+          "v_smer": "SZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "51.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.908094,
+          48.734789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11801,
+      "properties": {
+        "prop_name": "Kuchy\u0148a",
+        "prop_weather": {
+          "station_id": "11801",
+          "dt": 1684767600,
+          "ttt": 22.8,
+          "v_smer": "V",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1014.1",
+          "trb": "16.8",
+          "rh": "69.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": "Po preh\u00e1nke",
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.118889,
+          48.395556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11918,
+      "properties": {
+        "prop_name": "Liesek",
+        "prop_weather": {
+          "station_id": "11918",
+          "dt": 1684767600,
+          "ttt": 21.5,
+          "v_smer": "V",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": "6.2",
+          "rh": "37.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Poloobla\u010dno",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.678204,
+          49.369523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11908,
+      "properties": {
+        "prop_name": "Liptovsk\u00e1 Osada",
+        "prop_weather": {
+          "station_id": "11908",
+          "dt": 1684767600,
+          "ttt": 23.3,
+          "v_smer": "JZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "27.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.272222,
+          48.950556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11874,
+      "properties": {
+        "prop_name": "Liptovsk\u00fd Hr\u00e1dok",
+        "prop_weather": {
+          "station_id": "11874",
+          "dt": 1684767600,
+          "ttt": 23.7,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "25.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.717285,
+          49.04033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11878,
+      "properties": {
+        "prop_name": "Liptovsk\u00fd Mikul\u00e1\u0161",
+        "prop_weather": {
+          "station_id": "11878",
+          "dt": 1684767600,
+          "ttt": 22.9,
+          "v_smer": "SZ",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.0",
+          "trb": null,
+          "rh": "27.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.590288,
+          49.09739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11910,
+      "properties": {
+        "prop_name": "Lom nad Rimavicou",
+        "prop_weather": {
+          "station_id": "11910",
+          "dt": 1684767600,
+          "ttt": 15.2,
+          "v_smer": "J",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.90",
+          "tlak": null,
+          "trb": null,
+          "rh": "72.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.649167,
+          48.643889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11930,
+      "properties": {
+        "prop_name": "Lomnick\u00fd \u0160t\u00edt",
+        "prop_weather": {
+          "station_id": "11930",
+          "dt": 1684767600,
+          "ttt": 4.8,
+          "v_smer": "PREM",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "4.8",
+          "rh": "100.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.213056,
+          49.195278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11926,
+      "properties": {
+        "prop_name": "M\u00e1linec",
+        "prop_weather": {
+          "station_id": "11926",
+          "dt": 1684767600,
+          "ttt": 20.5,
+          "v_smer": "JZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "57.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.661455,
+          48.518275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11812,
+      "properties": {
+        "prop_name": "Mal\u00fd Javorn\u00edk",
+        "prop_weather": {
+          "station_id": "11812",
+          "dt": 1684767600,
+          "ttt": 21.9,
+          "v_smer": "V",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "11.6",
+          "rh": "52.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.152589,
+          48.255743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11982,
+      "properties": {
+        "prop_name": "Michalovce",
+        "prop_weather": {
+          "station_id": "11982",
+          "dt": 1684767600,
+          "ttt": 25,
+          "v_smer": "SZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "37.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.943056,
+          48.739167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11833,
+      "properties": {
+        "prop_name": "Modra - Piesok",
+        "prop_weather": {
+          "station_id": "11833",
+          "dt": 1684767600,
+          "ttt": 22,
+          "v_smer": "BEZV",
+          "v_rychlost": 0,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "58.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.273889,
+          48.372778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11856,
+      "properties": {
+        "prop_name": "Mochovce",
+        "prop_weather": {
+          "station_id": "11856",
+          "dt": 1684767600,
+          "ttt": 24.4,
+          "v_smer": "Z",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.8",
+          "trb": "12.1",
+          "rh": "46.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.455,
+          48.288889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11947,
+      "properties": {
+        "prop_name": "Moldava nad Bodvou",
+        "prop_weather": {
+          "station_id": "11947",
+          "dt": 1684767600,
+          "ttt": 24.2,
+          "v_smer": "V",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "34.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.005117,
+          48.615076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11835,
+      "properties": {
+        "prop_name": "Moravsk\u00fd Sv\u00e4t\u00fd J\u00e1n",
+        "prop_weather": {
+          "station_id": "11835",
+          "dt": 1684767600,
+          "ttt": 24.4,
+          "v_smer": "JV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "59.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.994167,
+          48.581667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11884,
+      "properties": {
+        "prop_name": "Mu\u017ela",
+        "prop_weather": {
+          "station_id": "11884",
+          "dt": 1684767600,
+          "ttt": 26.7,
+          "v_smer": "JZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "37.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.595672,
+          47.800456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11806,
+      "properties": {
+        "prop_name": "Myjava",
+        "prop_weather": {
+          "station_id": "11806",
+          "dt": 1684767600,
+          "ttt": 20.3,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "69.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.560278,
+          48.753333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11855,
+      "properties": {
+        "prop_name": "Nitra",
+        "prop_weather": {
+          "station_id": "11855",
+          "dt": 1684767600,
+          "ttt": 25.1,
+          "v_smer": "SZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.9",
+          "trb": "15.4",
+          "rh": "55.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.133889,
+          48.280278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11868,
+      "properties": {
+        "prop_name": "Oravsk\u00e1 Lesn\u00e1",
+        "prop_weather": {
+          "station_id": "11868",
+          "dt": 1684767600,
+          "ttt": 21,
+          "v_smer": "SV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "33.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.182453,
+          49.367867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11890,
+      "properties": {
+        "prop_name": "Oravsk\u00e9 Vesel\u00e9",
+        "prop_weather": {
+          "station_id": "11890",
+          "dt": 1684767600,
+          "ttt": 21.4,
+          "v_smer": "V",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "30.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.383519,
+          49.471175
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11892,
+      "properties": {
+        "prop_name": "Oravsk\u00fd Podz\u00e1mok",
+        "prop_weather": {
+          "station_id": "11892",
+          "dt": 1684767600,
+          "ttt": 23,
+          "v_smer": "V",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "31.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.369081,
+          49.262162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11984,
+      "properties": {
+        "prop_name": "Orechov\u00e1",
+        "prop_weather": {
+          "station_id": "11984",
+          "dt": 1684767600,
+          "ttt": 25.6,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "37.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.224087,
+          48.708594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11992,
+      "properties": {
+        "prop_name": "Osadn\u00e9",
+        "prop_weather": {
+          "station_id": "11992",
+          "dt": 1684767600,
+          "ttt": 22.7,
+          "v_smer": "S",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "35.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.150833,
+          49.14
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11826,
+      "properties": {
+        "prop_name": "Pie\u0161\u0165any",
+        "prop_weather": {
+          "station_id": "11826",
+          "dt": 1684767600,
+          "ttt": 24.7,
+          "v_smer": "Z",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.7",
+          "trb": "14.8",
+          "rh": "54.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Takmer zamra\u010den\u00e9",
+          "synop_ww": null,
+          "icon_id": 4
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.831667,
+          48.613056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11961,
+      "properties": {
+        "prop_name": "Plave\u010d nad Popradom",
+        "prop_weather": {
+          "station_id": "11961",
+          "dt": 1684767600,
+          "ttt": 22.5,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "37.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.842235,
+          49.260129
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11876,
+      "properties": {
+        "prop_name": "Podbansk\u00e9",
+        "prop_weather": {
+          "station_id": "11876",
+          "dt": 1684767600,
+          "ttt": 19.7,
+          "v_smer": "SZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "38.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.909004,
+          49.140056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11950,
+      "properties": {
+        "prop_name": "Podol\u00ednec",
+        "prop_weather": {
+          "station_id": "11950",
+          "dt": 1684767600,
+          "ttt": 21.3,
+          "v_smer": "SV",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.7",
+          "trb": null,
+          "rh": "40.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.542689,
+          49.262067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11934,
+      "properties": {
+        "prop_name": "Poprad",
+        "prop_weather": {
+          "station_id": "11934",
+          "dt": 1684767600,
+          "ttt": 21,
+          "v_smer": "SV",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": "5.4",
+          "rh": "36.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.249444,
+          49.068056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11955,
+      "properties": {
+        "prop_name": "Pre\u0161ov",
+        "prop_weather": {
+          "station_id": "11955",
+          "dt": 1684767600,
+          "ttt": 23,
+          "v_smer": "S",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1013.5",
+          "trb": "8.3",
+          "rh": "39.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Poloobla\u010dno",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.304444,
+          49.03
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11867,
+      "properties": {
+        "prop_name": "Prievidza",
+        "prop_weather": {
+          "station_id": "11867",
+          "dt": 1684767600,
+          "ttt": 17.7,
+          "v_smer": "J",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.99",
+          "tlak": "1014.1",
+          "trb": "14.8",
+          "rh": "83.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": "B\u00farka",
+          "icon_id": 13
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.592987,
+          48.767594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11869,
+      "properties": {
+        "prop_name": "Rab\u010da",
+        "prop_weather": {
+          "station_id": "11869",
+          "dt": 1684767600,
+          "ttt": 21.4,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "35.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.483603,
+          49.478717
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11941,
+      "properties": {
+        "prop_name": "Ratkov\u00e1",
+        "prop_weather": {
+          "station_id": "11941",
+          "dt": 1684767600,
+          "ttt": 23.9,
+          "v_smer": "J",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "38.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.091667,
+          48.5925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11953,
+      "properties": {
+        "prop_name": "Rev\u00faca",
+        "prop_weather": {
+          "station_id": "11953",
+          "dt": 1684767600,
+          "ttt": 24.3,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.6",
+          "trb": null,
+          "rh": "30.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.115013,
+          48.692943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11942,
+      "properties": {
+        "prop_name": "Rimavsk\u00e1 Sobota",
+        "prop_weather": {
+          "station_id": "11942",
+          "dt": 1684767600,
+          "ttt": 24.8,
+          "v_smer": "J",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "34.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.008611,
+          48.373611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11974,
+      "properties": {
+        "prop_name": "Roztoky",
+        "prop_weather": {
+          "station_id": "11974",
+          "dt": 1684767600,
+          "ttt": 21.4,
+          "v_smer": "S",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "39.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.492196,
+          49.396428
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11944,
+      "properties": {
+        "prop_name": "Ro\u017e\u0148ava",
+        "prop_weather": {
+          "station_id": "11944",
+          "dt": 1684767600,
+          "ttt": 24.5,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "8.2",
+          "rh": "35.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.535501,
+          48.652227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11872,
+      "properties": {
+        "prop_name": "Ru\u017eomberok",
+        "prop_weather": {
+          "station_id": "11872",
+          "dt": 1684767600,
+          "ttt": 24.6,
+          "v_smer": "SV",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "100.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.34087,
+          49.071728
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11805,
+      "properties": {
+        "prop_name": "Senica",
+        "prop_weather": {
+          "station_id": "11805",
+          "dt": 1684767600,
+          "ttt": 18.4,
+          "v_smer": "JV",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1013.1",
+          "trb": "17.4",
+          "rh": "93.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": "D\u00e1\u017e\u010f",
+          "icon_id": 6
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.403094,
+          48.68915
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11970,
+      "properties": {
+        "prop_name": "Silica",
+        "prop_weather": {
+          "station_id": "11970",
+          "dt": 1684767600,
+          "ttt": 22.9,
+          "v_smer": "JV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "36.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.522989,
+          48.554924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11931,
+      "properties": {
+        "prop_name": "Skalnat\u00e9 Pleso",
+        "prop_weather": {
+          "station_id": "11931",
+          "dt": 1684767600,
+          "ttt": 11,
+          "v_smer": "SV",
+          "v_rychlost": 4,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "60.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.234167,
+          49.189444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11903,
+      "properties": {
+        "prop_name": "Slia\u010d",
+        "prop_weather": {
+          "station_id": "11903",
+          "dt": 1684767600,
+          "ttt": 17.9,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1014.3",
+          "trb": "12.6",
+          "rh": "71.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Zamra\u010den\u00e9",
+          "synop_ww": "B\u00farka",
+          "icon_id": 13
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.139493,
+          48.639006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11815,
+      "properties": {
+        "prop_name": "Slovensk\u00fd Grob",
+        "prop_weather": {
+          "station_id": "11815",
+          "dt": 1684767600,
+          "ttt": 23.2,
+          "v_smer": "S",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "67.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.277434,
+          48.260417
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11979,
+      "properties": {
+        "prop_name": "Somotor",
+        "prop_weather": {
+          "station_id": "11979",
+          "dt": 1684767600,
+          "ttt": 25.4,
+          "v_smer": "S",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "38.5",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.818808,
+          48.421917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11949,
+      "properties": {
+        "prop_name": "Spi\u0161sk\u00e9 Vlachy",
+        "prop_weather": {
+          "station_id": "11949",
+          "dt": 1684767600,
+          "ttt": 24.2,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.0",
+          "trb": null,
+          "rh": "35.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.80201,
+          48.944197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11957,
+      "properties": {
+        "prop_name": "Star\u00e1 Lesn\u00e1",
+        "prop_weather": {
+          "station_id": "11957",
+          "dt": 1684767600,
+          "ttt": 19.9,
+          "v_smer": "SV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "40.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.289443,
+          49.15139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11946,
+      "properties": {
+        "prop_name": "\u0160t\u00f3s",
+        "prop_weather": {
+          "station_id": "11946",
+          "dt": 1684767600,
+          "ttt": 20.4,
+          "v_smer": "JZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "42.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.795397,
+          48.718147
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11933,
+      "properties": {
+        "prop_name": "\u0160trbsk\u00e9 Pleso",
+        "prop_weather": {
+          "station_id": "11933",
+          "dt": 1684767600,
+          "ttt": 16.6,
+          "v_smer": "PREM",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": null,
+          "trb": "2.2",
+          "rh": "37.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.062418,
+          49.117785
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11945,
+      "properties": {
+        "prop_name": "\u0160vedl\u00e1r",
+        "prop_weather": {
+          "station_id": "11945",
+          "dt": 1684767600,
+          "ttt": 23.6,
+          "v_smer": "JV",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "31.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.709754,
+          48.813205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11936,
+      "properties": {
+        "prop_name": "Tatransk\u00e1 Javorina",
+        "prop_weather": {
+          "station_id": "11936",
+          "dt": 1684767600,
+          "ttt": 17.1,
+          "v_smer": "S",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "41.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.139444,
+          49.263889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11935,
+      "properties": {
+        "prop_name": "Tatransk\u00e1 Lomnica",
+        "prop_weather": {
+          "station_id": "11935",
+          "dt": 1684767600,
+          "ttt": 19.5,
+          "v_smer": "SV",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "40.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.285278,
+          49.166389
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11959,
+      "properties": {
+        "prop_name": "Tatransk\u00e1 Polianka",
+        "prop_weather": {
+          "station_id": "11959",
+          "dt": 1684767600,
+          "ttt": 18.8,
+          "v_smer": "V",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "37.8",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.185763,
+          49.121659
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11938,
+      "properties": {
+        "prop_name": "Telg\u00e1rt",
+        "prop_weather": {
+          "station_id": "11938",
+          "dt": 1684767600,
+          "ttt": 20,
+          "v_smer": "V",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": "4.9",
+          "rh": "37.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Obla\u010dno",
+          "synop_ww": null,
+          "icon_id": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.187658,
+          48.848362
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11976,
+      "properties": {
+        "prop_name": "Tisinec",
+        "prop_weather": {
+          "station_id": "11976",
+          "dt": 1684767600,
+          "ttt": 24.3,
+          "v_smer": "S",
+          "v_rychlost": 5,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.6",
+          "trb": "7.9",
+          "rh": "35.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Poloobla\u010dno",
+          "synop_ww": null,
+          "icon_id": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.646389,
+          49.214722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11978,
+      "properties": {
+        "prop_name": "Trebi\u0161ov",
+        "prop_weather": {
+          "station_id": "11978",
+          "dt": 1684767600,
+          "ttt": 25.7,
+          "v_smer": "PREM",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.2",
+          "trb": "8.7",
+          "rh": "34.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": "Takmer jasno",
+          "synop_ww": null,
+          "icon_id": 1
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.721944,
+          48.663056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11803,
+      "properties": {
+        "prop_name": "Tren\u010d\u00edn",
+        "prop_weather": {
+          "station_id": "11803",
+          "dt": 1684767600,
+          "ttt": 20.5,
+          "v_smer": "S",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1013.6",
+          "trb": "14.3",
+          "rh": "67.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.999444,
+          48.866389
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11897,
+      "properties": {
+        "prop_name": "Tur\u010dianske Teplice",
+        "prop_weather": {
+          "station_id": "11897",
+          "dt": 1684767600,
+          "ttt": 19.9,
+          "v_smer": "S",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.19",
+          "tlak": null,
+          "trb": null,
+          "rh": "69.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.854947,
+          48.859067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11857,
+      "properties": {
+        "prop_name": "Turzovka",
+        "prop_weather": {
+          "station_id": "11857",
+          "dt": 1684767600,
+          "ttt": 23.1,
+          "v_smer": "V",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.6",
+          "trb": null,
+          "rh": "33.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.626783,
+          49.401564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11839,
+      "properties": {
+        "prop_name": "Uhrovec",
+        "prop_weather": {
+          "station_id": "11839",
+          "dt": 1684767600,
+          "ttt": 21.6,
+          "v_smer": "S",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "60.1",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.341417,
+          48.741415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11883,
+      "properties": {
+        "prop_name": "Ve\u013ek\u00e9 Lovce",
+        "prop_weather": {
+          "station_id": "11883",
+          "dt": 1684767600,
+          "ttt": 26.5,
+          "v_smer": "SZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1012.8",
+          "trb": null,
+          "rh": "41.2",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.335556,
+          48.056111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11904,
+      "properties": {
+        "prop_name": "V\u00edg\u013ea\u0161",
+        "prop_weather": {
+          "station_id": "11904",
+          "dt": 1684767600,
+          "ttt": 20,
+          "v_smer": "J",
+          "v_rychlost": 3,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "100.0",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.320137,
+          48.543744
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11995,
+      "properties": {
+        "prop_name": "Vysok\u00e1 nad Uhom",
+        "prop_weather": {
+          "station_id": "11995",
+          "dt": 1684767600,
+          "ttt": 26.2,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "34.3",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.1003,
+          48.63304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11967,
+      "properties": {
+        "prop_name": "Zlat\u00e1 Ba\u0148a",
+        "prop_weather": {
+          "station_id": "11967",
+          "dt": 1684767600,
+          "ttt": 20.2,
+          "v_smer": "JZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "39.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.420369,
+          48.949924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11893,
+      "properties": {
+        "prop_name": "\u017dabokreky pri Martine",
+        "prop_weather": {
+          "station_id": "11893",
+          "dt": 1684767600,
+          "ttt": 23.1,
+          "v_smer": "J",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1012.2",
+          "trb": "13.2",
+          "rh": "53.7",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.922836,
+          49.026686
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11881,
+      "properties": {
+        "prop_name": "\u017deliezovce",
+        "prop_weather": {
+          "station_id": "11881",
+          "dt": 1684767600,
+          "ttt": 24.9,
+          "v_smer": "SZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": "1013.1",
+          "trb": null,
+          "rh": "50.5",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.641111,
+          48.045833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11900,
+      "properties": {
+        "prop_name": "\u017diar nad Hronom",
+        "prop_weather": {
+          "station_id": "11900",
+          "dt": 1684767600,
+          "ttt": 17.6,
+          "v_smer": "SV",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": null,
+          "tlak": "1014.3",
+          "trb": "15.3",
+          "rh": "86.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.850353,
+          48.585719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11820,
+      "properties": {
+        "prop_name": "\u017dih\u00e1rec ",
+        "prop_weather": {
+          "station_id": "11820",
+          "dt": 1684767600,
+          "ttt": 26.1,
+          "v_smer": "Z",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "48.4",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.881963,
+          48.070327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11849,
+      "properties": {
+        "prop_name": "\u017dikava",
+        "prop_weather": {
+          "station_id": "11849",
+          "dt": 1684767600,
+          "ttt": 23.2,
+          "v_smer": "SZ",
+          "v_rychlost": 1,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "51.6",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.388436,
+          48.458319
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11865,
+      "properties": {
+        "prop_name": "\u017dilina",
+        "prop_weather": {
+          "station_id": "11865",
+          "dt": 1684767600,
+          "ttt": 23.8,
+          "v_smer": "JZ",
+          "v_rychlost": 2,
+          "zra": null,
+          "zra_1h": "0.00",
+          "tlak": null,
+          "trb": null,
+          "rh": "40.9",
+          "fx": null,
+          "fm": null,
+          "synop_n": null,
+          "synop_ww": null,
+          "icon_id": 0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.771139,
+          49.211439
+        ]
+      }
+    }
+  ]
+}
