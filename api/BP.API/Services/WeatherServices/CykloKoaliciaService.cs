@@ -41,7 +41,7 @@ public class CykloKoaliciaService : IWeatherService
         var sensorValues = await _ckVzduchContext.SensorsValues
             .Where(value => sensorIds.Contains((int)value.SensorId))
             .GroupBy(value => value.SensorId)
-            .ToDictionaryAsync(group => (int)group.Key, group => group.OrderByDescending(v => v.CreatedAt).FirstOrDefault());
+            .ToDictionaryAsync(group => (int)group.Key, group => group.MaxBy(v => v.CreatedAt));
 
         foreach (var sensor in sensors)
         {
