@@ -33,8 +33,7 @@ public class SensorCommunityService
         var sensors = modules.SelectMany(m => m.Sensors).ToList();
         var uniqueIds = sensors.Select(s => s.UniqueId).Distinct().ToList();
         
-
-        foreach (var uniqueId in uniqueIds)
+        var fetchData = new Func<string, Task>(async (uniqueId) =>
         {
             var uniqueSensors = sensors.Where(s => s.UniqueId == uniqueId).ToList();
             
@@ -46,8 +45,8 @@ public class SensorCommunityService
             if (response == null)
             {
                 _logger.LogError("SensorCommunityService: Failed to get data for sensor {SensorUniqueId}",
-                   uniqueId);
-                continue;
+                    uniqueId);
+                return;
             }
 
             foreach (var sensorCommunity in response)
@@ -76,7 +75,10 @@ public class SensorCommunityService
                     await _bpContext.SaveChangesAsync();
                 }
             }
-        }
+        });
+        
+        var tasks = uniqueIds.Select(uniqueId => fetchData(uniqueId)).ToList();
+        await Task.WhenAll(tasks);
     }
 
     public async Task AddSensor(Module module, string sensorId)
