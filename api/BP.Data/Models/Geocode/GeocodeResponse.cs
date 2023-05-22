@@ -2,10 +2,9 @@
 // ReSharper disable CollectionNeverUpdated.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 #pragma warning disable CS8618
-namespace BP.Data.Models.GeoCode;
-
-
+namespace BP.Data.Models.Geocode;
 
 public class GeocodeResponse
 {
@@ -74,4 +73,3 @@ public class Viewport
     public Northeast northeast { get; set; }
     public Southwest southwest { get; set; }
 }
-

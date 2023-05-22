@@ -1,4 +1,5 @@
 ﻿using BP.API.Services;
+using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.CykloKoalicia;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add configuration
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile("appsettings.json", true, true)
     .Build();
 
 
@@ -24,22 +25,18 @@ builder.Services.AddScoped<ShmuWeatherService>();
 builder.Services.AddScoped<GoogleService>();
 
 
-
 builder.Services.AddDbContext<BpContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");
 
 if (cyklokoaliciaConnection != null)
-{
     builder.Services.AddDbContext<CkVzduchContext>(options =>
         options.UseMySQL(cyklokoaliciaConnection));
-}
 
 builder.Services.AddHostedService<Worker.Worker>();
 
 var app = builder.Build();
-
 
 
 app.Run();

@@ -14,7 +14,7 @@ public class ValueController : ControllerBase
     {
         _valueService = valueService;
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddValue([FromBody] SensorData sensorData)
     {
@@ -22,13 +22,10 @@ public class ValueController : ControllerBase
         return Ok();
     }
 
-    
+
     [HttpGet]
     public async Task<IActionResult> GetReadings()
     {
         return Ok("Hello World!");
     }
-    
-
-    
 }

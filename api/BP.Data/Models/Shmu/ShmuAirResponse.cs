@@ -3,6 +3,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
+
 #pragma warning disable CS8618
 
 namespace BP.Data.Models.Shmu;

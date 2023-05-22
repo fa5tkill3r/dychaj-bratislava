@@ -7,5 +7,5 @@ public enum ValueType
     Pm10 = 2,
     Temp = 3,
     Humidity = 4,
-    Pressure = 5,
+    Pressure = 5
 }

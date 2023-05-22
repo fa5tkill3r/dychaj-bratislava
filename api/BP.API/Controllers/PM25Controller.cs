@@ -14,14 +14,14 @@ public class PM25Controller : ControllerBase
     {
         _pm25Service = pm25Service;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetLocations()
     {
         var locations = await _pm25Service.GetLocations();
         return Ok(locations);
     }
-    
+
     [HttpGet]
     [Route("stats")]
     public async Task<IActionResult> GetStats([FromQuery] PM25StatsRequest request)
@@ -29,5 +29,4 @@ public class PM25Controller : ControllerBase
         await _pm25Service.GetStats(request);
         return Ok();
     }
-    
 }

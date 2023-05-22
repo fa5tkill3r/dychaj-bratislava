@@ -11,11 +11,12 @@ public class ValueService
 {
     private readonly BpContext _bpContext;
 
-    private string[] ignoreValues = {
+    private readonly string[] ignoreValues =
+    {
         "samples",
         "min_micro",
         "max_micro",
-        "signal",
+        "signal"
     };
 
     public ValueService(BpContext bpContext)
@@ -31,12 +32,12 @@ public class ValueService
             .FirstOrDefaultAsync(e => e.UniqueId == sensorData.esp8266id);
         if (module == null)
         {
-            module = new Module()
+            module = new Module
             {
                 Name = sensorData.esp8266id,
                 UniqueId = sensorData.esp8266id,
                 LocationId = null,
-                Source = Source.Esp,
+                Source = Source.Esp
             };
             await _bpContext.Module.AddAsync(module);
             await _bpContext.SaveChangesAsync();
@@ -52,29 +53,25 @@ public class ValueService
             var sensor = module.Sensors.FirstOrDefault(s => s.UniqueId == sensorDataVal.value_type);
             if (sensor == null)
             {
-                sensor = new Sensor()
+                sensor = new Sensor
                 {
                     Name = sensorDataVal.value_type,
                     Type = GetTypeFromString(sensorDataVal.value_type),
                     UniqueId = sensorDataVal.value_type,
-                    ModuleId = module.Id,
+                    ModuleId = module.Id
                 };
                 await _bpContext.Sensor.AddAsync(sensor);
                 await _bpContext.SaveChangesAsync();
             }
 
-            var reading = new Reading()
+            var reading = new Reading
             {
                 SensorId = sensor.Id,
-                Value = decimal.Parse(sensorDataVal.value),
+                Value = decimal.Parse(sensorDataVal.value)
             };
             await _bpContext.Reading.AddAsync(reading);
         }
 
         await _bpContext.SaveChangesAsync();
     }
-    
-    
-    
-    
 }

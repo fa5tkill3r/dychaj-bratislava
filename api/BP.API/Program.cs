@@ -1,4 +1,5 @@
 using BP.API.Services;
+using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.CykloKoalicia;
 using BP.Infrastructure;
@@ -12,7 +13,7 @@ builder.WebHost.UseUrls("http://localhost:9000", "http://0.0.0.0:9000");
 // Add configuration
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile("appsettings.json", true, true)
     .Build();
 
 
@@ -40,11 +41,8 @@ builder.Services.AddDbContext<BpContext>(options =>
 var cyklokoaliciaConnection = builder.Configuration.GetConnectionString("Cyklokoalicia");
 
 if (cyklokoaliciaConnection != null)
-{
     builder.Services.AddDbContext<CkVzduchContext>(options =>
         options.UseMySQL(cyklokoaliciaConnection));
-}
-
 
 
 var app = builder.Build();

@@ -10,6 +10,12 @@ public class BpContext : DbContext
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
+    public DbSet<Reading> Reading { get; set; }
+    public DbSet<Location> Location { get; set; }
+
+    public DbSet<Sensor> Sensor { get; set; }
+    public DbSet<Module> Module { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -25,10 +31,4 @@ public class BpContext : DbContext
         //     }
         // );
     }
-
-    public DbSet<Reading> Reading { get; set; }
-    public DbSet<Location> Location { get; set; }
-
-    public DbSet<Sensor> Sensor { get; set; }
-    public DbSet<Module> Module { get; set; }
 }

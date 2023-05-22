@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BP.Data.DbModels;
-using BP.Data.Dto;
+using BP.Data.Dto.Response;
 
 namespace BP.Infrastructure;
 

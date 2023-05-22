@@ -10,9 +10,15 @@ namespace BP.API.Services.WeatherServices;
 
 public class ShmuAirService : IWeatherService
 {
+    private readonly string[] _allowedTypes =
+    {
+        "PM10",
+        "PM2.5"
+    };
+
     private readonly BpContext _bpContext;
-    private readonly ILogger<ShmuAirService> _logger;
     private readonly GoogleService _googleService;
+    private readonly ILogger<ShmuAirService> _logger;
 
     public ShmuAirService(BpContext bpContext, ILogger<ShmuAirService> logger, GoogleService googleService)
     {
@@ -20,12 +26,6 @@ public class ShmuAirService : IWeatherService
         _logger = logger;
         _googleService = googleService;
     }
-
-    private readonly string[] _allowedTypes =
-    {
-        "PM10",
-        "PM2.5",
-    };
 
     public async Task GetData()
     {
@@ -35,56 +35,8 @@ public class ShmuAirService : IWeatherService
             .ToListAsync();
 
         var tasks = modules.Select(GetDataFromModule).ToList();
-        
+
         await Task.WhenAll(tasks);
-    }
-
-    private async Task GetDataFromModule(Module module)
-    {
-        var shmuUriBuilder = new UriBuilder($"https://www.shmu.sk/api/v1/airquality/getdata");
-
-        var query = HttpUtility.ParseQueryString(shmuUriBuilder.Query);
-        query["station"] = module.UniqueId;
-        query["history"] = "1";
-        
-        shmuUriBuilder.Query = query.ToString();
-        
-        var station = await Requests.Get<List<ShmuAirResponse>>(shmuUriBuilder.ToString());
-
-        if (station == null)
-        {
-            _logger.LogError("ShmuService: Failed to get data for station {StationId}", module.UniqueId);
-            return;
-        }
-
-        foreach (var shmuResponse in station)
-        {
-            foreach (var data in shmuResponse.data)
-            {
-                var sensor = _bpContext.Sensor.FirstOrDefault(s => s.UniqueId == data.pollutant_id);
-                if (sensor == null)
-                {
-                    _logger.LogInformation("ShmuService: Sensor {SensorId} not found", data.pollutant_id);
-                    continue;
-                }
-
-                var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
-                    r.SensorId == sensor.Id && r.DateTime == DateTimeOffset.FromUnixTimeSeconds(data.dt));
-
-                if (isReadingInDb)
-                    continue;
-
-                var reading = new Reading()
-                {
-                    Sensor = sensor,
-                    DateTime = DateTimeOffset.FromUnixTimeSeconds(data.dt).DateTime,
-                    Value = decimal.Parse(data.value)
-                };
-
-                await _bpContext.Reading.AddAsync(reading);
-                await _bpContext.SaveChangesAsync();
-            }
-        }
     }
 
     public async Task AddSensor(Module module, string uniqueId)
@@ -118,19 +70,15 @@ public class ShmuAirService : IWeatherService
                     (double) shmuResponse.station.gps_lon);
 
                 if (loc == null)
-                {
                     _logger.LogInformation("ShmuService: Failed to get location for station {StationId}", uniqueId);
-                }
                 else
-                {
-                    module.Location = new Location()
+                    module.Location = new Location
                     {
                         Address = loc.Address,
                         Name = loc.StreetName,
                         Latitude = loc.Latitude,
-                        Longitude = loc.Longitude,
+                        Longitude = loc.Longitude
                     };
-                }
             }
         }
 
@@ -139,18 +87,64 @@ public class ShmuAirService : IWeatherService
             if (!_allowedTypes.Contains(stationPollutant.pollutant_desc))
                 continue;
 
-            var sensor = new Sensor()
+            var sensor = new Sensor
             {
                 Module = module,
                 UniqueId = stationPollutant.pollutant_id,
                 Description = stationPollutant.pollutant_desc,
                 Type = Helpers.GetTypeFromString(stationPollutant.pollutant_desc),
-                Name = stationPollutant.pollutant_desc,
+                Name = stationPollutant.pollutant_desc
             };
             await _bpContext.AddAsync(sensor);
         }
 
         await _bpContext.SaveChangesAsync();
+    }
+
+    private async Task GetDataFromModule(Module module)
+    {
+        var shmuUriBuilder = new UriBuilder("https://www.shmu.sk/api/v1/airquality/getdata");
+
+        var query = HttpUtility.ParseQueryString(shmuUriBuilder.Query);
+        query["station"] = module.UniqueId;
+        query["history"] = "1";
+
+        shmuUriBuilder.Query = query.ToString();
+
+        var station = await Requests.Get<List<ShmuAirResponse>>(shmuUriBuilder.ToString());
+
+        if (station == null)
+        {
+            _logger.LogError("ShmuService: Failed to get data for station {StationId}", module.UniqueId);
+            return;
+        }
+
+        foreach (var shmuResponse in station)
+        foreach (var data in shmuResponse.data)
+        {
+            var sensor = _bpContext.Sensor.FirstOrDefault(s => s.UniqueId == data.pollutant_id);
+            if (sensor == null)
+            {
+                _logger.LogInformation("ShmuService: Sensor {SensorId} not found", data.pollutant_id);
+                continue;
+            }
+
+            var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
+                r.SensorId == sensor.Id && r.DateTime == DateTimeOffset.FromUnixTimeSeconds(data.dt));
+
+            if (isReadingInDb)
+                continue;
+
+            var reading = new Reading
+            {
+                Sensor = sensor,
+                DateTime = DateTimeOffset.FromUnixTimeSeconds(data.dt).DateTime,
+                Value = decimal.Parse(data.value)
+            };
+
+            await _bpContext.Reading.AddAsync(reading);
+            await _bpContext.SaveChangesAsync();
+        }
     }
 
     public async Task<List<Station>> GetStations()

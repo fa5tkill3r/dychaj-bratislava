@@ -1,4 +1,4 @@
-using BP.API.Services;
+using BP.API.Services.WeatherServices;
 
 namespace BP.DataFetcher;
 
@@ -18,27 +18,25 @@ public class DataFetcher : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
-            
-            foreach (var weatherService in _weatherServices)
-            {
-                await GetData(weatherService);
-            }
+
+            foreach (var weatherService in _weatherServices) await GetData(weatherService);
 
             await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
-    
+
     private async Task GetData<T>(T service) where T : IWeatherService
     {
         try
         {
             await service.GetData();
-            
+
             _logger.LogInformation("Data from {Service} successfully fetched", service.GetType().Name);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while getting data from {Service} stacktrace: {StackTrace}", service.GetType().Name, e.StackTrace);
+            _logger.LogError(e, "Error while getting data from {Service} stacktrace: {StackTrace}",
+                service.GetType().Name, e.StackTrace);
         }
     }
 }

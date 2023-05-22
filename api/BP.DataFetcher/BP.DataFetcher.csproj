@@ -8,21 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BP.API\BP.API.csproj" />
+        <ProjectReference Include="..\BP.API\BP.API.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-        <DependentUpon>Dockerfile</DependentUpon>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+            <DependentUpon>Dockerfile</DependentUpon>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Properties\launchSettings.json" />
+        <None Remove="Properties\launchSettings.json"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Properties\" />
+        <Folder Include="Properties\"/>
     </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using BP.API.Services;
+﻿using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
@@ -10,8 +10,8 @@ public class Worker : BackgroundService
 {
     private readonly BpContext _bpContext;
     private readonly SensorCommunityService _sensorCommunity;
-    private readonly ShmuWeatherService _shmuWeatherService;
     private readonly ShmuAirService _shmuAirService;
+    private readonly ShmuWeatherService _shmuWeatherService;
 
     public Worker(BpContext bpContext, SensorCommunityService sensorCommunity, ShmuWeatherService shmuWeatherService,
         ShmuAirService shmuAirService)
@@ -31,20 +31,19 @@ public class Worker : BackgroundService
         // await AddShmuAirModule("99112");
 
         // await _shmuAirService.GetData();
-        
+
         var weatherService = new WeatherWorker<ShmuWeatherService>(_shmuWeatherService, _bpContext);
         await weatherService.AddModule("11813");
         await weatherService.GetData();
     }
 
 
-
     private async Task AddModule()
     {
-        var module = new Module()
+        var module = new Module
         {
             Name = "SensorCommunity Test",
-            Source = Source.SensorCommunity,
+            Source = Source.SensorCommunity
         };
         await _bpContext.Module.AddAsync(module);
 

@@ -3,10 +3,10 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
+
 #pragma warning disable CS8618
 
 namespace BP.Data.Models.Shmu;
-
 
 public class ShmuWeatherResponse
 {
@@ -14,7 +14,6 @@ public class ShmuWeatherResponse
     public Crs crs { get; set; }
     public List<Feature> features { get; set; }
 }
-
 
 public class Crs
 {
@@ -60,5 +59,3 @@ public class PropWeather
     public string? synop_ww { get; set; }
     public int? icon_id { get; set; }
 }
-
-

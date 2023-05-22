@@ -6,5 +6,4 @@ namespace BP.API.Controllers;
 [Route("[controller]")]
 public class SensorController
 {
-    
 }

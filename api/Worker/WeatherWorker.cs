@@ -1,4 +1,4 @@
-﻿using BP.API.Services;
+﻿using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.DbModels;
 
@@ -6,21 +6,21 @@ namespace Worker;
 
 public class WeatherWorker<T> where T : IWeatherService
 {
-    private readonly T _tWeatherService;
     private readonly BpContext _bpContext;
+    private readonly T _tWeatherService;
 
     public WeatherWorker(T tWeatherService, BpContext bpContext)
     {
         _tWeatherService = tWeatherService;
         _bpContext = bpContext;
     }
-    
+
     public async Task AddModule(string uniqueId)
     {
-        var module = new Module()
+        var module = new Module
         {
             Name = "temp",
-            UniqueId = uniqueId,
+            UniqueId = uniqueId
         };
         await _bpContext.Module.AddAsync(module);
         await _bpContext.SaveChangesAsync();
@@ -36,7 +36,7 @@ public class WeatherWorker<T> where T : IWeatherService
             throw;
         }
     }
-    
+
     public async Task GetData()
     {
         await _tWeatherService.GetData();

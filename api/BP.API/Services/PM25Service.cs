@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using BP.Data;
-using BP.Data.DbModels;
-using BP.Data.Dto;
 using BP.Data.Dto.Request;
+using BP.Data.Dto.Response;
 using Microsoft.EntityFrameworkCore;
 using ValueType = BP.Data.DbHelpers.ValueType;
 
@@ -13,10 +12,10 @@ public class PM25Service
     private readonly BpContext _bpContext;
     private readonly IMapper _mapper;
 
-    public PM25Service(BpContext _bpContext, IMapper _mapper)
+    public PM25Service(BpContext bpContext, IMapper mapper)
     {
-        this._bpContext = _bpContext;
-        this._mapper = _mapper;
+        _bpContext = bpContext;
+        _mapper = mapper;
     }
 
     public async Task GetStats(PM25StatsRequest request)
@@ -29,11 +28,9 @@ public class PM25Service
             .FirstOrDefaultAsync(s => s.Id == sensorId);
         if (sensor == null)
             sensor = await _bpContext.Sensor.FirstOrDefaultAsync(s => s.Type == ValueType.Pm25);
-        
+
         if (sensor == null)
             throw new Exception("No PM25 sensors found");
-
-        Console.WriteLine(sensor.Module.Location.Name);
     }
 
     public async Task<List<LocationDto>> GetLocations()

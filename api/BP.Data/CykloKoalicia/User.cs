@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace BP.Data.CykloKoalicia;
 
-namespace BP.Data.CykloKoalicia;
-
-public partial class User
+public class User
 {
     public uint Id { get; set; }
 
