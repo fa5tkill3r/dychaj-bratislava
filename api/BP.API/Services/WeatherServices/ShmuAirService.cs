@@ -5,6 +5,7 @@ using BP.Data.DbHelpers;
 using BP.Data.DbModels;
 using BP.Data.Models.Shmu;
 using Microsoft.EntityFrameworkCore;
+using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Services.WeatherServices;
 
@@ -141,6 +142,10 @@ public class ShmuAirService : IWeatherService
                 DateTime = DateTimeOffset.FromUnixTimeSeconds(data.dt).DateTime,
                 Value = decimal.Parse(data.value)
             };
+
+            if (sensor.Type == ValueType.Pressure)
+                reading.Value *= 100;
+            
 
             await _bpContext.Reading.AddAsync(reading);
             await _bpContext.SaveChangesAsync();

@@ -11,7 +11,7 @@ public class ValueService
 {
     private readonly BpContext _bpContext;
 
-    private readonly string[] ignoreValues =
+    private readonly string[] _ignoreValues =
     {
         "samples",
         "min_micro",
@@ -43,14 +43,14 @@ public class ValueService
             await _bpContext.SaveChangesAsync();
         }
 
-        await _bpContext.Entry(module).Collection(m => m.Sensors).LoadAsync();
+        await _bpContext.Entry(module).Collection(m => m.Sensors!).LoadAsync();
 
         foreach (var sensorDataVal in sensorData.sensordatavalues)
         {
-            if (ignoreValues.Contains(sensorDataVal.value_type))
+            if (_ignoreValues.Contains(sensorDataVal.value_type))
                 continue;
 
-            var sensor = module.Sensors.FirstOrDefault(s => s.UniqueId == sensorDataVal.value_type);
+            var sensor = module.Sensors?.FirstOrDefault(s => s.UniqueId == sensorDataVal.value_type);
             if (sensor == null)
             {
                 sensor = new Sensor
