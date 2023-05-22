@@ -23,7 +23,7 @@ builder.Services.AddScoped<PM25Service>();
 
 builder.Services.AddScoped<GoogleService>();
 builder.Services.AddScoped<SensorCommunityService>();
-builder.Services.AddScoped<ShmuService>();
+builder.Services.AddScoped<ShmuAirService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
