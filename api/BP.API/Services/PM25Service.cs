@@ -4,7 +4,7 @@ using BP.Data.DbModels;
 using BP.Data.Dto;
 using BP.Data.Dto.Request;
 using Microsoft.EntityFrameworkCore;
-using ValueType = BP.Data.Models.ValueType;
+using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Services;
 
@@ -25,10 +25,10 @@ public class PM25Service
         var sensor = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Where(s => s.Type == ValueType.PM25)
+            .Where(s => s.Type == ValueType.Pm25)
             .FirstOrDefaultAsync(s => s.Id == sensorId);
         if (sensor == null)
-            sensor = await _bpContext.Sensor.FirstOrDefaultAsync(s => s.Type == ValueType.PM25);
+            sensor = await _bpContext.Sensor.FirstOrDefaultAsync(s => s.Type == ValueType.Pm25);
         
         if (sensor == null)
             throw new Exception("No PM25 sensors found");
@@ -38,7 +38,7 @@ public class PM25Service
 
     public async Task<List<LocationDto>> GetLocations()
     {
-        var locations = await _bpContext.Sensor.Where(s => s.Type == ValueType.PM25)
+        var locations = await _bpContext.Sensor.Where(s => s.Type == ValueType.Pm25)
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Select(s => s.Module.Location)

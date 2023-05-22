@@ -1,4 +1,4 @@
-using ValueType = BP.Data.Models.ValueType;
+using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.Data.DbModels;
 
