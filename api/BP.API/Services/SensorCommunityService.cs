@@ -9,7 +9,7 @@ using Sensor = BP.Data.DbModels.Sensor;
 
 namespace BP.API.Services;
 
-public class SensorCommunityService
+public class SensorCommunityService : IWeatherService
 {
     private readonly BpContext _bpContext;
     private readonly ILogger<SensorCommunityService> _logger;
@@ -88,6 +88,8 @@ public class SensorCommunityService
             _logger.LogError("SensorCommunityService: Sensor {SensorUniqueId} already exists", sensorId);
             throw new Exception("Sensor already exists");
         }
+        
+        module.Source = Source.SensorCommunity;
         
         var response =
             await Requests.Get<List<SensorCommunity>>(
