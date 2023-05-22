@@ -4,7 +4,7 @@ namespace BP.API.Utility;
 
 public class Helpers
 {
-    public static ValueType GetTypeFromString(string valueType) => valueType.ToLower() switch
+    public static ValueType GetTypeFromString(string valueType) => valueType.ToLower().Split('_').Last() switch
     {
         "temperature" => ValueType.TEMP,
         "humidity" => ValueType.HUMIDITY,
