@@ -22,6 +22,7 @@ builder.Configuration
 builder.Services.AddScoped<SensorCommunityService>();
 builder.Services.AddScoped<ShmuAirService>();
 builder.Services.AddScoped<ShmuWeatherService>();
+builder.Services.AddScoped<CykloKoaliciaService>();
 builder.Services.AddScoped<GoogleService>();
 
 

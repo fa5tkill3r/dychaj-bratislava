@@ -11,47 +11,24 @@ public class Worker : BackgroundService
     private readonly BpContext _bpContext;
     private readonly SensorCommunityService _sensorCommunity;
     private readonly ShmuAirService _shmuAirService;
+    private readonly CykloKoaliciaService _cykloKoaliciaService;
     private readonly ShmuWeatherService _shmuWeatherService;
 
     public Worker(BpContext bpContext, SensorCommunityService sensorCommunity, ShmuWeatherService shmuWeatherService,
-        ShmuAirService shmuAirService)
+        ShmuAirService shmuAirService, CykloKoaliciaService cykloKoaliciaService)
     {
         _bpContext = bpContext;
         _sensorCommunity = sensorCommunity;
         _shmuWeatherService = shmuWeatherService;
         _shmuAirService = shmuAirService;
+        _cykloKoaliciaService = cykloKoaliciaService;
     }
 
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // await AddModule();
-        // await GetValue();
-
-        // await AddShmuAirModule("99112");
-
-        // await _shmuAirService.GetData();
-
-        var weatherService = new WeatherWorker<ShmuWeatherService>(_shmuWeatherService, _bpContext);
-        await weatherService.AddModule("11813");
+        var weatherService = new WeatherWorker<CykloKoaliciaService>(_cykloKoaliciaService, _bpContext);
+        await weatherService.AddModule("1844542");
         await weatherService.GetData();
-    }
-
-
-    private async Task AddModule()
-    {
-        var module = new Module
-        {
-            Name = "SensorCommunity Test",
-            Source = Source.SensorCommunity
-        };
-        await _bpContext.Module.AddAsync(module);
-
-        await _sensorCommunity.AddSensor(module, "50737");
-    }
-
-    private async Task GetValue()
-    {
-        await _sensorCommunity.GetData();
     }
 }
