@@ -30,45 +30,51 @@ public class SensorCommunityService
             .Where(m => m.Source == Source.SensorCommunity)
             .Include(m => m.Sensors)
             .ToListAsync();
-        // var sensors = modules.SelectMany(m => m.Sensors).ToList();
-        // var uniqueIds = sensors.Select(s => s.UniqueId).ToList();
+        var sensors = modules.SelectMany(m => m.Sensors).ToList();
+        var uniqueIds = sensors.Select(s => s.UniqueId).Distinct().ToList();
         
 
-        foreach (var sensor in modules.SelectMany(module => module.Sensors))
+        foreach (var uniqueId in uniqueIds)
         {
-            _logger.LogInformation("SensorCommunityService: Getting data for sensor {SensorUniqueId}", sensor.UniqueId);
+            var uniqueSensors = sensors.Where(s => s.UniqueId == uniqueId).ToList();
+            
+            _logger.LogInformation("SensorCommunityService: Getting data for sensor {SensorUniqueId}", uniqueId);
 
             var response =
                 await Requests.Get<List<SensorCommunity>>(
-                    $"https://data.sensor.community/airrohr/v1/sensor/{sensor.UniqueId}/");
+                    $"https://data.sensor.community/airrohr/v1/sensor/{uniqueId}/");
             if (response == null)
             {
                 _logger.LogError("SensorCommunityService: Failed to get data for sensor {SensorUniqueId}",
-                    sensor.UniqueId);
+                   uniqueId);
                 continue;
             }
 
             foreach (var sensorCommunity in response)
             {
-                var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
-                    r.SensorId == sensor.Id && r.DateTime == sensorCommunity.timestamp);
-                if (isReadingInDb)
-                    continue;
-                var value = sensorCommunity.sensordatavalues.FirstOrDefault(v => Helpers.GetTypeFromString(v.value_type) == sensor.Type);
-                if (value == null || string.IsNullOrEmpty(value.value_type))
+                foreach (var dataValue in sensorCommunity.sensordatavalues)
                 {
-                    _logger.LogWarning("SensorCommunityService: Sensor {SensorUniqueId} has no value of type {ValueType}", sensor.UniqueId, sensor.Type);
-                    continue;
-                }
+                    var sensor = uniqueSensors.FirstOrDefault(s => s.Type == Helpers.GetTypeFromString(dataValue.value_type));
+                    if (sensor == null)
+                    {
+                        _logger.LogWarning("SensorCommunityService: Sensor {SensorUniqueId} has no sensor of type {ValueType}", uniqueId, dataValue.value_type);
+                        continue;
+                    }
 
-                var reading = new Reading()
-                {
-                    SensorId = sensor.Id,
-                    DateTime = sensorCommunity.timestamp,
-                    Value = value.value
-                };
-                await _bpContext.Reading.AddAsync(reading);
-                await _bpContext.SaveChangesAsync();
+                    var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
+                        r.SensorId == sensor.Id && r.DateTime == sensorCommunity.timestamp);
+                    if (isReadingInDb)
+                        continue;
+                    
+                    var reading = new Reading()
+                    {
+                        SensorId = sensor.Id,
+                        DateTime = sensorCommunity.timestamp,
+                        Value = dataValue.value
+                    };
+                    await _bpContext.Reading.AddAsync(reading);
+                    await _bpContext.SaveChangesAsync();
+                }
             }
         }
     }
