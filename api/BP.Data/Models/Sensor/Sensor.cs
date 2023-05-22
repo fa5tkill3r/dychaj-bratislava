@@ -1,4 +1,12 @@
-﻿namespace BP.Data.Models.Sensor;
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable CollectionNeverUpdated.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
+#pragma warning disable CS8618
+
+namespace BP.Data.Models.Sensor;
 
 public class SensorData
 {

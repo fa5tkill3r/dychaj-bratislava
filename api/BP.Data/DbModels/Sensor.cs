@@ -1,3 +1,11 @@
+// ReSharper disable InconsistentNaming
+// ReSharper disable CollectionNeverUpdated.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable ClassNeverInstantiated.Global
+
+#pragma warning disable CS8618
+
 using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.Data.DbModels;

@@ -11,5 +11,5 @@ public class Module
     public Location? Location { get; set; }
     public string? Description { get; set; }
     public Source Source { get; set; }
-    public List<Sensor> Sensors { get; set; }
+    public List<Sensor>? Sensors { get; set; }
 }
