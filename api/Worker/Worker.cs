@@ -1,10 +1,7 @@
 ﻿using BP.API.Services;
 using BP.Data;
-using BP.Data.CykloKoalicia;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
-using BP.Data.Models.SensorCommunity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace Worker;
