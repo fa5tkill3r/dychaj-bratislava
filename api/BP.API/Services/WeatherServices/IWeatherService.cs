@@ -1,6 +1,6 @@
 ﻿using BP.Data.DbModels;
 
-namespace BP.API.Services;
+namespace BP.API.Services.WeatherServices;
 
 public interface IWeatherService
 {

@@ -6,7 +6,7 @@ using BP.Data.DbModels;
 using BP.Data.Models.Shmu;
 using Microsoft.EntityFrameworkCore;
 
-namespace BP.API.Services;
+namespace BP.API.Services.WeatherServices;
 
 public class ShmuAirService : IWeatherService
 {

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Location = BP.Data.DbModels.Location;
 using Sensor = BP.Data.DbModels.Sensor;
 
-namespace BP.API.Services;
+namespace BP.API.Services.WeatherServices;
 
 public class SensorCommunityService : IWeatherService
 {

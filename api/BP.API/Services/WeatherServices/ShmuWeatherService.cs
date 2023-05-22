@@ -6,7 +6,7 @@ using BP.Data.Models.Shmu;
 using Microsoft.EntityFrameworkCore;
 using ValueType = BP.Data.DbHelpers.ValueType;
 
-namespace BP.API.Services;
+namespace BP.API.Services.WeatherServices;
 
 public class ShmuWeatherService : IWeatherService
 {
