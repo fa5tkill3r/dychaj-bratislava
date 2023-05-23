@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // use urls
-builder.WebHost.UseUrls("http://localhost:9000", "http://0.0.0.0:9000");
+builder.WebHost.UseUrls("http://0.0.0.0:9000");
 
 // Add configuration
 builder.Configuration
@@ -59,5 +59,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#if RELEASE
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<BpContext>();    
+    context.Database.Migrate();
+}
+#endif
 
 app.Run();

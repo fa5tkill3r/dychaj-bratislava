@@ -1,0 +1,21 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 9000
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["BP.API/BP.API.csproj", "BP.API/"]
+COPY ["BP.Data/BP.Data.csproj", "BP.Data/"]
+COPY ["BP.Infrastructure/BP.Infrastructure.csproj", "BP.Infrastructure/"]
+RUN dotnet restore "BP.API/BP.API.csproj"
+COPY . .
+WORKDIR "/src/BP.API"
+RUN dotnet build "BP.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "BP.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "BP.API.dll"]

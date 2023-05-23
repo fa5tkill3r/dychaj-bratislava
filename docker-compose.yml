@@ -1,0 +1,30 @@
+﻿version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: bpadmin
+      POSTGRES_PASSWORD: bpadmin
+      POSTGRES_DB: bp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  api:
+    image: fastkiller/bp:api
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.API
+    ports:
+      - '9005:9000'
+    depends_on: 
+      - postgres
+  datafetcher:
+    image: fastkiller/bp:datafetcher
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.DataFetcher
+    depends_on:
+      - postgres
+volumes:
+  postgres_data:
+  

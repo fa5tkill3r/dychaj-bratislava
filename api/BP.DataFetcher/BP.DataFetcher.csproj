@@ -5,24 +5,18 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>dotnet-BP.DataFetcher-A310BE64-B4AB-478D-BD12-A7932E6EA3FA</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BP.API\BP.API.csproj"/>
+        <ProjectReference Include="..\BP.API\BP.API.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\.dockerignore">
-            <Link>.dockerignore</Link>
-            <DependentUpon>Dockerfile</DependentUpon>
-        </Content>
+        <None Remove="Properties\launchSettings.json" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Properties\launchSettings.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Properties\"/>
+        <Folder Include="Properties\" />
     </ItemGroup>
 </Project>

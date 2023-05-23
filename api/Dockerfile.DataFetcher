@@ -1,0 +1,21 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["BP.DataFetcher/BP.DataFetcher.csproj", "BP.DataFetcher/"]
+COPY ["BP.API/BP.API.csproj", "BP.API/"]
+COPY ["BP.Data/BP.Data.csproj", "BP.Data/"]
+COPY ["BP.Infrastructure/BP.Infrastructure.csproj", "BP.Infrastructure/"]
+RUN dotnet restore "BP.DataFetcher/BP.DataFetcher.csproj"
+COPY . .
+WORKDIR "/src/BP.DataFetcher"
+RUN dotnet build "BP.DataFetcher.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "BP.DataFetcher.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "BP.DataFetcher.dll"]
