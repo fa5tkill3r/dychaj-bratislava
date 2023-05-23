@@ -2,6 +2,7 @@
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
+using BP.Data.Models;
 using BP.Data.Models.Shmu;
 using Microsoft.EntityFrameworkCore;
 using ValueType = BP.Data.DbHelpers.ValueType;
@@ -154,5 +155,10 @@ public class ShmuWeatherService : IWeatherService
         }
 
         await _bpContext.SaveChangesAsync();
+    }
+
+    public async Task<List<GetSensorsDto>> GetSensors()
+    {
+        throw new NotImplementedException();
     }
 }

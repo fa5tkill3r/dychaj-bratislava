@@ -2,6 +2,7 @@
 using BP.Data.CykloKoalicia;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
+using BP.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Sensor = BP.Data.DbModels.Sensor;
 using ValueType = BP.Data.DbHelpers.ValueType;
@@ -134,6 +135,44 @@ public class CykloKoaliciaService : IWeatherService
             await CreateSensor(module, sensorsValue, ValueType.Temp, sensorsValue.Temperature);
 
         await _bpContext.SaveChangesAsync();
+    }
+
+    public async Task<List<GetSensorsDto>> GetSensors()
+    {
+        var distinctSensors = await _ckVzduchContext.SensorsValues
+            .Where(s => s.CreatedAt > DateTime.UtcNow.AddDays(-1))
+            .GroupBy(s => s.SensorId)
+            .Select(s => s.OrderByDescending(sv => sv.CreatedAt).FirstOrDefault())
+            .ToListAsync();
+
+        var sensors = await _ckVzduchContext.Sensors
+            .Where(s => distinctSensors.Select(ds => ds!.SensorId).Contains(s.Id))
+            .ToListAsync();
+        
+        var result = new List<GetSensorsDto>();
+        
+        foreach (var sensor in sensors)
+        {
+            var sensorValue = distinctSensors.FirstOrDefault(s => s!.SensorId == sensor.Id);
+            if (sensorValue == null)
+                continue;
+            
+            var types = new List<ValueType>();
+            if (sensorValue.Humidity != 0)
+                types.Add(ValueType.Humidity);
+            if (sensorValue.Pm10 != 0)
+                types.Add(ValueType.Pm10);
+            if (sensorValue.Pm25 != 0)
+                types.Add(ValueType.Pm25);
+            if (sensorValue.Pressure != 0)
+                types.Add(ValueType.Pressure);
+            if (sensorValue.Temperature != 0)
+                types.Add(ValueType.Temp);
+
+            result.AddRange(types.Select(type => new GetSensorsDto() {Name = sensor.Location, UniqueId = sensor.Number, Type = type}));
+        }
+        
+        return result;
     }
 
     private async Task CreateSensor(Module module, SensorsValue sensorsValue, ValueType valueType, decimal value)

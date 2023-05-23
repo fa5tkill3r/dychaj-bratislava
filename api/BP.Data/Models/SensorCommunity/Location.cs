@@ -1,5 +1,8 @@
-﻿namespace BP.Data.Models.SensorCommunity;
+﻿using Newtonsoft.Json;
 
+namespace BP.Data.Models.SensorCommunity;
+
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class Location
 {
     public int id { get; set; }

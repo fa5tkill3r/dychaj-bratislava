@@ -2,6 +2,7 @@
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
+using BP.Data.Models;
 using BP.Data.Models.SensorCommunity;
 using Microsoft.EntityFrameworkCore;
 using Location = BP.Data.DbModels.Location;
@@ -153,5 +154,19 @@ public class SensorCommunityService : IWeatherService
 
 
         await _bpContext.SaveChangesAsync();
+    }
+
+    public async Task<List<GetSensorsDto>> GetSensors()
+    {
+        var sensors =
+            await Requests.Get<List<SensorCommunity>>("https://maps.sensor.community/data/v2/data.24h.json");
+
+        if (sensors == null)
+        {
+            _logger.LogError("SensorCommunityService: Failed to get sensors");
+            throw new Exception("Failed to get sensors");
+        }
+        
+        return sensors.Select(sensor => new GetSensorsDto() {Name = sensor.id.ToString(), UniqueId = sensor.id.ToString(), Type = Helpers.GetTypeFromString(sensor.sensordatavalues[0].value_type),}).ToList();
     }
 }
