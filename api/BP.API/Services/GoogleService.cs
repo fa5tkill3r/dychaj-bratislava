@@ -22,8 +22,7 @@ public class GoogleService
     {
         var reqQuery = new NameValueCollection
         {
-            {"lat", latitude.ToString(CultureInfo.InvariantCulture)},
-            {"lng", longitude.ToString(CultureInfo.InvariantCulture)}
+            {"latlng", $"{latitude.ToString(CultureInfo.InvariantCulture)},{longitude.ToString(CultureInfo.InvariantCulture)}"}
         };
 
         return await GetLocationFromResponse(reqQuery);

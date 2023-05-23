@@ -1,6 +1,7 @@
 ﻿using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.DbModels;
+using BP.Data.Models;
 
 namespace Worker;
 
@@ -15,7 +16,7 @@ public class WeatherWorker<T> where T : IWeatherService
         _bpContext = bpContext;
     }
 
-    public async Task AddModule(string uniqueId)
+    public async Task AddModule(string uniqueId, params string[] uniqueIds)
     {
         var module = new Module
         {
@@ -26,7 +27,10 @@ public class WeatherWorker<T> where T : IWeatherService
         await _bpContext.SaveChangesAsync();
         try
         {
-            await _tWeatherService.AddSensor(module, module.UniqueId);
+            foreach (var id in uniqueIds)
+            {
+                await _tWeatherService.AddSensor(module, id);
+            }
         }
         catch (Exception e)
         {
@@ -40,5 +44,10 @@ public class WeatherWorker<T> where T : IWeatherService
     public async Task GetData()
     {
         await _tWeatherService.GetData();
+    }
+    
+    public async Task<List<GetSensorsDto>> GetSensors()
+    {
+        return await _tWeatherService.GetSensors();
     }
 }

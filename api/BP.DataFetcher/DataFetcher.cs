@@ -21,7 +21,7 @@ public class DataFetcher : BackgroundService
 
             foreach (var weatherService in _weatherServices) await GetData(weatherService);
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 
