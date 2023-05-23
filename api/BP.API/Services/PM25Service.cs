@@ -1,4 +1,5 @@
-using AutoMapper;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BP.Data;
 using BP.Data.Dto.Request;
 using BP.Data.Dto.Response;
@@ -30,26 +31,14 @@ public class PM25Service
 
         if (sensorId != null)
             query = query.Where(s => s.SensorId == sensorId);
-        var readings = query.ToList();
+        var readings = await query.ToListAsync();
 
         
         var locations = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == ValueType.Pm25)
-            .Select(s => new ModuleDto()
-            {
-                Id = s.Module.Id,
-                Name = s.Module.Name,
-                Location = new LocationDto()
-                {
-                    Id = s.Module.Location!.Id,
-                    Name = s.Module.Location.Name ?? string.Empty,
-                    Address = s.Module.Location.Address
-                }
-                
-            })
-            .Distinct()
+            .ProjectTo<ModuleDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
         var stats = new PM25StatsResponse

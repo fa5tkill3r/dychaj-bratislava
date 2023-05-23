@@ -2,6 +2,7 @@ using BP.API.Services;
 using BP.API.Services.WeatherServices;
 using BP.Data;
 using BP.Data.CykloKoalicia;
+using BP.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ builder.Services.AddScoped<GoogleService>();
 builder.Services.AddScoped<SensorCommunityService>();
 builder.Services.AddScoped<ShmuAirService>();
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 
 builder.Services.AddControllers();
