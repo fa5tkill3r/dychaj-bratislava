@@ -27,9 +27,16 @@ public class WeatherWorker<T> where T : IWeatherService
         await _bpContext.SaveChangesAsync();
         try
         {
-            foreach (var id in uniqueIds)
+            if (uniqueIds.Length > 0)
             {
-                await _tWeatherService.AddSensor(module, id);
+                foreach (var id in uniqueIds)
+                {
+                    await _tWeatherService.AddSensor(module, id);
+                }
+            }
+            else
+            {
+                await _tWeatherService.AddSensor(module, uniqueId);
             }
         }
         catch (Exception e)
