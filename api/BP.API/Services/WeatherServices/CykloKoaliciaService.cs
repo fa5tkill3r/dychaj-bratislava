@@ -102,6 +102,7 @@ public class CykloKoaliciaService : IWeatherService
 
             module.Location = new Location
             {
+                Name = location.StreetName,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 Address = location.Address

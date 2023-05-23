@@ -2,6 +2,7 @@
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
+using BP.Data.Models.Shmu;
 using Microsoft.Extensions.Hosting;
 
 namespace Worker;
@@ -27,8 +28,11 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var weatherService = new WeatherWorker<CykloKoaliciaService>(_cykloKoaliciaService, _bpContext);
-        await weatherService.AddModule("1844542");
+        // var weatherService = new WeatherWorker<CykloKoaliciaService>(_cykloKoaliciaService, _bpContext);
+        // await weatherService.AddModule("1844542");
+        // await weatherService.GetData();
+        
+        var weatherService = new WeatherWorker<ShmuWeatherService>(_shmuWeatherService, _bpContext);
         await weatherService.GetData();
     }
 }

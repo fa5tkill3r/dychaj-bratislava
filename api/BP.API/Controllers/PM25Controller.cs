@@ -26,7 +26,6 @@ public class PM25Controller : ControllerBase
     [Route("stats")]
     public async Task<IActionResult> GetStats([FromQuery] PM25StatsRequest request)
     {
-        await _pm25Service.GetStats(request);
-        return Ok();
+        return Ok(await _pm25Service.GetStats(request));
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace BP.Data.Dto.Response;
 
-public class LocationDto
+public class ModuleDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Address { get; set; }
+    public LocationDto Location { get; set; }
 }

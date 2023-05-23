@@ -2,9 +2,8 @@
 
 public class PM25StatsResponse
 {
-    public List<LocationDto> Locations { get; set; }
-    public DateTime TimeOver { get; set; }
-    public float Value { get; set; }
-    public float HourValueAvg { get; set; }
-    public float DayValue { get; set; }
+    public List<ModuleDto> Modules { get; set; }
+    public decimal YearValueAvg { get; set; }
+    public decimal DayValueAvg { get; set; }
+    public decimal Current { get; set; }
 }
