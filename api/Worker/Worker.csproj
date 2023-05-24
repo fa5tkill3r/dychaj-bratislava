@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BP.API\BP.API.csproj"/>
-        <ProjectReference Include="..\BP.Data\BP.Data.csproj"/>
+        <ProjectReference Include="..\BP.API\BP.API.csproj" />
+        <ProjectReference Include="..\BP.Data\BP.Data.csproj" />
     </ItemGroup>
 
 </Project>

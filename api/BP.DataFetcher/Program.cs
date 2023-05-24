@@ -11,8 +11,10 @@ var builder = Host.CreateApplicationBuilder(args);
 
 // Add configuration
 builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", true, true)
+    .SetBasePath(AppContext.BaseDirectory)
+    .AddJsonFile("appsettings.json", true, true) // Load the production settings
+    .AddJsonFile("appsettings.development.json", true, true) // Load the development settings
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true) // Load environment-specific settings
     .Build();
 
 

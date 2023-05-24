@@ -7,6 +7,7 @@ WORKDIR /src
 COPY ["BP.API/BP.API.csproj", "BP.API/"]
 COPY ["BP.Data/BP.Data.csproj", "BP.Data/"]
 COPY ["BP.Infrastructure/BP.Infrastructure.csproj", "BP.Infrastructure/"]
+COPY ["BP.Configuration/BP.Configuration.csproj", "BP.Configuration/"]
 RUN dotnet restore "BP.API/BP.API.csproj"
 COPY . .
 WORKDIR "/src/BP.API"
