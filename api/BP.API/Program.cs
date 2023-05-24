@@ -13,7 +13,9 @@ builder.WebHost.UseUrls("http://0.0.0.0:9000");
 // Add configuration
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile("appsettings.json", true, true) // Load the production settings
+    .AddJsonFile("appsettings.development.json", true, true) // Load the development settings
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true) // Load environment-specific settings
     .Build();
 
 
