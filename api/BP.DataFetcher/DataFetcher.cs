@@ -1,4 +1,3 @@
-using System.Collections;
 using BP.API.Services.WeatherServices;
 
 namespace BP.DataFetcher;
@@ -24,7 +23,8 @@ public class DataFetcher : BackgroundService
                 var weatherServices = scope.ServiceProvider.GetRequiredService<IEnumerable<IWeatherService>>();
                 _logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
 
-                foreach (var weatherService in weatherServices) await GetData(weatherService);
+                foreach (var weatherService in weatherServices)
+                    await GetData(weatherService);
 
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }

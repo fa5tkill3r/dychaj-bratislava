@@ -20,13 +20,15 @@ public class ShmuAirService : IWeatherService
 
     private readonly BpContext _bpContext;
     private readonly GoogleService _googleService;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<ShmuAirService> _logger;
 
-    public ShmuAirService(BpContext bpContext, ILogger<ShmuAirService> logger, GoogleService googleService)
+    public ShmuAirService(BpContext bpContext, ILogger<ShmuAirService> logger, GoogleService googleService, IServiceScopeFactory scopeFactory)
     {
         _bpContext = bpContext;
         _logger = logger;
         _googleService = googleService;
+        _scopeFactory = scopeFactory;
     }
 
     public async Task GetData()
@@ -110,6 +112,8 @@ public class ShmuAirService : IWeatherService
 
     private async Task GetDataFromModule(Module module)
     {
+        using var scope = _scopeFactory.CreateScope();
+        var bpContext = scope.ServiceProvider.GetRequiredService<BpContext>();
         var shmuUriBuilder = new UriBuilder("https://www.shmu.sk/api/v1/airquality/getdata");
 
         var query = HttpUtility.ParseQueryString(shmuUriBuilder.Query);
@@ -129,14 +133,14 @@ public class ShmuAirService : IWeatherService
         foreach (var shmuResponse in station)
         foreach (var data in shmuResponse.data)
         {
-            var sensor = _bpContext.Sensor.FirstOrDefault(s => s.UniqueId == data.pollutant_id);
+            var sensor = bpContext.Sensor.FirstOrDefault(s => s.UniqueId == data.pollutant_id);
             if (sensor == null)
             {
                 _logger.LogInformation("ShmuService: Sensor {SensorId} not found", data.pollutant_id);
                 continue;
             }
 
-            var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
+            var isReadingInDb = await bpContext.Reading.AnyAsync(r =>
                 r.SensorId == sensor.Id && r.DateTime == DateTimeOffset.FromUnixTimeSeconds(data.dt));
 
             if (isReadingInDb)
@@ -153,8 +157,8 @@ public class ShmuAirService : IWeatherService
                 reading.Value *= 100;
             
 
-            await _bpContext.Reading.AddAsync(reading);
-            await _bpContext.SaveChangesAsync();
+            await bpContext.Reading.AddAsync(reading);
+            await bpContext.SaveChangesAsync();
         }
     }
 
