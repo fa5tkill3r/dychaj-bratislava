@@ -36,11 +36,18 @@ public class CykloKoaliciaService : IWeatherService
 
         var sensors = await _bpContext.Sensor
             .Where(s => moduleIds.Contains(s.ModuleId))
+            .Include(s => s.Readings
+                .OrderByDescending(r => r.DateTime)
+                .Take(5))
             .ToListAsync();
 
-        var sensorIds = sensors.Select(s => int.Parse(s.UniqueId)).ToList();
+        var sensorIds = sensors
+            .Select(s => int.Parse(s.UniqueId))
+            .Distinct()
+            .ToList();
         var sensorValues = await _ckVzduchContext.SensorsValues
             .Where(value => sensorIds.Contains((int)value.SensorId))
+            .Where(value => value.CreatedAt >= DateTime.UtcNow.AddDays(-1))
             .GroupBy(value => value.SensorId)
             .ToDictionaryAsync(group => (int)group.Key, group => group.MaxBy(v => v.CreatedAt));
 
@@ -48,11 +55,17 @@ public class CykloKoaliciaService : IWeatherService
         {
             if (!sensorValues.TryGetValue(int.Parse(sensor.UniqueId), out var value) || value == null)
             {
-                _logger.LogError("CykloKoaliciaService: Failed to get sensor value");
+                _logger.LogError("CykloKoaliciaService: Failed to get sensor value for {SensorUniqueId} with module {ModuleId}", sensor.UniqueId, sensor.ModuleId);
                 continue;
             }
 
             var datetime = value.CreatedAt?.ToUniversalTime() ?? DateTime.UtcNow;
+            
+            if (sensor.Readings.Any(r => r.DateTime == datetime))
+            {
+                _logger.LogInformation("CykloKoaliciaService: Sensor {SensorUniqueId} already has reading for {DateTime}", sensor.UniqueId, datetime);
+                continue;
+            }
 
             switch (sensor.Type)
             {
@@ -73,6 +86,8 @@ public class CykloKoaliciaService : IWeatherService
                     break;
             }
         }
+        
+        await _bpContext.SaveChangesAsync();
     }
 
 
