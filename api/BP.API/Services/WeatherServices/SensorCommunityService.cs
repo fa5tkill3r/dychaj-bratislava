@@ -15,15 +15,17 @@ public class SensorCommunityService : IWeatherService
     private readonly BpContext _bpContext;
     private readonly IConfiguration _configuration;
     private readonly GoogleService _googleService;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<SensorCommunityService> _logger;
 
     public SensorCommunityService(BpContext bpContext, ILogger<SensorCommunityService> logger,
-        IConfiguration configuration, GoogleService googleService)
+        IConfiguration configuration, GoogleService googleService, IServiceScopeFactory scopeFactory)
     {
         _bpContext = bpContext;
         _logger = logger;
         _configuration = configuration;
         _googleService = googleService;
+        _scopeFactory = scopeFactory;
     }
 
     public async Task GetData()
@@ -37,6 +39,8 @@ public class SensorCommunityService : IWeatherService
 
         var fetchData = new Func<string, Task>(async uniqueId =>
         {
+            var scope = _scopeFactory.CreateScope();
+            var bpContext = scope.ServiceProvider.GetRequiredService<BpContext>();
             var uniqueSensors = sensors.Where(s => s.UniqueId == uniqueId).ToList();
 
             _logger.LogInformation("SensorCommunityService: Getting data for sensor {SensorUniqueId}", uniqueId);
@@ -64,7 +68,7 @@ public class SensorCommunityService : IWeatherService
                     continue;
                 }
 
-                var isReadingInDb = await _bpContext.Reading.AnyAsync(r =>
+                var isReadingInDb = await bpContext.Reading.AnyAsync(r =>
                     r.SensorId == sensor.Id && r.DateTime == sensorCommunity.timestamp);
                 if (isReadingInDb)
                     continue;
@@ -75,8 +79,8 @@ public class SensorCommunityService : IWeatherService
                     DateTime = sensorCommunity.timestamp,
                     Value = dataValue.value
                 };
-                await _bpContext.Reading.AddAsync(reading);
-                await _bpContext.SaveChangesAsync();
+                await bpContext.Reading.AddAsync(reading);
+                await bpContext.SaveChangesAsync();
             }
         });
 
