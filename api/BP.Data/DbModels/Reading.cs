@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BP.Data.DbModels;
 
-[Index(nameof(DateTime), IsUnique = false)]
+[Index(nameof(DateTime))]
 public class Reading
 {
     public int Id { get; set; }
