@@ -57,4 +57,9 @@ public class WeatherWorker<T> where T : IWeatherService
     {
         return await _tWeatherService.GetSensors();
     }
+    
+    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    {
+        await _tWeatherService.FetchData(from, to, uniqueId);
+    }
 }

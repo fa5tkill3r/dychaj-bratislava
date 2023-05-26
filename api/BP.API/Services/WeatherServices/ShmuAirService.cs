@@ -110,6 +110,11 @@ public class ShmuAirService : IWeatherService
         throw new NotImplementedException();
     }
 
+    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task GetDataFromModule(Module module)
     {
         using var scope = _scopeFactory.CreateScope();

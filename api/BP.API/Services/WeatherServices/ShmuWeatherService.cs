@@ -161,4 +161,9 @@ public class ShmuWeatherService : IWeatherService
     {
         throw new NotImplementedException();
     }
+
+    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    {
+        throw new NotImplementedException();
+    }
 }

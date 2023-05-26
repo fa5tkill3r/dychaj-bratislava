@@ -190,6 +190,11 @@ public class CykloKoaliciaService : IWeatherService
         return result;
     }
 
+    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    {
+        throw new NotImplementedException();
+    }
+
     private async Task CreateSensor(Module module, SensorsValue sensorsValue, ValueType valueType, decimal value)
     {
         var sensor = new Sensor()

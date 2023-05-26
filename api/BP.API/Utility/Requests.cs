@@ -16,4 +16,17 @@ public static class Requests
 
         return JsonConvert.DeserializeObject<T>(await reader.ReadToEndAsync());
     }
+
+    public static async Task<Stream?> GetFileStream(string url)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            return await client.GetStreamAsync(url);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 }

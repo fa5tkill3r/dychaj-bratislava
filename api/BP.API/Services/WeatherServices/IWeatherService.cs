@@ -8,4 +8,5 @@ public interface IWeatherService
     public Task GetData();
     public Task AddSensor(Module module, string uniqueId);
     public Task<List<GetSensorsDto>> GetSensors();
+    public Task FetchData(DateTime from, DateTime to, string? uniqueId);
 }

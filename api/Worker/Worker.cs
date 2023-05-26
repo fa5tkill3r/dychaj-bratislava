@@ -27,7 +27,7 @@ public class Worker : BackgroundService
             var wshmuAirService = new WeatherWorker<ShmuAirService>(shmuAirService, bpContext);
             var wcykloKoaliciaService = new WeatherWorker<CykloKoaliciaService>(cykloKoaliciaService, bpContext);
             
-
+            // await wsensorCommunity.FetchData(DateTime.Now.AddYears(-2), DateTime.Now, "12309");
         }
     }
 }

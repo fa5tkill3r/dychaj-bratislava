@@ -18,4 +18,10 @@ public class Helpers
             _ => ValueType.Unknown
         };
     }
+    
+    public static bool TryGetTypeFromString(string valueType, out ValueType result)
+    {
+        result = GetTypeFromString(valueType);
+        return result != ValueType.Unknown;
+    }
 }

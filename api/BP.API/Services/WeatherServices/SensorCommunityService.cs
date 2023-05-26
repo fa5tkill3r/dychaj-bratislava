@@ -7,6 +7,7 @@ using BP.Data.Models.SensorCommunity;
 using Microsoft.EntityFrameworkCore;
 using Location = BP.Data.DbModels.Location;
 using Sensor = BP.Data.DbModels.Sensor;
+using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Services.WeatherServices;
 
@@ -170,7 +171,178 @@ public class SensorCommunityService : IWeatherService
             _logger.LogError("SensorCommunityService: Failed to get sensors");
             throw new Exception("Failed to get sensors");
         }
+
+        return sensors.Select(sensor => new GetSensorsDto()
+        {
+            Name = sensor.id.ToString(), UniqueId = sensor.id.ToString(),
+            Type = Helpers.GetTypeFromString(sensor.sensordatavalues[0].value_type),
+        }).ToList();
+    }
+
+    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    {
+        var query = _bpContext.Sensor
+            .Include(s => s.Module)
+            .Where(s => s.Module.Source == Source.SensorCommunity);
+        if (!string.IsNullOrEmpty(uniqueId))
+            query = query.Where(s => s.UniqueId == uniqueId);
+        var sensorUniqueIds = await query
+            .Select(s => s.UniqueId)
+            .Distinct()
+            .ToListAsync();
+        var fetchData = new Func<string, Task>(async sensorUniqueId =>
+        {
+            _logger.LogInformation("SensorCommunityService: Getting data for sensor {SensorUniqueId}", sensorUniqueId);
+
+            var response =
+                await Requests.Get<List<SensorCommunity>>(
+                    $"https://data.sensor.community/airrohr/v1/sensor/{sensorUniqueId}/");
+            var sensorName = response?.FirstOrDefault()?.sensor.sensor_type.name;
+
+            if (sensorName == null)
+            {
+                _logger.LogError("SensorCommunityService: Failed to get data for sensor {SensorUniqueId}",
+                    sensorUniqueId);
+                return;
+            }
+            
+            var semaphore = new SemaphoreSlim(50);
+            var dayFetchTasks = new List<Task>();
+            for (var date = from.Date; date.Date <= to.Date; date = date.AddDays(1))
+            {
+                await semaphore.WaitAsync();
+                dayFetchTasks.Add(FetchDayTask(sensorUniqueId, sensorName, date)
+                    .ContinueWith((task) =>
+                {
+                    dayFetchTasks.Remove(task);
+                    semaphore.Release();
+                }));
+                
+                dayFetchTasks.RemoveAll(t => t.IsCompleted);
+            }
+            
+            await Task.WhenAll(dayFetchTasks);
+            
+            _logger.LogInformation("SensorCommunityService: Finished getting data for sensor {SensorUniqueId}",
+                sensorUniqueId);
+        });
+
+        var tasks = sensorUniqueIds.Select(sensor => fetchData(sensor)).ToList();
+        await Task.WhenAll(tasks);
+    }
+
+    private async Task FetchDayTask(string sensorUniqueId, string sensorName, DateTime fetchDate)
+    {
+        var scope = _scopeFactory.CreateScope();
+        var bpContext = scope.ServiceProvider.GetRequiredService<BpContext>();
         
-        return sensors.Select(sensor => new GetSensorsDto() {Name = sensor.id.ToString(), UniqueId = sensor.id.ToString(), Type = Helpers.GetTypeFromString(sensor.sensordatavalues[0].value_type),}).ToList();
+        var isReadingInDb = await bpContext.Reading
+            .Include(r => r.Sensor)
+            .AnyAsync(r =>
+                r.Sensor.UniqueId == sensorUniqueId && r.DateTime.Date == fetchDate.Date);
+        if (isReadingInDb)
+            return;
+
+        var url = "https://archive.sensor.community/";
+
+        if (fetchDate.Year == DateTime.Now.Year)
+            url += $"{fetchDate.Year}-{fetchDate.Month:D2}-{fetchDate.Day:D2}/";
+        else
+            url += $"{fetchDate.Year}/{fetchDate.Year}-{fetchDate.Month:D2}-{fetchDate.Day:D2}/";
+        url +=
+            $"{fetchDate.Year}-{fetchDate.Month:D2}-{fetchDate.Day:D2}_{sensorName.ToLower()}_sensor_{sensorUniqueId}.csv";
+
+
+        var csv = await Requests.GetFileStream(url);
+
+        if (csv == null)
+        {
+            _logger.LogWarning(
+                "SensorCommunityService: Failed to get data for sensor {SensorUniqueId} on {Date}",
+                sensorUniqueId, fetchDate);
+            return;
+        }
+
+        using var reader = new StreamReader(csv);
+
+
+        var valueTypes = new List<Tuple<ValueType, int>>();
+        var lines = (await reader.ReadToEndAsync()).Split("\n");
+
+        var readingInterval = TimeSpan.FromMinutes(5); 
+        var lastReading = DateTime.MinValue;
+        var readingsCount = 0;
+        foreach (var (line, index) in lines.WithIndex())
+        {
+            if (string.IsNullOrEmpty(line))
+                continue;
+
+            var columns = line.Split(";");
+            if (index == 0)
+            {
+                foreach (var (column, columnIndex) in columns.WithIndex())
+                {
+                    if (Helpers.TryGetTypeFromString(column, out var type))
+                        valueTypes.Add(new Tuple<ValueType, int>(type, columnIndex));
+                }
+
+                continue;
+            }
+
+            if (valueTypes.Count == 0)
+            {
+                _logger.LogError(
+                    "SensorCommunityService: Failed to find any data for sensor {SensorUniqueId} on {Date}",
+                    sensorUniqueId, fetchDate);
+                continue;
+            }
+
+            var time = DateTime.Parse(columns[5]);
+            
+            if (time - lastReading < readingInterval)
+                continue;
+            
+            var sensors = await bpContext.Sensor
+                .Include(s => s.Module)
+                .Where(s => s.Module.Source == Source.SensorCommunity)
+                .Where(s => s.UniqueId == sensorUniqueId)
+                .ToListAsync();
+
+            foreach (var (valueType, columnIndex) in valueTypes)
+            {
+                var sensor = sensors.FirstOrDefault(s => s.Type == valueType);
+
+                if (sensor == null)
+                {
+                    _logger.LogError(
+                        "SensorCommunityService: Failed to find sensor {SensorUniqueId} of type {Type} on {Date}",
+                        sensorUniqueId, valueType, fetchDate);
+                    continue;
+                }
+
+                var reading = new Reading
+                {
+                    SensorId = sensor.Id,
+                    DateTime = time,
+                    Value = decimal.Parse(columns[columnIndex])
+                };
+                await bpContext.Reading.AddAsync(reading);
+                
+                lastReading = time;
+                readingsCount++;
+
+                _logger.LogTrace(
+                    "SensorCommunityService: Added reading for sensor {SensorUniqueId} of type {Type} on {Date}",
+                    sensorUniqueId, valueType, fetchDate);
+            }
+        }
+        
+        _logger.LogInformation(
+            "SensorCommunityService: Finished getting data for sensor {SensorUniqueId} on {Date}. Added {ReadingsCount} readings",
+            sensorUniqueId, fetchDate, readingsCount);
+
+        await csv.DisposeAsync();
+        
+        await bpContext.SaveChangesAsync();
     }
 }
