@@ -22,9 +22,9 @@ public class PM25Controller : ControllerBase
         return Ok(locations);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("stats")]
-    public async Task<IActionResult> GetStats([FromQuery] PM25StatsRequest request)
+    public async Task<IActionResult> GetStats([FromBody] PM25StatsRequest request)
     {
         return Ok(await _pm25Service.GetStats(request));
     }

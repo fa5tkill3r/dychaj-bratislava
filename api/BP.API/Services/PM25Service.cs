@@ -22,38 +22,62 @@ public class PM25Service
 
     public async Task<PM25StatsResponse> GetStats(PM25StatsRequest request)
     {
-        var sensorId = request.SensorId;
+        var moduleIds = request.ModuleIds;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Where(s => s.Type == ValueType.Pm25)
-            .SelectMany(s => s.Readings);
+            .Where(s => s.Type == ValueType.Pm25);
 
-        if (sensorId != null)
-            query = query.Where(s => s.SensorId == sensorId);
-        var readings = await query.ToListAsync();
 
-        
-        var locations = await _bpContext.Sensor
+        if (moduleIds != null)
+        {
+            var ids = moduleIds;
+            query = query.Where(s => ids.Contains(s.Module.Id));
+        }
+        else
+            query = query.Take(1);
+
+        var sensors = await query.ToListAsync();
+
+        var response = new PM25StatsResponse();
+
+        foreach (var sensor in sensors)
+        {
+            var yearValueAvg = _bpContext.Reading
+                .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
+                .Average(r => r.Value);
+            
+            var dayValueAvg = _bpContext.Reading
+                .Where(r => r.SensorId == sensor.Id && r.DateTime.Date == DateTime.UtcNow.Date)
+                .Average(r => r.Value);
+            
+            var current = _bpContext.Reading
+                .Where(r => r.SensorId == sensor.Id)
+                .OrderByDescending(r => r.DateTime)
+                .Select(r => r.Value)
+                .FirstOrDefault();
+            
+            response.Modules.Add(new PM25StatsResponseModule()
+            {
+                YearValueAvg = yearValueAvg,
+                DayValueAvg = dayValueAvg,
+                Current = current,
+                Module = _mapper.Map<ModuleDto>(sensor.Module)
+            });
+        }
+
+
+        var availableModules = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == ValueType.Pm25)
             .ProjectTo<ModuleDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
+        
+        response.AvailableModules = availableModules;
 
-        var stats = new PM25StatsResponse
-        {
-            YearValueAvg = readings
-                .Where(r => r.DateTime.Date >= DateTime.UtcNow.Date.AddDays(-365))
-                .Average(r => r.Value),
-            DayValueAvg = readings
-                .Where(r => r.DateTime.Date >= DateTime.UtcNow.Date.AddDays(-1))
-                .Average(r => r.Value),
-            Current = readings.MaxBy(r => r.DateTime)?.Value ?? 0,
-            Modules = locations
-        };
 
-        return stats;
+        return response;
     }
 
     public async Task<List<LocationDto>> GetLocations()

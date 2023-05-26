@@ -2,5 +2,5 @@
 
 public class PM25StatsRequest
 {
-    public int? SensorId { get; set; }
+    public int[]? ModuleIds { get; set; }
 }
