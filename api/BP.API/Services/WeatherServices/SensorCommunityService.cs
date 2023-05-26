@@ -150,6 +150,8 @@ public class SensorCommunityService : IWeatherService
                         _logger.LogInformation(
                             "SensorCommunityService: Found location for sensor {SensorUniqueId} - {Address}", sensorId,
                             module.Location.Address);
+
+                        module.Name = loc.StreetName;
                     }
                 }
             }
