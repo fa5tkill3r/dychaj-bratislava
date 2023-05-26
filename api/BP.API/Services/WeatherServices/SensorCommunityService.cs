@@ -319,12 +319,20 @@ public class SensorCommunityService : IWeatherService
                         sensorUniqueId, valueType, fetchDate);
                     continue;
                 }
+                
+                if (!decimal.TryParse(columns[columnIndex], out var value))
+                {
+                    _logger.LogWarning(
+                        "SensorCommunityService: Failed to parse value for sensor {SensorUniqueId} of type {Type} on {Date}",
+                        sensorUniqueId, valueType, time);
+                    continue;
+                }
 
                 var reading = new Reading
                 {
                     SensorId = sensor.Id,
                     DateTime = time,
-                    Value = decimal.Parse(columns[columnIndex])
+                    Value = value,
                 };
                 await bpContext.Reading.AddAsync(reading);
                 
