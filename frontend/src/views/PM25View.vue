@@ -121,23 +121,39 @@ const fetchStats = async (ids) => {
   selectedModules.value = stats.value.modules.map((module) => module.module.id)
 }
 
-fetchStats()
+const fetchWeeklyComparison = async (ids) => {
+  const res = await ky.post('pm25/weekly', {
+    json: {
+      modules: ids,
+    },
+  }).json()
+
+  const readingDates = res.modules[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
+
+  const series = res.modules.map((module) => {
+    return {
+      name: module.name,
+      type: 'line',
+      stack: 'Total',
+      connectNulls: false,
+      data: module.readings.map((reading) => reading.value),
+    }
+  })
 
 
-const initChart = () => {
   const chart = echarts.init(lineChart.value)
   chart.resize()
 
 
   chart.setOption({
     title: {
-      text: 'Stacked Line',
+      text: 'Znečistenie vzduchu po týždňoch',
     },
     tooltip: {
       trigger: 'axis',
     },
     legend: {
-      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
+      data: series.map((serie) => serie.name),
     },
     grid: {
       left: '3%',
@@ -153,44 +169,12 @@ const initChart = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: readingDates,
     },
     yAxis: {
       type: 'value',
     },
-    series: [
-      {
-        name: 'Email',
-        type: 'line',
-        stack: 'Total',
-        connectNulls: true,
-        data: [120, null, 101, 134, 90, 230, 210],
-      },
-      {
-        name: 'Union Ads',
-        type: 'line',
-        stack: 'Total',
-        data: [220, 182, 191, 234, 290, 330, 310],
-      },
-      {
-        name: 'Video Ads',
-        type: 'line',
-        stack: 'Total',
-        data: [150, 232, 201, 154, 190, 330, 410],
-      },
-      {
-        name: 'Direct',
-        type: 'line',
-        stack: 'Total',
-        data: [320, 332, 301, 334, 390, 330, 320],
-      },
-      {
-        name: 'Search Engine',
-        type: 'line',
-        stack: 'Total',
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-      },
-    ],
+    series: series,
   })
 
   window.addEventListener('resize', () => {
@@ -198,8 +182,11 @@ const initChart = () => {
   })
 }
 
+
+fetchStats()
+fetchWeeklyComparison()
+
 onMounted(() => {
-  initChart()
   mapboxgl.accessToken = 'pk.eyJ1IjoiZmFzdGtpbGxlciIsImEiOiJjbGI0YW5hbnYwbWVmM3BweGdudTAxb2FpIn0.wwCSm3SksqjjGOwYiqS-jQ'
   const map = new mapboxgl.Map({
     container: mapContainer.value,
