@@ -5,8 +5,8 @@
       <div>
         <v-autocomplete
           v-model='selectedModules'
-          chips
-          multiple
+          :chips='true'
+          :multiple='true'
           name='id'
           item-title='name'
           item-value='id'
@@ -34,8 +34,8 @@
               height='150'
             >
               <div class='d-flex flex-column justify-center align-center fill-height'>
-                <span class='title'>10</span>
-                <span>prekročených hodín</span>
+                <span class='title'>{{ module.daysAboveThreshold }}</span>
+                <span>prekročených dní</span>
                 <span>Za tento rok</span>
               </div>
             </v-sheet>
@@ -92,9 +92,29 @@
     </div>
 
 
+    <div class='d-flex'>
+      <v-btn
+        class='ml-auto mr-0'
+        color='primary'
+        @click='dialog = true'
+      >
+        <v-icon>mdi-filter</v-icon>
+      </v-btn>
+    </div>
+
     <div ref='lineChart' class='chart mt-12'></div>
     <div ref='mapContainer' class='map-container mt-12'></div>
+
   </v-container>
+  <v-dialog
+    v-model='dialog'
+    width='auto'
+  >
+    <filter-component
+      :tags='stats?.availableModules' :selected-tags='weeklyComparisonSelectedModules'
+      @update:tags='fetchWeeklyComparison'></filter-component>
+
+  </v-dialog>
 </template>
 
 
@@ -105,11 +125,18 @@ import * as echarts from 'echarts'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { ky } from '@/lib/ky'
+import FilterComponent from '@/components/FilterComponent.vue'
 
 const lineChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
 const selectedModules = ref([])
+const weeklyComparisonSelectedModules = ref([])
+const dialog = ref(false)
+
+const test = (value) => {
+  console.log(value)
+}
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
@@ -122,11 +149,15 @@ const fetchStats = async (ids) => {
 }
 
 const fetchWeeklyComparison = async (ids) => {
+  dialog.value = false
+
   const res = await ky.post('pm25/weekly', {
     json: {
       modules: ids,
     },
   }).json()
+
+  weeklyComparisonSelectedModules.value = res.modules.map((module) => module.id)
 
   const readingDates = res.modules[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
 
@@ -134,7 +165,6 @@ const fetchWeeklyComparison = async (ids) => {
     return {
       name: module.name,
       type: 'line',
-      stack: 'Total',
       connectNulls: false,
       data: module.readings.map((reading) => reading.value),
     }
@@ -142,7 +172,7 @@ const fetchWeeklyComparison = async (ids) => {
 
 
   const chart = echarts.init(lineChart.value)
-  chart.resize()
+  chart.clear()
 
 
   chart.setOption({

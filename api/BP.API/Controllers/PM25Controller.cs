@@ -31,7 +31,7 @@ public class PM25Controller : ControllerBase
     
     [HttpPost]
     [Route("weekly")]
-    public async Task<IActionResult> GetWeeklyComparison(Pm25WeeklyComparisonRequest? request)
+    public async Task<IActionResult> GetWeeklyComparison([FromBody] Pm25WeeklyComparisonRequest? request)
     {
         return Ok(await _pm25Service.GetWeeklyComparison(request));
     }

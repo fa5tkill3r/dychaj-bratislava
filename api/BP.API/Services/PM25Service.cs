@@ -60,13 +60,12 @@ public class Pm25Service
                 .OrderByDescending(r => r.DateTime)
                 .Select(r => (decimal?) r.Value)
                 .FirstOrDefault();
-            
+
             var daysAboveThreshold = await _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
                 .GroupBy(r => r.DateTime.Date)
                 .Where(g => g.Average(r => r.Value) > 25)
                 .CountAsync();
-            
 
 
             response.Modules.Add(new PM25StatsResponseModule()
@@ -137,14 +136,14 @@ public class Pm25Service
         var tasks = sensors.Select(sensor => fetchSensor(sensor)).ToList();
 
         await Task.WhenAll(tasks);
-        
+
         var availableModules = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == ValueType.Pm25)
             .ProjectTo<ModuleDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
-        
+
         response.AvailableModules = availableModules;
 
         return response;
@@ -173,6 +172,8 @@ public class Pm25Service
             .Where(r => r.SensorId == sensor.Id)
             .Where(r => r.DateTime.Date >= from.Date && r.DateTime.Date <= to.Date)
             .AverageAsync(r => (decimal?) r.Value);
+
+        await bpContext.DisposeAsync();
 
         return new ReadingDto()
         {
