@@ -60,6 +60,13 @@ public class Pm25Service
                 .OrderByDescending(r => r.DateTime)
                 .Select(r => (decimal?) r.Value)
                 .FirstOrDefault();
+            
+            var daysAboveThreshold = await _bpContext.Reading
+                .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
+                .GroupBy(r => r.DateTime.Date)
+                .Where(g => g.Average(r => r.Value) > 25)
+                .CountAsync();
+            
 
 
             response.Modules.Add(new PM25StatsResponseModule()
@@ -67,7 +74,8 @@ public class Pm25Service
                 YearValueAvg = yearValueAvg != null ? Math.Round(yearValueAvg.Value, 2) : null,
                 DayValueAvg = dayValueAvg != null ? Math.Round(dayValueAvg.Value, 2) : null,
                 Current = current != null ? Math.Round(current.Value, 2) : null,
-                Module = _mapper.Map<ModuleDto>(sensor.Module)
+                Module = _mapper.Map<ModuleDto>(sensor.Module),
+                DaysAboveThreshold = daysAboveThreshold,
             });
         }
 

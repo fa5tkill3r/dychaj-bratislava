@@ -12,4 +12,5 @@ public class PM25StatsResponseModule
     public decimal? YearValueAvg { get; set; }
     public decimal? DayValueAvg { get; set; }
     public decimal? Current { get; set; }
+    public decimal? DaysAboveThreshold { get; set; }
 }
