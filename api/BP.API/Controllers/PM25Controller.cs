@@ -8,9 +8,9 @@ namespace BP.API.Controllers;
 [Route("[controller]")]
 public class PM25Controller : ControllerBase
 {
-    private readonly PM25Service _pm25Service;
+    private readonly Pm25Service _pm25Service;
 
-    public PM25Controller(PM25Service pm25Service)
+    public PM25Controller(Pm25Service pm25Service)
     {
         _pm25Service = pm25Service;
     }
@@ -24,8 +24,15 @@ public class PM25Controller : ControllerBase
 
     [HttpPost]
     [Route("stats")]
-    public async Task<IActionResult> GetStats([FromBody] PM25StatsRequest? request)
+    public async Task<IActionResult> GetStats([FromBody] Pm25StatsRequest? request)
     {
         return Ok(await _pm25Service.GetStats(request));
+    }
+    
+    [HttpPost]
+    [Route("weekly")]
+    public async Task<IActionResult> GetWeeklyComparison(Pm25WeeklyComparisonRequest? request)
+    {
+        return Ok(await _pm25Service.GetWeeklyComparison(request));
     }
 }

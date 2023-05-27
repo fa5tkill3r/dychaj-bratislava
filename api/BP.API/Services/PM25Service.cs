@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BP.Data;
+using BP.Data.DbModels;
 using BP.Data.Dto.Request;
 using BP.Data.Dto.Response;
 using BP.Data.Dto.Response.Stats;
@@ -9,18 +10,20 @@ using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Services;
 
-public class PM25Service
+public class Pm25Service
 {
     private readonly BpContext _bpContext;
     private readonly IMapper _mapper;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public PM25Service(BpContext bpContext, IMapper mapper)
+    public Pm25Service(BpContext bpContext, IMapper mapper, IServiceScopeFactory scopeFactory)
     {
         _bpContext = bpContext;
         _mapper = mapper;
+        _scopeFactory = scopeFactory;
     }
 
-    public async Task<PM25StatsResponse> GetStats(PM25StatsRequest? request)
+    public async Task<PM25StatsResponse> GetStats(Pm25StatsRequest? request)
     {
         var moduleIds = request?.Modules;
         var query = _bpContext.Sensor
@@ -45,21 +48,20 @@ public class PM25Service
         {
             var yearValueAvg = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
-                .Average(r => (decimal?)r.Value);
+                .Average(r => (decimal?) r.Value);
 
             var dayValueAvg = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date == DateTime.UtcNow.Date)
-                .Average(r => (decimal?)r.Value);
-            
+                .Average(r => (decimal?) r.Value);
+
             var current = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id)
                 .Where(r => r.DateTime.Date == DateTime.UtcNow.Date)
                 .OrderByDescending(r => r.DateTime)
-                .Select(r => (decimal?)r.Value)
+                .Select(r => (decimal?) r.Value)
                 .FirstOrDefault();
-            
-            
-            
+
+
             response.Modules.Add(new PM25StatsResponseModule()
             {
                 YearValueAvg = yearValueAvg != null ? Math.Round(yearValueAvg.Value, 2) : null,
@@ -76,7 +78,7 @@ public class PM25Service
             .Where(s => s.Type == ValueType.Pm25)
             .ProjectTo<ModuleDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
-        
+
         response.AvailableModules = availableModules;
 
 
@@ -92,5 +94,82 @@ public class PM25Service
             .Distinct()
             .ToListAsync();
         return _mapper.Map<List<LocationDto>>(locations);
+    }
+
+    public async Task<Pm25WeeklyComparisonResponse> GetWeeklyComparison(Pm25WeeklyComparisonRequest? request)
+    {
+        var query = _bpContext.Sensor
+            .Include(s => s.Module)
+            .ThenInclude(m => m.Location)
+            .Where(s => s.Type == ValueType.Pm25);
+
+        if (request?.Modules != null && request.Modules.Any())
+        {
+            var ids = request.Modules;
+            query = query.Where(s => ids.Contains(s.Module.Id));
+        }
+        else
+            query = query.Take(3);
+
+        var sensors = await query.ToListAsync();
+
+        var response = new Pm25WeeklyComparisonResponse();
+
+        var from = DateTime.UtcNow.Date.AddDays(-365);
+
+        var fetchSensor = new Func<Sensor, Task>(async sensor =>
+        {
+            var readings = await FetchSensor(sensor, from, DateTime.UtcNow.Date);
+            var module = _mapper.Map<ModuleWithReadingsDto>(sensor.Module);
+            module.Readings = readings;
+
+            response.Modules.Add(module);
+        });
+
+        var tasks = sensors.Select(sensor => fetchSensor(sensor)).ToList();
+
+        await Task.WhenAll(tasks);
+        
+        var availableModules = await _bpContext.Sensor
+            .Include(s => s.Module)
+            .ThenInclude(m => m.Location)
+            .Where(s => s.Type == ValueType.Pm25)
+            .ProjectTo<ModuleDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+        
+        response.AvailableModules = availableModules;
+
+        return response;
+    }
+
+    private async Task<List<ReadingDto>> FetchSensor(Sensor sensor, DateTime from, DateTime to)
+    {
+        var tasks = new List<Task<ReadingDto>>();
+
+        for (var date = from; date <= to; date = date.AddDays(7))
+        {
+            tasks.Add(FetchWeeklyReadings(sensor, date, date.AddDays(7)));
+        }
+
+        var readings = await Task.WhenAll(tasks);
+
+        return readings.ToList();
+    }
+
+    private async Task<ReadingDto> FetchWeeklyReadings(Sensor sensor, DateTime from, DateTime to)
+    {
+        using var scope = _scopeFactory.CreateScope();
+        var bpContext = scope.ServiceProvider.GetRequiredService<BpContext>();
+
+        var avg = await bpContext.Reading
+            .Where(r => r.SensorId == sensor.Id)
+            .Where(r => r.DateTime.Date >= from.Date && r.DateTime.Date <= to.Date)
+            .AverageAsync(r => (decimal?) r.Value);
+
+        return new ReadingDto()
+        {
+            Value = avg != null ? Math.Round(avg.Value, 2) : null,
+            DateTime = from,
+        };
     }
 }

@@ -17,10 +17,20 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name ?? string.Empty))
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address));
-        
+
         CreateMap<Module, ModuleDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location));
+        
+        CreateMap<Reading, ReadingDto>()
+            .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.DateTime))
+            .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value));
+
+        CreateMap<Module, ModuleWithReadingsDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+            .ForMember(dest => dest.Readings, opt => opt.Ignore());
     }
 }
