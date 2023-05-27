@@ -20,9 +20,9 @@ public class PM25Service
         _mapper = mapper;
     }
 
-    public async Task<PM25StatsResponse> GetStats(PM25StatsRequest request)
+    public async Task<PM25StatsResponse> GetStats(PM25StatsRequest? request)
     {
-        var moduleIds = request.ModuleIds;
+        var moduleIds = request?.ModuleIds;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
@@ -45,23 +45,26 @@ public class PM25Service
         {
             var yearValueAvg = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
-                .Average(r => r.Value);
-            
+                .Average(r => (decimal?)r.Value);
+
             var dayValueAvg = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date == DateTime.UtcNow.Date)
-                .Average(r => r.Value);
+                .Average(r => (decimal?)r.Value);
             
             var current = _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id)
+                .Where(r => r.DateTime.Date == DateTime.UtcNow.Date)
                 .OrderByDescending(r => r.DateTime)
-                .Select(r => r.Value)
+                .Select(r => (decimal?)r.Value)
                 .FirstOrDefault();
+            
+            
             
             response.Modules.Add(new PM25StatsResponseModule()
             {
-                YearValueAvg = yearValueAvg,
-                DayValueAvg = dayValueAvg,
-                Current = current,
+                YearValueAvg = yearValueAvg != null ? Math.Round(yearValueAvg.Value, 2) : null,
+                DayValueAvg = dayValueAvg != null ? Math.Round(dayValueAvg.Value, 2) : null,
+                Current = current != null ? Math.Round(current.Value, 2) : null,
                 Module = _mapper.Map<ModuleDto>(sensor.Module)
             });
         }

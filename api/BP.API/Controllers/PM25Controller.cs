@@ -24,7 +24,7 @@ public class PM25Controller : ControllerBase
 
     [HttpPost]
     [Route("stats")]
-    public async Task<IActionResult> GetStats([FromBody] PM25StatsRequest request)
+    public async Task<IActionResult> GetStats([FromBody] PM25StatsRequest? request)
     {
         return Ok(await _pm25Service.GetStats(request));
     }

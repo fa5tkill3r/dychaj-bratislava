@@ -9,7 +9,7 @@ public class PM25StatsResponse
 public class PM25StatsResponseModule
 {
     public ModuleDto Module { get; set; }
-    public decimal YearValueAvg { get; set; }
-    public decimal DayValueAvg { get; set; }
-    public decimal Current { get; set; }
+    public decimal? YearValueAvg { get; set; }
+    public decimal? DayValueAvg { get; set; }
+    public decimal? Current { get; set; }
 }
