@@ -4,10 +4,13 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
+using Newtonsoft.Json;
+
 #pragma warning disable CS8618
 
 namespace BP.Data.Models.Shmu;
 
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class ShmuAirResponse
 {
     public Station station { get; set; }
@@ -15,6 +18,7 @@ public class ShmuAirResponse
     public List<ExtraData> extra_data { get; set; }
 }
 
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class Pollutant
 {
     public string pollutant_id { get; set; }
@@ -22,6 +26,7 @@ public class Pollutant
     public int order { get; set; }
 }
 
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class Station
 {
     public int station_id { get; set; }
@@ -33,14 +38,16 @@ public class Station
     public List<Pollutant> pollutants { get; set; }
 }
 
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class Data
 {
     public long dt { get; set; }
-    public string value { get; set; }
+    public string? value { get; set; }
     public string pollutant_id { get; set; }
     public int limit_level { get; set; }
 }
 
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
 public class ExtraData
 {
     public long dt { get; set; }

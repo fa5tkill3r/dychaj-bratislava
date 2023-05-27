@@ -138,7 +138,11 @@ public class ShmuAirService : IWeatherService
         foreach (var shmuResponse in station)
         foreach (var data in shmuResponse.data)
         {
-            var sensor = bpContext.Sensor.FirstOrDefault(s => s.UniqueId == data.pollutant_id);
+            if (data.value == null)
+                continue;
+            var sensor = bpContext.Sensor
+                .Where(s => s.ModuleId == module.Id)
+                .FirstOrDefault(s => s.UniqueId == data.pollutant_id);
             if (sensor == null)
             {
                 _logger.LogInformation("ShmuService: Sensor {SensorId} not found", data.pollutant_id);
