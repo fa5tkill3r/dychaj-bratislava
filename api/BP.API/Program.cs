@@ -15,7 +15,8 @@ builder.Configuration
     .SetBasePath(AppContext.BaseDirectory)
     .AddJsonFile("appsettings.json", true, true) // Load the production settings
     .AddJsonFile("appsettings.development.json", true, true) // Load the development settings
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true) // Load environment-specific settings
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true,
+        true) // Load environment-specific settings
     .Build();
 
 
@@ -47,6 +48,25 @@ if (cyklokoaliciaConnection != null)
         options.UseMySQL(cyklokoaliciaConnection));
 
 
+var corsPolicy = "CorsPolicy";
+
+builder.Services.AddCors(options =>
+{
+#if DEBUG
+    options.AddPolicy(corsPolicy,
+        corsPolicyBuilder => corsPolicyBuilder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+#else
+    options.AddPolicy("CorsPolicy",
+        corsPolicyBuilder => corsPolicyBuilder
+            .WithOrigins("https://air.masmute.net")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+#endif
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,6 +77,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+
+app.UseCors(corsPolicy);
 
 app.UseAuthorization();
 
