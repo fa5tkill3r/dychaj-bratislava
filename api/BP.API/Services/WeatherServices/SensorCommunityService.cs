@@ -48,7 +48,7 @@ public class SensorCommunityService : IWeatherService
 
             var response =
                 await Requests.Get<List<SensorCommunity>>(
-                    $"https://data.sensor.community/airrohr/v1/sensor/{uniqueId}/");
+                    $"https://data.sensor.community/airrohr/v1/sensor/{uniqueId}/", 10);
             if (response == null)
             {
                 _logger.LogError("SensorCommunityService: Failed to get data for sensor {SensorUniqueId}",
@@ -84,9 +84,16 @@ public class SensorCommunityService : IWeatherService
                 await bpContext.SaveChangesAsync();
             }
         });
-
-        var tasks = uniqueIds.Select(uniqueId => fetchData(uniqueId)).ToList();
-        await Task.WhenAll(tasks);
+        
+        /*
+         * This is a workaround for the fact that the API only allows 2 request per second.
+         * In case that some other function calls same endpoint, we always have one request left.
+         * Otherwise we would get error 500.
+         */
+        foreach (var uniqueId in uniqueIds)
+        {
+            await fetchData(uniqueId);
+        }
     }
 
     public async Task AddSensor(Module module, string sensorId)

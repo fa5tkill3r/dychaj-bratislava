@@ -5,16 +5,34 @@ namespace BP.API.Utility;
 
 public static class Requests
 {
-    public static async Task<T?> Get<T>(string url)
+    public static async Task<T?> Get<T>(string url, int retries = 0)
     {
-        var request = (HttpWebRequest) WebRequest.Create(url);
-        request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        try
+        {
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(json);
+            }
 
-        using var response = (HttpWebResponse) await request.GetResponseAsync();
-        await using var stream = response.GetResponseStream();
-        using var reader = new StreamReader(stream);
+            if (retries > 0)
+            {
+                return await Get<T>(url, retries - 1);
+            }
 
-        return JsonConvert.DeserializeObject<T>(await reader.ReadToEndAsync());
+            return default;
+        }
+        catch (Exception e)
+        {
+            if (retries > 0)
+            {
+                return await Get<T>(url, retries - 1);
+            }
+
+            return default;
+        }
     }
 
     public static async Task<Stream?> GetFileStream(string url)
