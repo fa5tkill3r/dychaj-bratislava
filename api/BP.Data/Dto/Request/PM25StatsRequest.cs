@@ -2,5 +2,5 @@
 
 public class PM25StatsRequest
 {
-    public int[]? ModuleIds { get; set; }
+    public int[]? Modules { get; set; }
 }

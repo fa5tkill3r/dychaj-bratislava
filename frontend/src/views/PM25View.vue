@@ -1,81 +1,95 @@
 <template>
   <v-container>
     <h1>PM25View</h1>
-    <div>
-      <v-select
-        class='ml-auto mr-0'
-        style='width: 15em;'
-        label='Select'
-        :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-      ></v-select>
+    <div v-if='stats'>
+      <div>
+        <v-autocomplete
+          v-model='selectedModules'
+          chips
+          multiple
+          name='id'
+          item-title='name'
+          item-value='id'
+          class='ml-auto mr-0'
+          label='Select'
+          :items='stats.availableModules'
+          @update:model-value='fetchStats'
+        ></v-autocomplete>
+      </div>
+      <div
+        v-for='module in stats.modules'
+        :key='module.module.id'
+      >
+        <h3>{{ module.module.name }}</h3>
+        <v-row
+          justify='center'
+        >
+          <v-col
+            cols='auto'
+          >
+            <v-sheet
+              elevation='4'
+              rounded
+              width='150'
+              height='150'
+            >
+              <div class='d-flex flex-column justify-center align-center fill-height'>
+                <span class='title'>10</span>
+                <span>prekročených hodín</span>
+                <span>Za tento rok</span>
+              </div>
+            </v-sheet>
+          </v-col>
+          <v-col
+            cols='auto'
+          >
+            <v-sheet
+              elevation='4'
+              rounded
+              width='150'
+              height='150'
+            >
+              <div class='d-flex flex-column justify-center align-center fill-height'>
+                <span class='title'>{{ module.current }} <sub>µg/m3</sub> </span>
+                <span>Aktualne</span>
+              </div>
+            </v-sheet>
+          </v-col>
+          <v-col
+            cols='auto'
+          >
+            <v-sheet
+              elevation='4'
+              rounded
+              width='150'
+              height='150'
+            >
+              <div class='d-flex flex-column justify-center align-center fill-height'>
+                <span class='title'>{{ module.yearValueAvg }} <sub>µg/m3</sub> </span>
+                <span>Priemer</span>
+                <span>Za posledný rok</span>
+              </div>
+            </v-sheet>
+          </v-col>
+          <v-col
+            cols='auto'
+          >
+            <v-sheet
+              elevation='4'
+              rounded
+              width='150'
+              height='150'
+            >
+              <div class='d-flex flex-column justify-center align-center fill-height'>
+                <span class='title'>{{ module.dayValueAvg }} <sub>µg/m3</sub> </span>
+                <span>Priemer</span>
+                <span>Za den</span>
+              </div>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </div>
     </div>
-    <v-row
-      justify='center'
-    >
-      <v-col
-        cols='auto'
-      >
-        <v-sheet
-          elevation='4'
-          rounded
-          width='150'
-          height='150'
-        >
-          <div class='d-flex flex-column justify-center align-center fill-height'>
-            <span class='title'>10</span>
-            <span>prekročených hodín</span>
-            <span>Za tento rok</span>
-          </div>
-        </v-sheet>
-      </v-col>
-      <v-col
-        cols='auto'
-      >
-        <v-sheet
-          elevation='4'
-          rounded
-          width='150'
-          height='150'
-        >
-          <div class='d-flex flex-column justify-center align-center fill-height'>
-            <span class='title'>23.5 <sub>µg/m3</sub> </span>
-            <span>Aktualne</span>
-          </div>
-        </v-sheet>
-      </v-col>
-      <v-col
-        cols='auto'
-      >
-        <v-sheet
-          elevation='4'
-          rounded
-          width='150'
-          height='150'
-        >
-          <div class='d-flex flex-column justify-center align-center fill-height'>
-            <span class='title'>4.4 <sub>µg/m3</sub> </span>
-            <span>Priemer</span>
-            <span>Za poslednu hodinu</span>
-          </div>
-        </v-sheet>
-      </v-col>
-      <v-col
-        cols='auto'
-      >
-        <v-sheet
-          elevation='4'
-          rounded
-          width='150'
-          height='150'
-        >
-          <div class='d-flex flex-column justify-center align-center fill-height'>
-            <span class='title'>17.4 <sub>µg/m3</sub> </span>
-            <span>Priemer</span>
-            <span>Za den</span>
-          </div>
-        </v-sheet>
-      </v-col>
-    </v-row>
 
 
     <div ref='lineChart' class='chart mt-12'></div>
@@ -86,13 +100,29 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import * as echarts from 'echarts'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { ky } from '@/lib/ky'
 
 const lineChart = ref(null)
 const mapContainer = ref(null)
+const stats = ref(null)
+const selectedModules = ref([])
+
+const fetchStats = async (ids) => {
+  stats.value = await ky.post('pm25/stats', {
+    json: {
+      modules: ids,
+    },
+  }).json()
+
+  selectedModules.value = stats.value.modules.map((module) => module.module.id)
+}
+
+fetchStats()
+
 
 const initChart = () => {
   const chart = echarts.init(lineChart.value)
@@ -133,7 +163,8 @@ const initChart = () => {
         name: 'Email',
         type: 'line',
         stack: 'Total',
-        data: [120, 132, 101, 134, 90, 230, 210],
+        connectNulls: true,
+        data: [120, null, 101, 134, 90, 230, 210],
       },
       {
         name: 'Union Ads',

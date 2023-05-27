@@ -22,14 +22,14 @@ public class PM25Service
 
     public async Task<PM25StatsResponse> GetStats(PM25StatsRequest? request)
     {
-        var moduleIds = request?.ModuleIds;
+        var moduleIds = request?.Modules;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == ValueType.Pm25);
 
 
-        if (moduleIds != null)
+        if (moduleIds != null && moduleIds.Any())
         {
             var ids = moduleIds;
             query = query.Where(s => ids.Contains(s.Module.Id));
