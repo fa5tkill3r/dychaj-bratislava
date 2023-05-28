@@ -184,19 +184,38 @@ public class Pm25Service
 
     public async Task<object> GetMap()
     {
-        var sensors = await _bpContext.Sensor
-            .Include(s => s.Module)
-            .ThenInclude(m => m.Location)
-            .Include(s => s.Readings
-                .OrderByDescending(r => r.DateTime)
-                .Take(1))
-            .Where(s => s.Type == ValueType.Pm25)
-            .ToListAsync();
+        var query = await  (
+            from s in _bpContext.Sensor
+            join m in _bpContext.Module on s.ModuleId equals m.Id
+            join l in _bpContext.Location on m.LocationId equals l.Id into locations
+            from l in locations.DefaultIfEmpty()
+            join r in _bpContext.Reading on s.Id equals r.SensorId into readings
+            from r in readings
+                .Where(r => r.DateTime == _bpContext.Reading
+                    .Where(r => r.SensorId == s.Id)
+                    .Max(r => r.DateTime))
+                .DefaultIfEmpty()
+            where s.Type == ValueType.Pm25
+            select new
+            {
+                s,
+                m,
+                l,
+                r
+            }
+        ).ToListAsync();
         
-
+        foreach (var x1 in query)
+        {
+            x1.s.Module = x1.m;
+            x1.s.Module.Location = x1.l;
+            x1.s.Readings = new List<Reading>() {x1.r};
+        }
+        
+        var sensors = query.Select(x => x.s).ToList();
 
         var response = new List<ModuleWithReadingsDto>();
-        
+
         foreach (var sensor in sensors)
         {
             response.Add(new ModuleWithReadingsDto()
@@ -207,8 +226,8 @@ public class Pm25Service
                 Readings = _mapper.Map<List<ReadingDto>>(sensor.Readings),
             });
         }
-        
-        
+
+
         return response;
     }
 }
