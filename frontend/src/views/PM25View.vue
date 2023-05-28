@@ -293,6 +293,7 @@ onMounted(async () => {
           `<div>
             <h3>${module.name}</h3>
             <h4>PM 2.5: ${module.readings[0].value} µg/m3</h4>
+            <p>${new Date(module.readings[0].dateTime).toLocaleString('sk')}</p>
             <p>${module.location?.address}</p>
           </div>`,
         'value': module.readings[0].value,
