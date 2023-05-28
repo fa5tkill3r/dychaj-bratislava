@@ -181,4 +181,34 @@ public class Pm25Service
             DateTime = from,
         };
     }
+
+    public async Task<object> GetMap()
+    {
+        var sensors = await _bpContext.Sensor
+            .Include(s => s.Module)
+            .ThenInclude(m => m.Location)
+            .Include(s => s.Readings
+                .OrderByDescending(r => r.DateTime)
+                .Take(1))
+            .Where(s => s.Type == ValueType.Pm25)
+            .ToListAsync();
+        
+
+
+        var response = new List<ModuleWithReadingsDto>();
+        
+        foreach (var sensor in sensors)
+        {
+            response.Add(new ModuleWithReadingsDto()
+            {
+                Id = sensor.Module.Id,
+                Name = sensor.Module.Name,
+                Location = _mapper.Map<LocationDto>(sensor.Module.Location),
+                Readings = _mapper.Map<List<ReadingDto>>(sensor.Readings),
+            });
+        }
+        
+        
+        return response;
+    }
 }

@@ -35,4 +35,11 @@ public class PM25Controller : ControllerBase
     {
         return Ok(await _pm25Service.GetWeeklyComparison(request));
     }
+    
+    [HttpGet]
+    [Route("map")]
+    public async Task<IActionResult> GetMap()
+    {
+        return Ok(await _pm25Service.GetMap());
+    }
 }
