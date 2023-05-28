@@ -1,4 +1,4 @@
-﻿using BP.API.Services;
+using BP.API.Services;
 using BP.Data.Dto.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,5 +41,12 @@ public class PM25Controller : ControllerBase
     public async Task<IActionResult> GetMap()
     {
         return Ok(await _pm25Service.GetMap());
+    }
+    
+    [HttpGet]
+    [Route("exceed")]
+    public async Task<IActionResult> GetYearlyExceed()
+    {
+        return Ok(await _pm25Service.GetYearlyExceed());
     }
 }

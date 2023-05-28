@@ -230,4 +230,34 @@ public class Pm25Service
 
         return response;
     }
+
+    public async Task<List<Pm25ExceedResponse>> GetYearlyExceed()
+    {
+        var response = new List<Pm25ExceedResponse>();
+        
+        var sensorsWithExceed = await _bpContext.Sensor
+            .Include(s => s.Module)
+            .ThenInclude(m => m.Location)
+            .Where(s => s.Type == ValueType.Pm25)
+            .Select(s => new
+            {
+                Sensor = s,
+                Exceed = _bpContext.Reading
+                    .Where(r => r.SensorId == s.Id && r.DateTime.Date >= DateTime.UtcNow.Date.AddDays(-365))
+                    .GroupBy(r => r.DateTime.Date)
+                    .Count(g => g.Average(r => r.Value) > 25),
+            })
+            .ToListAsync();
+
+        foreach (var sensorWithExceed in sensorsWithExceed)
+        {
+            response.Add(new Pm25ExceedResponse()
+            {
+                Module = _mapper.Map<ModuleDto>(sensorWithExceed.Sensor.Module),
+                Exceed = sensorWithExceed.Exceed,
+            });
+        }
+        
+        return response;
+    }
 }

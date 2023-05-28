@@ -102,8 +102,9 @@
       </v-btn>
     </div>
 
-    <div ref='lineChart' class='chart mt-12'></div>
-    <div ref='mapContainer' class='map-container mt-12'></div>
+    <div ref='lineChart' class='chart mt-12' />
+    <div ref='exceedChart' class='chart mt-12'/>
+    <div ref='mapContainer' class='map-container mt-12' />
 
   </v-container>
   <v-dialog
@@ -128,15 +129,12 @@ import { ky } from '@/lib/ky'
 import FilterComponent from '@/components/FilterComponent.vue'
 
 const lineChart = ref(null)
+const exceedChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
 const selectedModules = ref([])
 const weeklyComparisonSelectedModules = ref([])
 const dialog = ref(false)
-
-const test = (value) => {
-  console.log(value)
-}
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
@@ -203,6 +201,73 @@ const fetchWeeklyComparison = async (ids) => {
     },
     yAxis: {
       type: 'value',
+      axisLabel: {
+        formatter: '{value} µg/m3',
+      },
+    },
+    series: series,
+  })
+
+  window.addEventListener('resize', () => {
+    chart.resize()
+  })
+}
+
+const fetchYearlyExceedances = async () => {
+  const res = await ky.get('pm25/exceed').json()
+
+  const sensors = []
+  const values = []
+
+  res.forEach(item => {
+    const sensorName = item.module.name
+    const exceedance = item.exceed
+
+    sensors.push(sensorName)
+    values.push(exceedance)
+  })
+
+  const series = [{
+    name: 'Počet prekročení',
+    type: 'bar',
+    data: values,
+  }]
+
+  const chart = echarts.init(exceedChart.value)
+  chart.clear()
+
+  chart.setOption({
+    title: {
+      text: 'Prekročenia limitu PM 2.5 za posledných 365 dní',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['Počet prekročení'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: true,
+      data: sensors,
+      axisLabel:
+      {
+        rotate: 45,
+      },
+    },
+    yAxis: {
+      type: 'value',
     },
     series: series,
   })
@@ -215,6 +280,7 @@ const fetchWeeklyComparison = async (ids) => {
 
 fetchStats()
 fetchWeeklyComparison()
+fetchYearlyExceedances()
 
 onMounted(async () => {
   const mapResponse = await ky.get('pm25/map').json()
