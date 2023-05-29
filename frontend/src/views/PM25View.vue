@@ -104,9 +104,18 @@
 
 
     <div ref='lineChart' class='chart mt-12' />
-    <compare-chart-filter :available-modules='availableModules' selected-modules='' />
     <div ref='exceedChart' class='chart mt-12' />
-    <div ref='comparisonChart' class='chart mt-12' />
+    <div class='d-flex justify-center flex-column align-center'>
+      <h2>Porovnanie medzi týžnami</h2>
+      <v-btn
+        color='primary'
+        @click='compareChartDialog = true'
+      >
+        Generuj
+      </v-btn>
+      <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
+    </div>
+    <v-divider class='mt-12'/>
     <div ref='mapContainer' class='map-container mt-12' />
 
   </v-container>
@@ -118,6 +127,13 @@
       :tags='stats?.availableModules' :selected-tags='weeklyComparisonSelectedModules'
       @update:tags='fetchWeeklyComparison'></filter-component>
 
+  </v-dialog>
+
+  <v-dialog
+    v-model='compareChartDialog'
+    width='auto'
+    >
+    <compare-chart-filter :available-modules='availableModules' @update='fetchComparisonChart' />
   </v-dialog>
 </template>
 
@@ -140,7 +156,13 @@ const stats = ref(null)
 const selectedModules = ref([])
 const weeklyComparisonSelectedModules = ref([])
 const dialog = ref(false)
+const compareChartDialog = ref(false)
 const availableModules = ref([])
+const showComparisonChart = ref(false)
+
+const test = (modules) => {
+  console.log(modules)
+}
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
@@ -283,13 +305,15 @@ const fetchYearlyExceedances = async () => {
   })
 }
 
-const fetchComparisonChart = async () => {
+const fetchComparisonChart = async (options) => {
+  compareChartDialog.value = false
+  showComparisonChart.value = true
   const res = await ky.post('pm25/compare', {
     json: {
-      modules: [6, 10, 12],
-      weekDays: [1, 2],
-      hours: [8, 9, 10, 18, 19, 20],
-      weeks: 2,
+      modules: options.modules,
+      weekDays: options.days,
+      hours: options.hours,
+      weeks: options.weeks,
     },
   }).json()
 
@@ -323,7 +347,7 @@ const fetchComparisonChart = async () => {
 
       areas.push({
         xAxis: end.toLocaleString('sk'),
-        name: 'Weekend',
+        name: ''
       })
 
       start = date
@@ -356,7 +380,7 @@ const fetchComparisonChart = async () => {
       trigger: 'axis',
     },
     legend: {
-      data: ['Počet prekročení'],
+      data: series.map((serie) => serie.name),
     },
     grid: {
       left: '3%',
@@ -426,7 +450,6 @@ fetchAvailableModules()
 fetchStats()
 fetchWeeklyComparison()
 fetchYearlyExceedances()
-fetchComparisonChart()
 
 onMounted(async () => {
   const mapResponse = await ky.get('pm25/map').json()

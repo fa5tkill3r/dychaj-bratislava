@@ -270,6 +270,12 @@ public class Pm25Service
             .ToListAsync();
         
         var response = new List<ModuleWithReadingsDto>();
+        
+        request.Hours = request.Hours.OrderBy(h => h).ToList();
+        request.WeekDays = request.WeekDays.OrderBy(w => w).ToList();
+
+        if (request.Weeks > 3)
+            throw new Exception("Max 3 weeks allowed");
 
         
 
@@ -328,13 +334,15 @@ public class Pm25Service
                     
                     module.Readings.Add(new ReadingDto()
                     {
-                        DateTime = lastReading,
+                        DateTime = lastReading + TimeSpan.FromMilliseconds(1),
                         Value = null,
                     });
                     
                     start = start.AddDays(1);
                 }
             }
+            
+            module.Readings = module.Readings.OrderBy(r => r.DateTime).ToList();
             
             response.Add(module);
         }

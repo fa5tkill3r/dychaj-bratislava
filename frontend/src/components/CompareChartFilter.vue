@@ -10,11 +10,16 @@
     >
 
       <div class='d-flex align-center justify-space-between'>
-        <h2>Filter miest</h2>
+        <h2>Porovanie miest</h2>
         <v-btn
           class='ms-2'
           icon
-          @click='() => $emit("update:tags", selection.map((index) => tags[index].id))'
+          @click='() => $emit("update", {
+            modules: selection.map((index) => availableModules[index].id).sort(),
+            days: selectedDays.map((index) => index + 1).sort(),
+            hours: selectedHours.map((index) => index).sort(),
+            weeks: selectedWeeks,
+          })'
         >
           <v-icon>mdi-check-bold</v-icon>
         </v-btn>
@@ -22,6 +27,7 @@
     </v-sheet>
 
     <div class='pa-4'>
+      <h3>Vyber miesta na porovnanie: </h3>
       <v-chip-group
         v-model='selection'
         selected-class='text-primary'
@@ -36,46 +42,70 @@
           {{ module.name }}
         </v-chip>
       </v-chip-group>
-    </div>
 
-    <div class='d-flex justify-center pa-4'>
-      <v-btn-toggle
-        v-model='days'
-        multiple='true'
-        variant='outlined'
-        divided='true'
-      >
-        <v-btn v-for='(day, index) in days' :key='index'>
-          {{ day }}
-        </v-btn>
-      </v-btn-toggle>
-
-    </div>
-
-    <div class='d-flex justify-center pa-4'>
-      <v-item-group
-        v-model="selectedHours"
-        class="d-flex justify-sm-space-between px-6 pt-2 pb-6"
-      >
-        <v-item
-          v-for="n in 23"
-          :key="n"
+      <h3>Vyber dni na porovnanie: </h3>
+      <div class='d-flex justify-center'>
+        <v-btn-toggle
+          v-model='selectedDays'
+          :multiple='true'
+          variant='outlined'
+          :divided='true'
         >
-          <template #default="{ toggle }">
-            <v-btn
-              :icon="`mdi-numeric-${n}`"
-              border
-              height="40"
-              variant="text"
-              width="40"
-              @click="toggle"
-            ></v-btn>
-          </template>
-        </v-item>
-      </v-item-group>
+          <v-btn v-for='(day, index) in days' :key='index'>
+            {{ day }}
+          </v-btn>
+        </v-btn-toggle>
 
+      </div>
+
+      <h3>Hodiny:</h3>
+      <div class='d-flex justify-center'>
+        <v-item-group
+          v-model='selectedHours'
+          :multiple='true'
+          class='d-flex justify-sm-space-between px-6 pt-2 pb-6'
+        >
+          <v-row
+            justify='space-evenly'
+            :dense='true'
+          >
+            <v-col
+              v-for='n in 24'
+              :key='n'
+              cols='auto'
+            >
+              <v-item>
+                <template #default='{ toggle, isSelected }'>
+                  <v-btn
+                    icon
+                    :active='isSelected'
+                    color='primary'
+                    border
+                    height='40'
+                    variant='text'
+                    width='40'
+                    @click='toggle'
+                  >{{ n - 1 }}
+                  </v-btn>
+
+                </template>
+              </v-item>
+            </v-col>
+          </v-row>
+        </v-item-group>
+      </div>
+
+      <h3>Počet týždňov:</h3>
+      <v-slider
+        v-model='selectedWeeks'
+        :min='1'
+        :max='3'
+        thumb-label
+        step='1'
+      >
+
+      </v-slider>
     </div>
-
   </v-sheet>
 </template>
 
@@ -85,6 +115,7 @@ import { ref } from 'vue'
 const selection = ref([])
 const selectedDays = ref([])
 const selectedHours = ref([])
+const selectedWeeks = ref(1)
 const days = ref([
   'Po',
   'Ut',
@@ -94,47 +125,16 @@ const days = ref([
   'So',
   'Ne',
 ])
-const hours = [
-  '00:00',
-  '01:00',
-  '02:00',
-  '03:00',
-  '04:00',
-  '05:00',
-  '06:00',
-  '07:00',
-  '08:00',
-  '09:00',
-  '10:00',
-  '11:00',
-  '12:00',
-  '13:00',
-  '14:00',
-  '15:00',
-  '16:00',
-  '17:00',
-  '18:00',
-  '19:00',
-  '20:00',
-  '21:00',
-  '22:00',
-  '23:00',
-]
 
 
-
-
-
-const props = defineProps({
+defineProps({
   availableModules: {
     type: Array,
     required: true,
   },
-  selectedModules: {
-    type: Array,
-    required: true,
-  },
 })
+
+defineEmits(['update'])
 
 
 </script>
