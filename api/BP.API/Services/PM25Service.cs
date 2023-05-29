@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BP.Data;
 using BP.Data.DbModels;
@@ -92,15 +92,14 @@ public class Pm25Service
         return response;
     }
 
-    public async Task<List<LocationDto>> GetLocations()
+    public async Task<List<ModuleDto>> GetLocations()
     {
         var locations = await _bpContext.Sensor.Where(s => s.Type == ValueType.Pm25)
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Select(s => s.Module.Location)
             .Distinct()
             .ToListAsync();
-        return _mapper.Map<List<LocationDto>>(locations);
+        return _mapper.Map<List<ModuleDto>>(locations);
     }
 
     public async Task<Pm25WeeklyComparisonResponse> GetWeeklyComparison(Pm25WeeklyComparisonRequest? request)
