@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BP.Data;
 using BP.Data.DbModels;
@@ -257,6 +257,89 @@ public class Pm25Service
             });
         }
         
+        return response;
+    }
+
+    public async Task<object?> GetCompare(Pm25CompareRequest request)
+    {
+        var sensors = await _bpContext.Sensor
+            .Include(s => s.Module)
+            .ThenInclude(m => m.Location)
+            .Where(s => s.Type == ValueType.Pm25)
+            .Where(s => request.Modules.Contains(s.ModuleId))
+            .ToListAsync();
+        
+        var response = new List<ModuleWithReadingsDto>();
+
+        
+
+        foreach (var sensor in sensors)
+        {
+            var start = DateTime.UtcNow.Date.AddDays(request.Weeks * -7);
+            var module = _mapper.Map<ModuleWithReadingsDto>(sensor.Module);
+            module.Readings = new List<ReadingDto>();
+            
+            for (int i = 0; i < request.Weeks; i++)
+            {
+                foreach (var dayOfWeek in request.WeekDays)
+                {
+                    while (start.DayOfWeek != dayOfWeek)
+                    {
+                        start = start.AddDays(1);
+                    }
+
+
+                    var lastReading = DateTime.MinValue;
+                    foreach (var hour in request.Hours)
+                    {
+                        if (lastReading != DateTime.MinValue && hour - lastReading.Hour > 1)
+                        {
+                            module.Readings.Add(new ReadingDto()
+                            {
+                                DateTime = lastReading,
+                                Value = null,
+                            });
+                        }
+                        
+                        var from = new DateTime(start.Year, start.Month, start.Day, hour, 0, 0);
+                        
+                        var readings = await _bpContext.Reading
+                            .Where(r => r.SensorId == sensor.Id)
+                            .Where(r => r.DateTime >= from && r.DateTime < from.AddHours(1))
+                            .OrderBy(r => r.DateTime)
+                            .ToListAsync();
+
+                        for (var startMinute = 0; startMinute < 60; startMinute += 10)
+                        {
+                            var endMinute = startMinute + 10;
+                            var avg = readings
+                                .Where(r => r.DateTime.Minute >= startMinute && r.DateTime.Minute < endMinute)
+                                .Average(r => (decimal?) r.Value);
+
+                            module.Readings.Add(new ReadingDto()
+                            {
+                                DateTime = from.AddMinutes(startMinute),
+                                Value = avg != null ? Math.Round(avg.Value, 2) : null,
+                            });
+                            
+                            lastReading = from.AddMinutes(startMinute);
+                        }
+                    }
+                    
+                    module.Readings.Add(new ReadingDto()
+                    {
+                        DateTime = lastReading,
+                        Value = null,
+                    });
+                    
+                    start = start.AddDays(1);
+                }
+            }
+            
+            response.Add(module);
+        }
+
+
         return response;
     }
 }
