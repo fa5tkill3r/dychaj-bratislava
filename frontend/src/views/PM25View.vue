@@ -102,8 +102,11 @@
       </v-btn>
     </div>
 
+
     <div ref='lineChart' class='chart mt-12' />
-    <div ref='exceedChart' class='chart mt-12'/>
+    <compare-chart-filter :available-modules='availableModules' selected-modules='' />
+    <div ref='exceedChart' class='chart mt-12' />
+    <div ref='comparisonChart' class='chart mt-12' />
     <div ref='mapContainer' class='map-container mt-12' />
 
   </v-container>
@@ -127,14 +130,17 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { ky } from '@/lib/ky'
 import FilterComponent from '@/components/FilterComponent.vue'
+import CompareChartFilter from '@/components/CompareChartFilter.vue'
 
 const lineChart = ref(null)
 const exceedChart = ref(null)
+const comparisonChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
 const selectedModules = ref([])
 const weeklyComparisonSelectedModules = ref([])
 const dialog = ref(false)
+const availableModules = ref([])
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
@@ -262,9 +268,9 @@ const fetchYearlyExceedances = async () => {
       boundaryGap: true,
       data: sensors,
       axisLabel:
-      {
-        rotate: 45,
-      },
+        {
+          rotate: 45,
+        },
     },
     yAxis: {
       type: 'value',
@@ -277,10 +283,150 @@ const fetchYearlyExceedances = async () => {
   })
 }
 
+const fetchComparisonChart = async () => {
+  const res = await ky.post('pm25/compare', {
+    json: {
+      modules: [6, 10, 12],
+      weekDays: [1, 2],
+      hours: [8, 9, 10, 18, 19, 20],
+      weeks: 2,
+    },
+  }).json()
 
+  const categories = res[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
+
+  let days = []
+  const series = res.map((module) => {
+    const dates = res[0].readings.map((reading) => new Date(reading.dateTime))
+
+    const areas = []
+    let start = dates[0]
+    let end = null
+
+    for (let i = 0; i < dates.length; i++) {
+      const date = dates[i]
+
+
+      if (date.getDay() === start.getDay() && i !== dates.length - 1)
+        continue
+
+      const categoryDate = start.toLocaleDateString('sk')
+      if (days.indexOf(categoryDate) === -1) {
+        days.push(categoryDate)
+      }
+
+      if (i === dates.length - 1)
+        break
+
+      end = dates[i - 1]
+
+
+      areas.push({
+        xAxis: end.toLocaleString('sk'),
+        name: 'Weekend',
+      })
+
+      start = date
+      end = null
+    }
+
+    return {
+      name: module.name,
+      type: 'line',
+      connectNulls: false,
+      data: module.readings.map((reading) => reading.value),
+      markLine: {
+        symbol: ['none', 'none'],
+        data: areas,
+        label: {
+          show: false,
+        },
+      },
+    }
+  })
+
+  const chart = echarts.init(comparisonChart.value)
+  chart.clear()
+
+  chart.setOption({
+    title: {
+      text: 'Porovnanie znečistenia vzduchu',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['Počet prekročení'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '8%',
+      containLabel: true,
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    dataZoom: [
+      {
+        type: 'inside',
+      },
+      {
+        type: 'slider',
+      },
+    ],
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: true,
+        data: categories,
+        axisLabel: {
+          rotate: 45,
+        },
+      },
+      {
+        position: 'bottom',
+        offset: 90,
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        // hide axis pointer
+        axisPointer: {
+          show: false,
+        },
+        data: days,
+      },
+    ],
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} µg/m3',
+      },
+    },
+    series: series,
+  })
+
+  window.addEventListener('resize', () => {
+    chart.resize()
+  })
+}
+
+const fetchAvailableModules = async () => {
+  await ky.get('pm25').json().then((res) => {
+    availableModules.value = res
+  })
+}
+
+fetchAvailableModules()
 fetchStats()
 fetchWeeklyComparison()
 fetchYearlyExceedances()
+fetchComparisonChart()
 
 onMounted(async () => {
   const mapResponse = await ky.get('pm25/map').json()
