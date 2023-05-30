@@ -46,24 +46,28 @@ public class CykloKoaliciaService : IWeatherService
             .Distinct()
             .ToList();
         var sensorValues = await _ckVzduchContext.SensorsValues
-            .Where(value => sensorIds.Contains((int)value.SensorId))
+            .Where(value => sensorIds.Contains((int) value.SensorId))
             .Where(value => value.CreatedAt >= DateTime.UtcNow.AddDays(-1))
             .GroupBy(value => value.SensorId)
-            .ToDictionaryAsync(group => (int)group.Key, group => group.MaxBy(v => v.CreatedAt));
+            .ToDictionaryAsync(group => (int) group.Key, group => group.MaxBy(v => v.CreatedAt));
 
         foreach (var sensor in sensors)
         {
             if (!sensorValues.TryGetValue(int.Parse(sensor.UniqueId), out var value) || value == null)
             {
-                _logger.LogError("CykloKoaliciaService: Failed to get sensor value for {SensorUniqueId} with module {ModuleId}", sensor.UniqueId, sensor.ModuleId);
+                _logger.LogError(
+                    "CykloKoaliciaService: Failed to get sensor value for {SensorUniqueId} with module {ModuleId}",
+                    sensor.UniqueId, sensor.ModuleId);
                 continue;
             }
 
             var datetime = value.CreatedAt?.ToUniversalTime() ?? DateTime.UtcNow;
-            
+
             if (sensor.Readings.Any(r => r.DateTime == datetime))
             {
-                _logger.LogInformation("CykloKoaliciaService: Sensor {SensorUniqueId} already has reading for {DateTime}", sensor.UniqueId, datetime);
+                _logger.LogInformation(
+                    "CykloKoaliciaService: Sensor {SensorUniqueId} already has reading for {DateTime}", sensor.UniqueId,
+                    datetime);
                 continue;
             }
 
@@ -86,10 +90,9 @@ public class CykloKoaliciaService : IWeatherService
                     break;
             }
         }
-        
+
         await _bpContext.SaveChangesAsync();
     }
-
 
 
     public async Task AddSensor(Module module, string uniqueId)
@@ -163,15 +166,15 @@ public class CykloKoaliciaService : IWeatherService
         var sensors = await _ckVzduchContext.Sensors
             .Where(s => distinctSensors.Select(ds => ds!.SensorId).Contains(s.Id))
             .ToListAsync();
-        
+
         var result = new List<GetSensorsDto>();
-        
+
         foreach (var sensor in sensors)
         {
             var sensorValue = distinctSensors.FirstOrDefault(s => s!.SensorId == sensor.Id);
             if (sensorValue == null)
                 continue;
-            
+
             var types = new List<ValueType>();
             if (sensorValue.Humidity != 0)
                 types.Add(ValueType.Humidity);
@@ -184,15 +187,117 @@ public class CykloKoaliciaService : IWeatherService
             if (sensorValue.Temperature != 0)
                 types.Add(ValueType.Temp);
 
-            result.AddRange(types.Select(type => new GetSensorsDto() {Name = sensor.Location, UniqueId = sensor.Number, Type = type}));
+            result.AddRange(types.Select(type => new GetSensorsDto()
+                {Name = sensor.Location, UniqueId = sensor.Number, Type = type}));
         }
-        
+
         return result;
     }
 
     public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
     {
-        throw new NotImplementedException();
+        var query = _bpContext.Sensor
+            .Include(s => s.Module)
+            .Where(s => s.Module.Source == Source.CykloKoalicia);
+
+        if (!string.IsNullOrEmpty(uniqueId))
+            query = query.Where(s => s.Module.UniqueId == uniqueId);
+
+        var sensors = await query.ToListAsync();
+
+        var sensorIds = sensors.Select(s => uint.Parse(s.UniqueId))
+            .Distinct()
+            .ToList();
+
+
+        foreach (var sensorId in sensorIds)
+        {
+            var totalValues = await _ckVzduchContext.SensorsValues
+                .Where(s => s.SensorId == sensorId && s.CreatedAt > from && s.CreatedAt < to)
+                .CountAsync();
+
+            var skip = 0;
+            var take = 10000;
+            while (true)
+            {
+                var sensorsValuesPart = await _ckVzduchContext.SensorsValues
+                    .Where(s => s.SensorId == sensorId && s.CreatedAt > from && s.CreatedAt < to)
+                    .OrderBy(s => s.CreatedAt)
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync();
+
+                var readings = new List<Reading>();
+                foreach (var value in sensorsValuesPart)
+                {
+                    foreach (var sensor in sensors)
+                    {
+                        var datetime = value.CreatedAt?.ToUniversalTime() ?? DateTime.UtcNow;
+
+                        switch (sensor.Type)
+                        {
+                            case ValueType.Humidity:
+                                readings.Add(CreateReadingObject(sensor, value.Humidity, datetime));
+                                break;
+                            case ValueType.Pressure:
+                                if (value.Pressure == 0)
+                                    continue;
+                                readings.Add(CreateReadingObject(sensor, value.Pressure, datetime));
+                                break;
+                            case ValueType.Temp:
+                                if (value.Temperature is < -100 or > 100)
+                                    continue;
+                                readings.Add(CreateReadingObject(sensor, value.Temperature, datetime));
+                                break;
+                            case ValueType.Pm10:
+                                readings.Add(CreateReadingObject(sensor, value.Pm10, datetime));
+                                break;
+                            case ValueType.Pm25:
+                                readings.Add(CreateReadingObject(sensor, value.Pm25, datetime));
+                                break;
+                        }
+                    }
+                }
+
+                var readingsByDay = readings
+                    .GroupBy(r => new {r.Sensor, r.DateTime.Date})
+                    .Select(g => new {g.Key.Sensor, g.Key.Date, Readings = g.ToList()})
+                    .ToList();
+
+                foreach (var readingsDay in readingsByDay)
+                {
+                    var isReadingsDayInDb = await _bpContext.Reading
+                        .AnyAsync(r => r.SensorId == readingsDay.Sensor.Id && r.DateTime == readingsDay.Readings[0].DateTime );
+
+                    if (isReadingsDayInDb)
+                    {
+                        _logger.LogInformation(
+                            "CykloKoaliciaService: Data for sensor {SensorUniqueId} for day {Date} already in db",
+                            sensorId, readingsDay.Date);
+                        continue;
+                    }
+
+                    await _bpContext.Reading.AddRangeAsync(readingsDay.Readings);
+                    _logger.LogInformation(
+                        "CykloKoaliciaService: Data ({ReadingsCount}) for sensor {SensorUniqueId} for day {Date} added to db",
+                        readingsDay.Readings.Count, sensorId, readingsDay.Date);
+                }
+
+                await _bpContext.SaveChangesAsync();
+
+                if (sensorsValuesPart.Count < take)
+                    break;
+
+                skip += take;
+
+                _logger.LogInformation(
+                    "CykloKoaliciaService: Fetched data for sensor {SensorUniqueId}, {ValuesCount} values of {TotalValues}",
+                    sensorId, skip, totalValues);
+            }
+
+
+            _logger.LogInformation("CykloKoaliciaService: Fetched data for sensor {SensorUniqueId}", sensorId);
+        }
     }
 
     private async Task CreateSensor(Module module, SensorsValue sensorsValue, ValueType valueType, decimal value)
@@ -223,5 +328,15 @@ public class CykloKoaliciaService : IWeatherService
             Value = value,
             DateTime = dateTime,
         });
+    }
+
+    private Reading CreateReadingObject(Sensor sensor, decimal value, DateTime dateTime)
+    {
+        return new Reading()
+        {
+            Sensor = sensor,
+            Value = value,
+            DateTime = dateTime,
+        };
     }
 }
