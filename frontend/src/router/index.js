@@ -18,7 +18,13 @@ const routes = [
         path: '/pm25',
         name: 'PM25',
         component: () => import(/* webpackChunkName: "pm25" */ '@/views/PM25View.vue'),
-      }
+      },
+      {
+        path: '/temp',
+        name: 'Temp',
+        component: () => import(/* webpackChunkName: "pm25" */ '@/views/TempView.vue'),
+      },
+
     ],
   },
 ]
