@@ -257,10 +257,12 @@ public class Pm25Service
             });
         }
         
+        response = response.OrderByDescending(r => r.Exceed).ToList();
+        
         return response;
     }
 
-    public async Task<object?> GetCompare(Pm25CompareRequest request)
+    public async Task<List<ModuleWithReadingsDto>> GetCompare(Pm25CompareRequest request)
     {
         var sensors = await _bpContext.Sensor
             .Include(s => s.Module)
