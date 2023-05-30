@@ -1,4 +1,4 @@
-﻿using BP.API.Utility;
+using BP.API.Utility;
 using BP.Data;
 using BP.Data.DbHelpers;
 using BP.Data.DbModels;
@@ -237,7 +237,13 @@ public class SensorCommunityService : IWeatherService
         });
 
         var tasks = sensorUniqueIds.Select(sensor => fetchData(sensor)).ToList();
-        await Task.WhenAll(tasks);
+        
+        foreach (var task in tasks)
+        {
+            await task;
+        }   
+        
+        // await Task.WhenAll(tasks);
     }
 
     private async Task FetchDayTask(string sensorUniqueId, string sensorName, DateTime fetchDate)

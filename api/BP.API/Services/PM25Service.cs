@@ -23,7 +23,7 @@ public class Pm25Service
         _scopeFactory = scopeFactory;
     }
 
-    public async Task<PM25StatsResponse> GetStats(Pm25StatsRequest? request)
+    public async Task<PM25StatsResponse> GetStats(StatsRequest? request)
     {
         var moduleIds = request?.Modules;
         var query = _bpContext.Sensor
