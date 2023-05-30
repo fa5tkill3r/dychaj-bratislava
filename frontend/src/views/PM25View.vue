@@ -335,7 +335,7 @@ const fetchComparisonChart = async (options) => {
       if (date.getDay() === start.getDay() && i !== dates.length - 1)
         continue
 
-      const categoryDate = start.toLocaleDateString('sk')
+      const categoryDate = start.toLocaleDateString('sk', { weekday: 'long' })
       if (days.indexOf(categoryDate) === -1) {
         days.push(categoryDate)
       }
