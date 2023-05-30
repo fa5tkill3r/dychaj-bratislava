@@ -60,8 +60,18 @@ public class CykloKoaliciaService : IWeatherService
                     sensor.UniqueId, sensor.ModuleId);
                 continue;
             }
-
-            var datetime = value.CreatedAt?.ToUniversalTime() ?? DateTime.UtcNow;
+            
+            if (value.CreatedAt == null)
+            {
+                _logger.LogError(
+                    "CykloKoaliciaService: Failed to get sensor datetime for {SensorUniqueId} with module {ModuleId}",
+                    sensor.UniqueId, sensor.ModuleId);
+                continue;
+            }
+            
+            var ckCreatedAt = DateTime.SpecifyKind(value.CreatedAt.Value, DateTimeKind.Unspecified);
+            var ckTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            var datetime = TimeZoneInfo.ConvertTimeToUtc(ckCreatedAt, ckTimeZone);
 
             if (sensor.Readings.Any(r => r.DateTime == datetime))
             {
@@ -267,7 +277,7 @@ public class CykloKoaliciaService : IWeatherService
                 foreach (var readingsDay in readingsByDay)
                 {
                     var isReadingsDayInDb = await _bpContext.Reading
-                        .AnyAsync(r => r.SensorId == readingsDay.Sensor.Id && r.DateTime == readingsDay.Readings[0].DateTime );
+                        .AnyAsync(r => r.SensorId == readingsDay.Sensor.Id && r.DateTime == readingsDay.Readings[0].DateTime);
 
                     if (isReadingsDayInDb)
                     {
