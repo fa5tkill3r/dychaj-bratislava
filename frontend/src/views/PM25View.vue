@@ -147,6 +147,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { ky } from '@/lib/ky'
 import FilterComponent from '@/components/FilterComponent.vue'
 import CompareChartFilter from '@/components/CompareChartFilter.vue'
+import { mapboxToken } from '@/lib/constants'
 
 const lineChart = ref(null)
 const exceedChart = ref(null)
@@ -476,7 +477,7 @@ onMounted(async () => {
 
   // const firstCoordinates = features[0].geometry.coordinates
 
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZmFzdGtpbGxlciIsImEiOiJjbGI0YW5hbnYwbWVmM3BweGdudTAxb2FpIn0.wwCSm3SksqjjGOwYiqS-jQ'
+  mapboxgl.accessToken = mapboxToken
   const map = new mapboxgl.Map({
     container: mapContainer.value,
     style: 'mapbox://styles/mapbox/streets-v12',
