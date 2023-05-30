@@ -23,6 +23,7 @@ builder.Configuration
 // Add services to the container.
 builder.Services.AddScoped<ValueService>();
 builder.Services.AddScoped<Pm25Service>();
+builder.Services.AddScoped<BasicService>();
 
 
 builder.Services.AddScoped<GoogleService>();
