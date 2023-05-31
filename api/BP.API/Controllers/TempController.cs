@@ -18,7 +18,6 @@ public class TempController : ControllerBase
     }
     
     [HttpGet]
-    [Route("locations")]
     public async Task<IActionResult> GetLocations()
     {
         var locations = await _basicService.GetLocations(ValueType);

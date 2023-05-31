@@ -93,7 +93,7 @@ const fetchStats = async (ids) => {
 }
 
 const fetchLocations = async () => {
-  availableSensors.value = await ky.get('temp/locations').json()
+  availableSensors.value = await ky.get('temp').json()
 }
 
 const fetchComparisonChart = async (configure) => {
