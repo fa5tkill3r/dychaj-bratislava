@@ -49,7 +49,7 @@ public class BasicService
             query = query.Where(s => ids.Contains(s.Id));
         }
         else
-            query = query.Where(s => s.Default);
+            query = query.Where(s => s.Default).Take(1);
 
         var sensors = await query.ToListAsync();
 
