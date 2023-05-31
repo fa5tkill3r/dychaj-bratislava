@@ -9,8 +9,8 @@ const messages = {
 
 
 export let i18n = new createI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
+  locale: 'sk',
+  fallbackLocale: 'sk',
   globalInjection: true,
   messages: messages
 })

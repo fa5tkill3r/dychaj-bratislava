@@ -73,7 +73,12 @@
       :loading='weeklyComparison.loading'
       unit='µg/m³'/>
 
-    <div ref='exceedChart' class='chart mt-12' />
+    <ExceedanceChart
+      title='yearlyExceedances'
+      series-name='exceedancesCount'
+      :sensors='exceedChart.sensors'
+      :loading='exceedChart.loading'
+    />
     <div class='d-flex justify-center flex-column align-center'>
       <h2>{{ $t('airPollutionWeekComparison') }}</h2>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
@@ -100,9 +105,9 @@ import SheetInfo from '@/components/SheetInfo.vue'
 import ComparisonFilter from '@/components/ComparisonFilter.vue'
 import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
+import ExceedanceChart from '@/components/ExceedanceChart.vue'
 
 
-const exceedChart = ref(null)
 const comparisonChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
@@ -110,6 +115,10 @@ const statsSelectedSensors = ref([])
 const showComparisonChart = ref(false)
 const availableSensors = ref([])
 const weeklyComparison = ref({
+  sensors: [],
+  loading: false,
+})
+const exceedChart = ref({
   sensors: [],
   loading: false,
 })
@@ -144,67 +153,14 @@ const fetchWeeklyChart = async (ids) => {
 }
 
 const fetchYearlyExceedances = async () => {
+  exceedChart.value.loading = true
+
   const res = await ky.get('pm25/exceed').json()
 
-  const sensors = []
-  const values = []
-
-  res.forEach(item => {
-    const sensorName = item.sensor.name
-    const exceedance = item.exceed
-
-    sensors.push(sensorName)
-    values.push(exceedance)
-  })
-
-  const series = [{
-    name: t('exceedancesCount'),
-    type: 'bar',
-    data: values,
-  }]
-
-  const chart = echarts.init(exceedChart.value)
-  chart.clear()
-
-  chart.setOption({
-    title: {
-      text: t('yearlyExceedances'),
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    legend: {
-      data: [t('exceedancesCount')],
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: true,
-      data: sensors,
-      axisLabel:
-        {
-          rotate: 45,
-        },
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: series,
-  })
-
-  window.addEventListener('resize', () => {
-    chart.resize()
-  })
+  exceedChart.value = {
+    sensors: res,
+    loading: false,
+  }
 }
 
 const fetchComparisonChart = async (options) => {
