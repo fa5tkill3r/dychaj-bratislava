@@ -7,8 +7,8 @@ namespace BP.API.Controllers;
 public class TestController : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetReadings()
+    public Task<IActionResult> GetReadings()
     {
-        return Ok("Ok");
+        return Task.FromResult<IActionResult>(Ok("Ok"));
     }
 }

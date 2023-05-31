@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable ClassNeverInstantiated.Global
+#pragma warning disable CS8618
+using Newtonsoft.Json;
 
 namespace BP.Data.Models.SensorCommunity;
 

@@ -2,5 +2,5 @@
 
 public class SensorWithReadingsDto : SensorDto
 {
-    public List<ReadingDto> Readings { get; set; }
+    public List<ReadingDto> Readings { get; set; } = null!;
 }

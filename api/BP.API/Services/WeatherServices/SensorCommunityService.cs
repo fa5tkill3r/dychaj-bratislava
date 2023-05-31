@@ -35,7 +35,7 @@ public class SensorCommunityService : IWeatherService
             .Where(m => m.Source == Source.SensorCommunity)
             .Include(m => m.Sensors)
             .ToListAsync();
-        var sensors = modules.SelectMany(m => m.Sensors).ToList();
+        var sensors = modules.SelectMany(m => m.Sensors!).ToList();
         var uniqueIds = sensors.Select(s => s.UniqueId).Distinct().ToList();
 
         var fetchData = new Func<string, Task>(async uniqueId =>

@@ -105,12 +105,12 @@ public class ShmuAirService : IWeatherService
         await _bpContext.SaveChangesAsync();
     }
 
-    public async Task<List<GetSensorsDto>> GetSensors()
+    public Task<List<GetSensorsDto>> GetSensors()
     {
         throw new NotImplementedException();
     }
 
-    public async Task FetchData(DateTime from, DateTime to, string? uniqueId)
+    public Task FetchData(DateTime from, DateTime to, string? uniqueId)
     {
         throw new NotImplementedException();
     }

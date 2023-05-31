@@ -24,7 +24,7 @@ public static class Requests
 
             return default;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             if (retries > 0)
             {
@@ -42,7 +42,7 @@ public static class Requests
             using var client = new HttpClient();
             return await client.GetStreamAsync(url);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }

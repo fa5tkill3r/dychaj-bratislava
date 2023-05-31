@@ -2,6 +2,6 @@
 
 public class Pm25ExceedResponse
 {
-    public SensorDto Sensor { get; set; }
+    public SensorDto Sensor { get; set; } = null!;
     public int Exceed { get; set; }
 }

@@ -34,9 +34,9 @@ public class BasicService
         return _mapper.Map<List<SensorDto>>(sensors);
     }
 
-    public async Task<BasicStatsResponse> GetStats(ValueType valueType, StatsRequest request)
+    public async Task<BasicStatsResponse> GetStats(ValueType valueType, StatsRequest? request)
     {
-        var sensorIds = request.Sensors;
+        var sensorIds = request?.Sensors;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
@@ -84,14 +84,14 @@ public class BasicService
         return response;
     }
 
-    public async Task<BasicDataResponse> GetData(ValueType valueType, GetDataRequest request)
+    public async Task<BasicDataResponse> GetData(ValueType valueType, GetDataRequest? request)
     {
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == valueType);
 
-        if (request.Sensors != null && request.Sensors.Any())
+        if (request?.Sensors != null && request.Sensors.Any())
         {
             var ids = request.Sensors;
             query = query.Where(s => ids.Contains(s.Id));

@@ -21,11 +21,4 @@ public class ValueController : ControllerBase
         await _valueService.AddEspValue(sensorData);
         return Ok();
     }
-
-
-    [HttpGet]
-    public async Task<IActionResult> GetReadings()
-    {
-        return Ok("Hello World!");
-    }
 }

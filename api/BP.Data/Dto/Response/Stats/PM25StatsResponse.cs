@@ -7,7 +7,7 @@ public class Pm25StatsResponse
 
 public class Pm25StatsSensor
 {
-    public SensorDto Sensor { get; set; }
+    public SensorDto Sensor { get; set; } = null!;
     public decimal? YearValueAvg { get; set; }
     public decimal? DayValueAvg { get; set; }
     public decimal? Current { get; set; }

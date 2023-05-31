@@ -7,8 +7,8 @@ public class SensorDto
 {
     public int Id { get; set; }
     public string? Name { get; set; }
-    public LocationDto Location { get; set; }
-    public ModuleDto Module { get; set; }
+    public LocationDto Location { get; set; } = null!;
+    public ModuleDto Module { get; set; } = null!;
     public string? Description { get; set; }
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 }
