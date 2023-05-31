@@ -71,7 +71,9 @@
       :title='$t("airPollutionInWeeks")'
       :sensors='weeklyComparison.sensors'
       :loading='weeklyComparison.loading'
-      unit='µg/m³' />
+      unit='µg/m³'
+      :limit='25'
+    />
 
     <ExceedanceChart
       title='yearlyExceedances'

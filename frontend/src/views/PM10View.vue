@@ -28,14 +28,6 @@
             cols='auto'
           >
             <SheetInfo
-              :title='sensor.daysAboveThreshold'
-              :subtitle='$t("daysAboveThreshold")'
-            />
-          </v-col>
-          <v-col
-            cols='auto'
-          >
-            <SheetInfo
               :title='sensor.current'
               unit='µg/m³'
               :subtitle='$t("current")'
@@ -71,14 +63,10 @@
       :title='$t("airPollutionInWeeks")'
       :sensors='weeklyComparison.sensors'
       :loading='weeklyComparison.loading'
-      unit='µg/m³' />
-
-    <ExceedanceChart
-      title='yearlyExceedances'
-      series-name='exceedancesCount'
-      :sensors='exceedChart.sensors'
-      :loading='exceedChart.loading'
+      unit='µg/m³'
+      :limit='50'
     />
+
     <div class='d-flex justify-center flex-column align-center'>
       <h2>{{ $t('airPollutionWeekComparison') }}</h2>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
@@ -105,9 +93,7 @@ import SheetInfo from '@/components/SheetInfo.vue'
 import ComparisonFilter from '@/components/ComparisonFilter.vue'
 import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
-import ExceedanceChart from '@/components/ExceedanceChart.vue'
 import MapComponent from '@/components/MapComponent.vue'
-
 
 const comparisonChart = ref(null)
 const stats = ref(null)
@@ -115,10 +101,6 @@ const statsSelectedSensors = ref([])
 const showComparisonChart = ref(false)
 const availableSensors = ref([])
 const weeklyComparison = ref({
-  sensors: [],
-  loading: false,
-})
-const exceedChart = ref({
   sensors: [],
   loading: false,
 })
@@ -154,17 +136,6 @@ const fetchWeeklyChart = async (ids) => {
 
   weeklyComparison.value.sensors = res.sensors
   weeklyComparison.value.loading = false
-}
-
-const fetchYearlyExceedances = async () => {
-  exceedChart.value.loading = true
-
-  const res = await ky.get('pm10/exceed').json()
-
-  exceedChart.value = {
-    sensors: res,
-    loading: false,
-  }
 }
 
 const fetchComparisonChart = async (options) => {
@@ -312,7 +283,7 @@ const fetchMap = async () => {
           'description':
             `<div>
             <h3>${sensor.name}</h3>
-            <h4>${t('pm25')}: ${sensor.readings[0].value} µg/m3</h4>
+            <h4>${t('pm10')}: ${sensor.readings[0].value} µg/m3</h4>
             <p>${new Date(sensor.readings[0].dateTime).toLocaleString(getLocale())}</p>
             <p>${sensor.location?.address}</p>
           </div>`,
@@ -354,9 +325,9 @@ const fetchMap = async () => {
               ['get', 'value'],
               0,
               '#00ff00',
-              10,
+              25,
               '#ffff00',
-              20,
+              50,
               '#ff0000',
             ],
             'circle-radius': 6,
@@ -376,7 +347,6 @@ const fetchMap = async () => {
 fetchLocations()
 fetchStats()
 fetchWeeklyChart()
-fetchYearlyExceedances()
 fetchMap()
 
 

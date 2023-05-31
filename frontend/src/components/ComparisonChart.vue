@@ -35,6 +35,11 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  limit: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
 })
 
 const chartContainer = ref(null)
@@ -74,12 +79,30 @@ const fetchChart = async () => {
     return new Date(reading.dateTime).toLocaleDateString(getLocale())
   })
 
+  const markline = props.limit ?
+    {
+      markLine: {
+        label: {
+          show: true,
+        },
+        data: [
+          {
+            yAxis: props.limit,
+            name: 'Limit',
+          }
+        ]
+      },
+    }
+    :
+    null
+
   const series = props.sensors.map((sensor) => {
     return {
       name: sensor.name,
       type: 'line',
       connectNulls: false,
       data: sensor.readings.map((reading) => reading.value),
+      ...markline,
     }
   })
 
