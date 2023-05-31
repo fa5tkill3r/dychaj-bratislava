@@ -43,10 +43,10 @@
           :filter='true'
         >
           <v-chip
-            v-for='module in availableModules'
-            :key='module.id'
+            v-for='sensor in availableSensors'
+            :key='sensor.id'
           >
-            {{ module.name }}
+            {{ sensor.name }}
           </v-chip>
         </v-chip-group>
 
@@ -110,7 +110,7 @@ date.value = [from.toISOString(), to.toISOString()]
 
 
 const props = defineProps({
-  availableModules: {
+  availableSensors: {
     type: Array,
     required: true,
   },
@@ -119,7 +119,7 @@ const emit = defineEmits(['update'])
 
 const submit = () => {
   emit('update', {
-    Modules: selection.value.map((index) => props.availableModules[index].id).sort(),
+    Sensors: selection.value.map((index) => props.availableSensors[index].id).sort(),
     Interval: interval.value,
     From: date.value[0],
     To: date.value[1],

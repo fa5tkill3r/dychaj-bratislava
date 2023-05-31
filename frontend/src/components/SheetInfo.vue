@@ -6,9 +6,13 @@
     height='150'
   >
     <div class='d-flex flex-column justify-center align-center fill-height'>
-      <span class='title'>{{ title }} </span>
+      <span class='title'>{{ title }}
+        <slot name='unit'>
+          <sub>{{ unit }}</sub>
+        </slot>
+      </span>
       <slot name='subtitle'>
-        <sub>{{ subtitle }}</sub>
+        <span>{{ subtitle }}</span>
       </slot>
     </div>
   </v-sheet>
@@ -18,10 +22,15 @@
 
 defineProps({
   title: {
-    type: String,
+    type: [String, Number],
     required: true,
   },
   subtitle: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  unit: {
     type: String,
     required: false,
     default: null,

@@ -4,7 +4,7 @@
     <div v-if='stats'>
       <div>
         <v-autocomplete
-          v-model='statsSelectedModules'
+          v-model='statsSelectedSensors'
           :chips='true'
           :multiple='true'
           name='id'
@@ -12,15 +12,15 @@
           item-value='id'
           class='ml-auto mr-0'
           label='Select'
-          :items='availableModules'
+          :items='availableSensors'
           @update:model-value='fetchStats'
         ></v-autocomplete>
       </div>
       <div
-        v-for='module in stats.modules'
-        :key='module.module.id'
+        v-for='sensor in stats.sensors'
+        :key='sensor.sensor.id'
       >
-        <h3>{{ module.module.name }}</h3>
+        <h3>{{ sensor.sensor.name }}</h3>
         <v-row
           justify='center'
         >
@@ -28,7 +28,7 @@
             cols='auto'
           >
             <SheetInfo
-              :title='module.current + " °C"'
+              :title='sensor.current + " °C"'
               subtitle='Aktualne'
             />
           </v-col>
@@ -37,7 +37,7 @@
           >
             <SheetInfo
               icon='mdi-thermometer-high'
-              :title='module.max + " °C"'>
+              :title='sensor.max + " °C"'>
               <template #subtitle>
                 <span>Maximálna</span>
                 <span>teplota dnes</span>
@@ -49,7 +49,7 @@
           >
             <SheetInfo
               icon='mdi-thermometer-low'
-              :title='module.min + " °C"'>
+              :title='sensor.min + " °C"'>
               <template #subtitle>
                 <span>Minimálna</span>
                 <span>teplota dnes</span>
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <comparison-settings :available-modules='availableModules' @update='fetchComparisonChart'/>
+    <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart'/>
     <div ref='comparisonChart' class='chart mt-12' />
     <div ref='mapContainer' class='map-container mt-12' />
   </v-container>
@@ -76,8 +76,8 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { mapboxToken } from '@/lib/constants'
 
-const availableModules = ref([])
-const statsSelectedModules = ref([])
+const availableSensors = ref([])
+const statsSelectedSensors = ref([])
 const stats = ref(null)
 const comparisonChart = ref(null)
 const mapContainer = ref(null)
@@ -85,15 +85,15 @@ const mapContainer = ref(null)
 const fetchStats = async (ids) => {
   stats.value = await ky.post('temp/stats', {
     json: {
-      modules: ids,
+      sensors: ids,
     },
   }).json()
 
-  statsSelectedModules.value = stats.value.modules.map((module) => module.module.id)
+  statsSelectedSensors.value = stats.value.sensors.map((sensor) => sensor.sensor.id)
 }
 
 const fetchLocations = async () => {
-  availableModules.value = await ky.get('temp/locations').json()
+  availableSensors.value = await ky.get('temp/locations').json()
 }
 
 const fetchComparisonChart = async (configure) => {
@@ -115,16 +115,14 @@ const fetchComparisonChart = async (configure) => {
     json
   }).json()
 
-  // weeklyComparisonSelectedModules.value = res.modules.map((module) => module.id)
+  const readingDates = res.sensors[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
 
-  const readingDates = res.modules[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
-
-  const series = res.modules.map((module) => {
+  const series = res.sensors.map((sensor) => {
     return {
-      name: module.name,
+      name: sensor.name,
       type: 'line',
       connectNulls: false,
-      data: module.readings.map((reading) => reading.value),
+      data: sensor.readings.map((reading) => reading.value),
     }
   })
 
@@ -187,22 +185,22 @@ const fetchMap = async () => {
     return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toLocaleString('sk')
   }
 
-  const features = mapResponse.map((module) => {
+  const features = mapResponse.map((sensor) => {
     return {
       'type': 'Feature',
       'properties': {
         'description':
           `<div>
-            <h3>${module.name}</h3>
-            <h4>Teplota: ${module.readings[0].value} °C</h4>
-            <p>${toDayString(new Date(module.readings[0].dateTime))}</p>
-            <p>${module.location?.address}</p>
+            <h3>${sensor.name}</h3>
+            <h4>Teplota: ${sensor.readings[0].value} °C</h4>
+            <p>${toDayString(new Date(sensor.readings[0].dateTime))}</p>
+            <p>${sensor.location?.address}</p>
           </div>`,
-        'value': module.readings[0].value,
+        'value': sensor.readings[0].value,
       },
       'geometry': {
         'type': 'Point',
-        'coordinates': [module.location?.longitude, module.location?.latitude],
+        'coordinates': [sensor.location?.longitude, sensor.location?.latitude],
       },
     }
   })

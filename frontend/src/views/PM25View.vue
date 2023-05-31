@@ -4,7 +4,7 @@
     <div v-if='stats'>
       <div>
         <v-autocomplete
-          v-model='selectedModules'
+          v-model='statsSelectedSensors'
           :chips='true'
           :multiple='true'
           name='id'
@@ -12,188 +12,145 @@
           item-value='id'
           class='ml-auto mr-0'
           label='Select'
-          :items='stats.availableModules'
+          :items='availableSensors'
           @update:model-value='fetchStats'
         ></v-autocomplete>
       </div>
       <div
-        v-for='module in stats.modules'
-        :key='module.module.id'
+        v-for='sensor in stats.sensors'
+        :key='sensor.sensor.id'
       >
-        <h3>{{ module.module.name }}</h3>
+        <h3>{{ sensor.sensor.name }}</h3>
         <v-row
           justify='center'
         >
           <v-col
             cols='auto'
           >
-            <v-sheet
-              elevation='4'
-              rounded
-              width='150'
-              height='150'
+            <SheetInfo
+              :title='sensor.daysAboveThreshold'
             >
-              <div class='d-flex flex-column justify-center align-center fill-height'>
-                <span class='title'>{{ module.daysAboveThreshold }}</span>
-                <span>prekročených dní</span>
-                <span>Za tento rok</span>
-              </div>
-            </v-sheet>
+              <template #subtitle>
+                <span>Prekročených dní</span>
+                <span>za tento rok</span>
+              </template>
+            </SheetInfo>
           </v-col>
           <v-col
             cols='auto'
           >
-            <v-sheet
-              elevation='4'
-              rounded
-              width='150'
-              height='150'
-            >
-              <div class='d-flex flex-column justify-center align-center fill-height'>
-                <span class='title'>{{ module.current }} <sub>µg/m3</sub> </span>
-                <span>Aktualne</span>
-              </div>
-            </v-sheet>
+            <SheetInfo
+              :title='sensor.current'
+              unit='µg/m³'
+              subtitle='Aktuálne'
+            />
           </v-col>
           <v-col
             cols='auto'
           >
-            <v-sheet
-              elevation='4'
-              rounded
-              width='150'
-              height='150'
+            <SheetInfo
+              :title='sensor.yearValueAvg'
+              unit='µg/m³'
             >
-              <div class='d-flex flex-column justify-center align-center fill-height'>
-                <span class='title'>{{ module.yearValueAvg }} <sub>µg/m3</sub> </span>
+              <template #subtitle>
                 <span>Priemer</span>
                 <span>Za posledný rok</span>
-              </div>
-            </v-sheet>
+              </template>
+            </SheetInfo>
           </v-col>
           <v-col
             cols='auto'
           >
-            <v-sheet
-              elevation='4'
-              rounded
-              width='150'
-              height='150'
+            <SheetInfo
+              :title='sensor.dayValueAvg'
+              unit='µg/m³'
             >
-              <div class='d-flex flex-column justify-center align-center fill-height'>
-                <span class='title'>{{ module.dayValueAvg }} <sub>µg/m3</sub> </span>
+              <template #subtitle>
                 <span>Priemer</span>
                 <span>Za den</span>
-              </div>
-            </v-sheet>
+              </template>
+            </SheetInfo>
           </v-col>
         </v-row>
       </div>
     </div>
 
-
-    <div class='d-flex'>
-      <v-btn
-        class='ml-auto mr-0'
-        color='primary'
-        @click='dialog = true'
-      >
-        <v-icon>mdi-filter</v-icon>
-      </v-btn>
-    </div>
-
-
+    <ComparisonFilter
+      :available-sensors='availableSensors'
+      @update='fetchWeeklyComparison'
+    />
     <div ref='lineChart' class='chart mt-12' />
     <div ref='exceedChart' class='chart mt-12' />
     <div class='d-flex justify-center flex-column align-center'>
       <h2>Porovnanie medzi týžnami</h2>
-      <v-btn
-        color='primary'
-        @click='compareChartDialog = true'
-      >
-        Generuj
-      </v-btn>
+      <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
+
       <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
     </div>
-    <v-divider class='mt-12'/>
+    <v-divider class='mt-12' />
     <div ref='mapContainer' class='map-container mt-12' />
 
   </v-container>
-  <v-dialog
-    v-model='dialog'
-    width='auto'
-  >
-    <filter-component
-      :tags='stats?.availableModules' :selected-tags='weeklyComparisonSelectedModules'
-      @update:tags='fetchWeeklyComparison'></filter-component>
-
-  </v-dialog>
-
-  <v-dialog
-    v-model='compareChartDialog'
-    width='auto'
-    >
-    <compare-chart-filter :available-modules='availableModules' @update='fetchComparisonChart' />
-  </v-dialog>
 </template>
 
 
 <script setup>
 
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import * as echarts from 'echarts'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { ky } from '@/lib/ky'
-import FilterComponent from '@/components/FilterComponent.vue'
 import CompareChartFilter from '@/components/CompareChartFilter.vue'
 import { mapboxToken } from '@/lib/constants'
+import SheetInfo from '@/components/SheetInfo.vue'
+import ComparisonFilter from '@/components/ComparisonFilter.vue'
 
 const lineChart = ref(null)
 const exceedChart = ref(null)
 const comparisonChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
-const selectedModules = ref([])
-const weeklyComparisonSelectedModules = ref([])
-const dialog = ref(false)
+const statsSelectedSensors = ref([])
+const weeklyComparisonSelectedSensors = ref([])
 const compareChartDialog = ref(false)
-const availableModules = ref([])
 const showComparisonChart = ref(false)
-
-const test = (modules) => {
-  console.log(modules)
-}
+const availableSensors = ref([])
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
     json: {
-      modules: ids,
+      sensors: ids,
     },
   }).json()
 
-  selectedModules.value = stats.value.modules.map((module) => module.module.id)
+  statsSelectedSensors.value = stats.value.sensors.map((sensor) => sensor.sensor.id)
+}
+
+const fetchLocations = async () => {
+  availableSensors.value = await ky.get('pm25').json()
 }
 
 const fetchWeeklyComparison = async (ids) => {
-  dialog.value = false
-
-  const res = await ky.post('pm25/weekly', {
+  const res = await ky.post('pm25', {
     json: {
-      modules: ids,
+      Sensors: ids,
+      From: new Date(new Date().getFullYear(), 0, 1).toISOString(),
+      To: new Date().toISOString(),
+      Interval: 3,
     },
   }).json()
 
-  weeklyComparisonSelectedModules.value = res.modules.map((module) => module.id)
+  weeklyComparisonSelectedSensors.value = res.sensors.map((sensor) => sensor.id)
 
-  const readingDates = res.modules[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
+  const readingDates = res.sensors[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
 
-  const series = res.modules.map((module) => {
+  const series = res.sensors.map((sensor) => {
     return {
-      name: module.name,
+      name: sensor.name,
       type: 'line',
       connectNulls: false,
-      data: module.readings.map((reading) => reading.value),
+      data: sensor.readings.map((reading) => reading.value),
     }
   })
 
@@ -249,7 +206,7 @@ const fetchYearlyExceedances = async () => {
   const values = []
 
   res.forEach(item => {
-    const sensorName = item.module.name
+    const sensorName = item.sensor.name
     const exceedance = item.exceed
 
     sensors.push(sensorName)
@@ -311,7 +268,7 @@ const fetchComparisonChart = async (options) => {
   showComparisonChart.value = true
   const res = await ky.post('pm25/compare', {
     json: {
-      modules: options.modules,
+      Sensors: options.sensors,
       weekDays: options.days,
       hours: options.hours,
       weeks: options.weeks,
@@ -321,7 +278,7 @@ const fetchComparisonChart = async (options) => {
   const categories = res[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
 
   let days = []
-  const series = res.map((module) => {
+  const series = res.map((sensor) => {
     const dates = res[0].readings.map((reading) => new Date(reading.dateTime))
 
     const areas = []
@@ -348,7 +305,7 @@ const fetchComparisonChart = async (options) => {
 
       areas.push({
         xAxis: end.toLocaleString('sk'),
-        name: ''
+        name: '',
       })
 
       start = date
@@ -356,10 +313,10 @@ const fetchComparisonChart = async (options) => {
     }
 
     return {
-      name: module.name,
+      name: sensor.name,
       type: 'line',
       connectNulls: false,
-      data: module.readings.map((reading) => reading.value),
+      data: sensor.readings.map((reading) => reading.value),
       markLine: {
         symbol: ['none', 'none'],
         data: areas,
@@ -441,13 +398,7 @@ const fetchComparisonChart = async (options) => {
   })
 }
 
-const fetchAvailableModules = async () => {
-  await ky.get('pm25').json().then((res) => {
-    availableModules.value = res
-  })
-}
-
-fetchAvailableModules()
+fetchLocations()
 fetchStats()
 fetchWeeklyComparison()
 fetchYearlyExceedances()
@@ -455,22 +406,22 @@ fetchYearlyExceedances()
 onMounted(async () => {
   const mapResponse = await ky.get('pm25/map').json()
 
-  const features = mapResponse.map((module) => {
+  const features = mapResponse.map((sensor) => {
     return {
       'type': 'Feature',
       'properties': {
         'description':
           `<div>
-            <h3>${module.name}</h3>
-            <h4>PM 2.5: ${module.readings[0].value} µg/m3</h4>
-            <p>${new Date(module.readings[0].dateTime).toLocaleString('sk')}</p>
-            <p>${module.location?.address}</p>
+            <h3>${sensor.name}</h3>
+            <h4>PM 2.5: ${sensor.readings[0].value} µg/m3</h4>
+            <p>${new Date(sensor.readings[0].dateTime).toLocaleString('sk')}</p>
+            <p>${sensor.location?.address}</p>
           </div>`,
-        'value': module.readings[0].value,
+        'value': sensor.readings[0].value,
       },
       'geometry': {
         'type': 'Point',
-        'coordinates': [module.location?.longitude, module.location?.latitude],
+        'coordinates': [sensor.location?.longitude, sensor.location?.latitude],
       },
     }
   })
