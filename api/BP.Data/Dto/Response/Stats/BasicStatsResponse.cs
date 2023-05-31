@@ -2,5 +2,5 @@
 
 public class BasicStatsResponse
 {
-    public List<BasicStatModule> Modules { get; set; } = new();
+    public List<BasicStatSensor> Sensors { get; set; } = new();
 }

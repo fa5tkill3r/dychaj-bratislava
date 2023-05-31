@@ -1,24 +1,27 @@
 ﻿using BP.API.Services;
 using BP.Data.Dto.Request;
 using Microsoft.AspNetCore.Mvc;
+using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PM25Controller : ControllerBase
+public class Pm25Controller : ControllerBase
 {
     private readonly Pm25Service _pm25Service;
+    private readonly BasicService _basicService;
 
-    public PM25Controller(Pm25Service pm25Service)
+    public Pm25Controller(Pm25Service pm25Service, BasicService basicService)
     {
         _pm25Service = pm25Service;
+        _basicService = basicService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetLocations()
     {
-        var locations = await _pm25Service.GetLocations();
+        var locations = await _basicService.GetLocations(ValueType.Pm25);
         return Ok(locations);
     }
 
@@ -30,17 +33,16 @@ public class PM25Controller : ControllerBase
     }
     
     [HttpPost]
-    [Route("weekly")]
-    public async Task<IActionResult> GetWeeklyComparison([FromBody] Pm25WeeklyComparisonRequest? request)
+    public async Task<IActionResult> GetData([FromBody] GetDataRequest? request)
     {
-        return Ok(await _pm25Service.GetWeeklyComparison(request));
+        return Ok(await _basicService.GetData(ValueType.Pm25, request));
     }
     
     [HttpGet]
     [Route("map")]
     public async Task<IActionResult> GetMap()
     {
-        return Ok(await _pm25Service.GetMap());
+        return Ok(await _basicService.GetMap(ValueType.Pm25));
     }
     
     [HttpGet]

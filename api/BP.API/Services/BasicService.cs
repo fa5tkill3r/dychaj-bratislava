@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BP.API.Utility;
 using BP.Data;
+using BP.Data.DbHelpers;
 using BP.Data.DbModels;
 using BP.Data.Dto.Request;
 using BP.Data.Dto.Response;
@@ -23,29 +24,29 @@ public class BasicService
         _scopeFactory = scopeFactory;
     }
 
-    public async Task<List<ModuleDto>> GetLocations(ValueType valueType)
+    public async Task<List<SensorDto>> GetLocations(ValueType valueType)
     {
-        var locations = await _bpContext.Sensor.Where(s => s.Type == valueType)
+        var sensors = await _bpContext.Sensor.Where(s => s.Type == valueType)
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Distinct()
             .ToListAsync();
-        return _mapper.Map<List<ModuleDto>>(locations);
+        return _mapper.Map<List<SensorDto>>(sensors);
     }
 
     public async Task<BasicStatsResponse> GetStats(ValueType valueType, StatsRequest request)
     {
-        var moduleIds = request?.Modules;
+        var sensorIds = request.Sensors;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == valueType);
 
 
-        if (moduleIds != null && moduleIds.Any())
+        if (sensorIds != null && sensorIds.Any())
         {
-            var ids = moduleIds;
-            query = query.Where(s => ids.Contains(s.Module.Id));
+            var ids = sensorIds;
+            query = query.Where(s => ids.Contains(s.Id));
         }
         else
             query = query.Take(1);
@@ -71,12 +72,12 @@ public class BasicService
                 .Select(r => (decimal?) r.Value)
                 .FirstOrDefault();
 
-            response.Modules.Add(new BasicStatModule()
+            response.Sensors.Add(new BasicStatSensor()
             {
                 Max =  max != null ? Math.Round(max.Value, 2) : null,
                 Min = min != null ? Math.Round(min.Value, 2) : null,
                 Current = current != null ? Math.Round(current.Value, 2) : null,
-                Module = _mapper.Map<ModuleDto>(sensor.Module),
+                Sensor = _mapper.Map<SensorDto>(sensor),
             });
         }
 
@@ -90,10 +91,10 @@ public class BasicService
             .ThenInclude(m => m.Location)
             .Where(s => s.Type == valueType);
 
-        if (request.Modules != null && request.Modules.Any())
+        if (request.Sensors != null && request.Sensors.Any())
         {
-            var ids = request.Modules;
-            query = query.Where(s => ids.Contains(s.Module.Id));
+            var ids = request.Sensors;
+            query = query.Where(s => ids.Contains(s.Id));
         }
         else
             query = query.Take(3);
@@ -109,10 +110,10 @@ public class BasicService
         var fetchSensor = new Func<Sensor, Task>(async sensor =>
         {
             var readings = await FetchSensor(sensor, request.From, request.To, request.Interval.ToDateTime());
-            var module = _mapper.Map<ModuleWithReadingsDto>(sensor.Module);
-            module.Readings = readings;
+            var sensorDto = _mapper.Map<SensorWithReadingsDto>(sensor);
+            sensorDto.Readings = readings;
 
-            response.Modules.Add(module);
+            response.Sensors.Add(sensorDto);
         });
 
         var tasks = sensors.Select(sensor => fetchSensor(sensor)).ToList();
@@ -156,7 +157,7 @@ public class BasicService
         };
     }
 
-    public async Task<List<ModuleWithReadingsDto>> GetMap(ValueType valueType)
+    public async Task<List<SensorWithReadingsDto>> GetMap(ValueType valueType)
     {
         var query = await  (
             from s in _bpContext.Sensor
@@ -188,16 +189,19 @@ public class BasicService
         
         var sensors = query.Select(x => x.s).ToList();
 
-        var response = new List<ModuleWithReadingsDto>();
+        var response = new List<SensorWithReadingsDto>();
 
         foreach (var sensor in sensors)
         {
-            response.Add(new ModuleWithReadingsDto()
+            response.Add(new SensorWithReadingsDto()
             {
-                Id = sensor.Module.Id,
-                Name = sensor.Module.Name,
+                Id = sensor.Id,
+                Name = sensor.GetName(),
+                Description = sensor.Description,
+                Type = sensor.Type.ToString(),
                 Location = _mapper.Map<LocationDto>(sensor.Module.Location),
                 Readings = _mapper.Map<List<ReadingDto>>(sensor.Readings),
+                Module = _mapper.Map<ModuleDto>(sensor.Module),
             });
         }
 

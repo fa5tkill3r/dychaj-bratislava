@@ -1,14 +1,13 @@
 ﻿namespace BP.Data.Dto.Response.Stats;
 
-public class PM25StatsResponse
+public class Pm25StatsResponse
 {
-    public List<PM25StatsResponseModule> Modules { get; set; } = new();
-    public List<ModuleDto> AvailableModules { get; set; } = new();
+    public List<Pm25StatsSensor> Sensors { get; set; } = new();
 }
 
-public class PM25StatsResponseModule
+public class Pm25StatsSensor
 {
-    public ModuleDto Module { get; set; }
+    public SensorDto Sensor { get; set; }
     public decimal? YearValueAvg { get; set; }
     public decimal? DayValueAvg { get; set; }
     public decimal? Current { get; set; }

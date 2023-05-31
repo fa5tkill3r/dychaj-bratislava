@@ -2,6 +2,6 @@
 
 public class Pm25WeeklyComparisonResponse
 {
-    public List<ModuleWithReadingsDto> Modules { get; set; } = new();
+    public List<SensorWithReadingsDto> Sensors { get; set; } = new();
     public List<ModuleDto> AvailableModules { get; set; } = new();
 }

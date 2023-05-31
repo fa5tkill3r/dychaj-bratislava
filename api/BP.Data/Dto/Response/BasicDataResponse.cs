@@ -2,5 +2,5 @@
 
 public class BasicDataResponse
 {
-    public List<ModuleWithReadingsDto> Modules { get; set; } = new();
+    public List<SensorWithReadingsDto> Sensors { get; set; } = new();
 }

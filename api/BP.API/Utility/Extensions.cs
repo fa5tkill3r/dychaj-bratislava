@@ -1,4 +1,5 @@
-﻿using BP.Data.Dto;
+﻿using BP.Data.DbModels;
+using BP.Data.Dto;
 
 namespace BP.API.Utility;
 

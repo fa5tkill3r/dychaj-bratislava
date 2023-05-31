@@ -2,5 +2,5 @@
 
 public class StatsRequest
 {
-    public int[]? Modules { get; set; }
+    public int[]? Sensors { get; set; }
 }
