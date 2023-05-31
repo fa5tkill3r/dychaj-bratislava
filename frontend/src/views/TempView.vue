@@ -63,13 +63,17 @@
       :zoom='true'
       :display-time='true'
     />
-    <div ref='mapContainer' class='map-container mt-12' />
+    <!--    <div ref='mapContainer' class='map-container mt-12' />-->
+    <MapComponent
+      :layers='map.layers'
+      :features='map.features'
+    />
   </v-container>
 </template>
 
 <script setup>
 import { ky } from '@/lib/ky'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import SheetInfo from '@/components/SheetInfo.vue'
 import ComparisonSettings from '@/components/ComparisonSettings.vue'
 import mapboxgl from 'mapbox-gl'
@@ -77,6 +81,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { mapboxToken } from '@/lib/constants'
 import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
+import MapComponent from '@/components/MapComponent.vue'
 
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
@@ -85,7 +90,10 @@ const comparisonChart = ref({
   sensors: [],
   loading: false,
 })
-const mapContainer = ref(null)
+const map = ref({
+  layers: [],
+  features: [],
+})
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('temp/stats', {
@@ -145,100 +153,58 @@ const fetchMap = async () => {
     }
   })
 
-  mapboxgl.accessToken = mapboxToken
-  const map = new mapboxgl.Map({
-    container: mapContainer.value,
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: [19, 48.7],
-    zoom: 7,
-  })
-
-  map.on('load', () => {
-    map.addSource('places', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': features,
-      },
-    })
-
-    map.addLayer({
-      'id': 'places',
-      'type': 'symbol',
-      'source': 'places',
-      'layout': {
-        'text-field': ['get', 'value'],
-        'text-font': ['Open Sans Regular'],
-        'text-size': 12,
-        'text-offset': [0, 0.5],
-        'text-anchor': 'top',
-      },
-      'paint': {
-        'text-color': '#000',
-      },
-    })
-
-    map.addLayer({
-      'id': 'places-circle',
-      'type': 'circle',
-      'source': 'places',
-      'paint': {
-        'circle-color': [
-          'interpolate',
-          ['linear'],
-          ['get', 'value'],
-          -20,
-          '#00f',
-          0,
-          '#07a7e7',
-          10,
-          '#c3f800',
-          20,
-          '#f8a600',
-          30,
-          '#e01919',
-          35,
-          '#930202',
-        ],
-        'circle-radius': 6,
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff',
-      },
-    })
-
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-    })
-
-    map.on('mouseenter', 'places', (e) => {
-      map.getCanvas().style.cursor = 'pointer'
-
-      const coordinates = e.features[0].geometry.coordinates.slice()
-      const description = e.features[0].properties.description
-
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
-      }
-
-      popup.setLngLat(coordinates).setHTML(description).addTo(map)
-    })
-
-    map.on('mouseleave', 'places', () => {
-      map.getCanvas().style.cursor = ''
-      popup.remove()
-    })
-
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: false,
+  const reload = () => {
+    map.value = {
+      layers: [
+        {
+          'id': 'places',
+          'type': 'symbol',
+          'source': 'places',
+          'layout': {
+            'text-field': ['get', 'value'],
+            'text-font': ['Open Sans Regular'],
+            'text-size': 12,
+            'text-offset': [0, 0.5],
+            'text-anchor': 'top',
+          },
+          'paint': {
+            'text-color': '#000',
+          },
         },
-        trackUserLocation: false,
-        showUserHeading: true,
-      }),
-    )
-  })
+        {
+          'id': 'places-circle',
+          'type': 'circle',
+          'source': 'places',
+          'paint': {
+            'circle-color': [
+              'interpolate',
+              ['linear'],
+              ['get', 'value'],
+              -20,
+              '#00f',
+              0,
+              '#07a7e7',
+              10,
+              '#c3f800',
+              20,
+              '#f8a600',
+              30,
+              '#e01919',
+              35,
+              '#930202',
+            ],
+            'circle-radius': 6,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ffffff',
+          },
+        },
+      ],
+      features,
+    }
+  }
+  reload()
+
+  watch(getLocale(), reload)
 }
 
 fetchLocations()
@@ -254,8 +220,5 @@ onMounted(() => {
 
 <style scoped>
 
-.map-container {
-  width: 100%;
-  height: 500px;
-}
+
 </style>
