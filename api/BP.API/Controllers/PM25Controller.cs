@@ -9,19 +9,23 @@ namespace BP.API.Controllers;
 [Route("[controller]")]
 public class Pm25Controller : ControllerBase
 {
-    private readonly Pm25Service _pm25Service;
+    private readonly PmService _pmService;
     private readonly BasicService _basicService;
+    private const ValueType ValueType = Data.DbHelpers.ValueType.Pm25;
 
-    public Pm25Controller(Pm25Service pm25Service, BasicService basicService)
+
+    public Pm25Controller(PmService pmService, BasicService basicService)
     {
-        _pm25Service = pm25Service;
+        _pmService = pmService;
         _basicService = basicService;
     }
+    
+    
 
     [HttpGet]
     public async Task<IActionResult> GetLocations()
     {
-        var locations = await _basicService.GetLocations(ValueType.Pm25);
+        var locations = await _basicService.GetLocations(ValueType);
         return Ok(locations);
     }
 
@@ -29,33 +33,33 @@ public class Pm25Controller : ControllerBase
     [Route("stats")]
     public async Task<IActionResult> GetStats([FromBody] StatsRequest? request)
     {
-        return Ok(await _pm25Service.GetStats(request));
+        return Ok(await _pmService.GetStats(ValueType, request));
     }
     
     [HttpPost]
     public async Task<IActionResult> GetData([FromBody] GetDataRequest? request)
     {
-        return Ok(await _basicService.GetData(ValueType.Pm25, request));
+        return Ok(await _basicService.GetData(ValueType, request));
     }
     
     [HttpGet]
     [Route("map")]
     public async Task<IActionResult> GetMap()
     {
-        return Ok(await _basicService.GetMap(ValueType.Pm25));
+        return Ok(await _basicService.GetMap(ValueType));
     }
     
     [HttpGet]
     [Route("exceed")]
     public async Task<IActionResult> GetYearlyExceed()
     {
-        return Ok(await _pm25Service.GetYearlyExceed());
+        return Ok(await _pmService.GetYearlyExceed(ValueType));
     }
     
     [HttpPost]
     [Route("compare")]
-    public async Task<IActionResult> GetCompare([FromBody] Pm25CompareRequest request)
+    public async Task<IActionResult> GetCompare([FromBody] PmCompareRequest request)
     {
-        return Ok(await _pm25Service.GetCompare(request));
+        return Ok(await _pmService.GetCompare(ValueType, request));
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BP.Data.Dto.Response;
 
-public class Pm25ExceedResponse
+public class PmExceedResponse
 {
     public SensorDto Sensor { get; set; } = null!;
     public int Exceed { get; set; }

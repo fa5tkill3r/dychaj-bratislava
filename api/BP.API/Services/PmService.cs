@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using BP.Data;
-using BP.Data.DbHelpers;
-using BP.Data.DbModels;
 using BP.Data.Dto.Request;
 using BP.Data.Dto.Response;
 using BP.Data.Dto.Response.Stats;
@@ -11,26 +8,24 @@ using ValueType = BP.Data.DbHelpers.ValueType;
 
 namespace BP.API.Services;
 
-public class Pm25Service
+public class PmService
 {
     private readonly BpContext _bpContext;
     private readonly IMapper _mapper;
-    private readonly IServiceScopeFactory _scopeFactory;
 
-    public Pm25Service(BpContext bpContext, IMapper mapper, IServiceScopeFactory scopeFactory)
+    public PmService(BpContext bpContext, IMapper mapper)
     {
         _bpContext = bpContext;
         _mapper = mapper;
-        _scopeFactory = scopeFactory;
     }
 
-    public async Task<Pm25StatsResponse> GetStats(StatsRequest? request)
+    public async Task<PmStatsResponse> GetStats(ValueType valueType, StatsRequest? request)
     {
         var sensorIds = request?.Sensors;
         var query = _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Where(s => s.Type == ValueType.Pm25);
+            .Where(s => s.Type == valueType);
 
         if (sensorIds != null && sensorIds.Any())
         {
@@ -42,7 +37,7 @@ public class Pm25Service
 
         var sensors = await query.ToListAsync();
 
-        var response = new Pm25StatsResponse();
+        var response = new PmStatsResponse();
 
         foreach (var sensor in sensors)
         {
@@ -68,7 +63,7 @@ public class Pm25Service
                 .CountAsync();
 
 
-            response.Sensors.Add(new Pm25StatsSensor()
+            response.Sensors.Add(new PmStatsSensor()
             {
                 YearValueAvg = yearValueAvg != null ? Math.Round(yearValueAvg.Value, 2) : null,
                 DayValueAvg = dayValueAvg != null ? Math.Round(dayValueAvg.Value, 2) : null,
@@ -81,14 +76,14 @@ public class Pm25Service
         return response;
     }
 
-    public async Task<List<Pm25ExceedResponse>> GetYearlyExceed()
+    public async Task<List<PmExceedResponse>> GetYearlyExceed(ValueType valueType)
     {
-        var response = new List<Pm25ExceedResponse>();
+        var response = new List<PmExceedResponse>();
         
         var sensorsWithExceed = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Where(s => s.Type == ValueType.Pm25)
+            .Where(s => s.Type == valueType)
             .Select(s => new
             {
                 Sensor = s,
@@ -101,7 +96,7 @@ public class Pm25Service
 
         foreach (var sensorWithExceed in sensorsWithExceed)
         {
-            response.Add(new Pm25ExceedResponse()
+            response.Add(new PmExceedResponse()
             {
                 Sensor = _mapper.Map<SensorDto>(sensorWithExceed.Sensor),
                 Exceed = sensorWithExceed.Exceed,
@@ -113,12 +108,12 @@ public class Pm25Service
         return response;
     }
 
-    public async Task<List<SensorWithReadingsDto>> GetCompare(Pm25CompareRequest request)
+    public async Task<List<SensorWithReadingsDto>> GetCompare(ValueType valueType, PmCompareRequest request)
     {
         var sensors = await _bpContext.Sensor
             .Include(s => s.Module)
             .ThenInclude(m => m.Location)
-            .Where(s => s.Type == ValueType.Pm25)
+            .Where(s => s.Type == valueType)
             .Where(s => request.Sensors.Contains(s.Id))
             .ToListAsync();
         

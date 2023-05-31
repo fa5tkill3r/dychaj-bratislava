@@ -1,11 +1,11 @@
 ﻿namespace BP.Data.Dto.Response.Stats;
 
-public class Pm25StatsResponse
+public class PmStatsResponse
 {
-    public List<Pm25StatsSensor> Sensors { get; set; } = new();
+    public List<PmStatsSensor> Sensors { get; set; } = new();
 }
 
-public class Pm25StatsSensor
+public class PmStatsSensor
 {
     public SensorDto Sensor { get; set; } = null!;
     public decimal? YearValueAvg { get; set; }

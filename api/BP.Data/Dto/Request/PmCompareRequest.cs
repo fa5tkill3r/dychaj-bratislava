@@ -1,6 +1,6 @@
 ﻿namespace BP.Data.Dto.Request;
 
-public class Pm25CompareRequest
+public class PmCompareRequest
 {
     public List<int> Sensors { get; set; } = null!;
     public List<DayOfWeek> WeekDays { get; set; } = null!;
