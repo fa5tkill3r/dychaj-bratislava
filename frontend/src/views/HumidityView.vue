@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>{{ $t('temperature') }}</h1>
+    <h1>{{ $t('humidity.humidity') }}</h1>
     <div v-if='stats'>
       <div>
         <v-autocomplete
@@ -28,7 +28,7 @@
             cols='auto'
           >
             <SheetInfo
-              :title='sensor.current + " °C"'
+              :title='sensor.current + " %"'
               :subtitle='$t("current")'
             />
           </v-col>
@@ -37,8 +37,8 @@
           >
             <SheetInfo
               icon='mdi-thermometer-high'
-              :title='sensor.max + " °C"'
-              :subtitle='$t("temp.maxToday")'
+              :title='sensor.max + " %"'
+              :subtitle='$t("humidity.maxToday")'
             />
           </v-col>
           <v-col
@@ -46,8 +46,8 @@
           >
             <SheetInfo
               icon='mdi-thermometer-low'
-              :title='sensor.min + " °C"'
-              :subtitle='$t("temp.minToday")'
+              :title='sensor.min + " %"'
+              :subtitle='$t("humidity.minToday")'
             />
           </v-col>
         </v-row>
@@ -59,7 +59,7 @@
       :sensors='comparisonChart.sensors'
       :loading='comparisonChart.loading'
       unit='°C'
-      :title='$t("temp.comparison")'
+      :title='$t("humidity.comparison")'
       :zoom='true'
       :display-time='true'
     />
@@ -93,7 +93,7 @@ const map = ref({
 })
 
 const fetchStats = async (ids) => {
-  stats.value = await ky.post('temp/stats', {
+  stats.value = await ky.post('humidity/stats', {
     json: {
       sensors: ids,
     },
@@ -103,7 +103,7 @@ const fetchStats = async (ids) => {
 }
 
 const fetchLocations = async () => {
-  availableSensors.value = await ky.get('temp').json()
+  availableSensors.value = await ky.get('humidity').json()
 }
 
 const fetchComparisonChart = async (configure) => {
@@ -117,7 +117,7 @@ const fetchComparisonChart = async (configure) => {
 
   comparisonChart.value.loading = true
 
-  const res = await ky.post('temp', {
+  const res = await ky.post('humidity', {
     json,
   }).json()
 
@@ -128,7 +128,7 @@ const fetchComparisonChart = async (configure) => {
 }
 
 const fetchMap = async () => {
-  const mapResponse = await ky.get('temp/map').json()
+  const mapResponse = await ky.get('humidity/map').json()
 
   const features = mapResponse.map((sensor) => {
     return {
@@ -137,7 +137,7 @@ const fetchMap = async () => {
         'description':
           `<div>
             <h3>${sensor.name}</h3>
-            <h4>${t('temperature')}: ${sensor.readings[0].value} °C</h4>
+            <h4>${t('humidity.humidity')}: ${sensor.readings[0].value} %</h4>
             <p>${new Date(sensor.readings[0].dateTime).toLocaleString(getLocale())}</p>
             <p>${sensor.location?.address}</p>
           </div>`,

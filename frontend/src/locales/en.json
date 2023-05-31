@@ -12,13 +12,23 @@
   "exceedancesCount": "Number of exceedances",
   "generate": "Generate",
   "hours": "Hours:",
-  "humidity": "Humidity",
+  "humidity": {
+    "comparison": "Humidity change comparison",
+    "humidity": "Humidity",
+    "maxToday": "Max humidity today",
+    "minToday": "Min humidity today"
+  },
   "login": "Login",
   "placeSelect": "Select places to compare",
   "pm10": "PM 10",
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
-  "pressure": "Pressure",
+  "pressure": {
+    "comparison": "Pressure change comparison",
+    "maxToday": "Max pressure today",
+    "minToday": "Min pressure today",
+    "pressure": "Pressure"
+  },
   "select": "Select",
   "temp": {
     "comparison": "Temperature Comparison",

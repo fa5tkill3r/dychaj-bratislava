@@ -12,13 +12,23 @@
   "exceedancesCount": "Počet prekročení",
   "generate": "Generuj",
   "hours": "Hodiny:",
-  "humidity": "Vlhkosť",
+  "humidity": {
+    "comparison": "Porovnanie zmeny vlhkosti",
+    "humidity": "Vlhkosť",
+    "maxToday": "Maximálna vlkosť dnes",
+    "minToday": "Minimálna vlkosť dnes"
+  },
   "login": "Prihlásiť sa",
   "placeSelect": "Vyber miesta na porovananie",
   "pm10": "PM 10",
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
-  "pressure": "Tlak",
+  "pressure": {
+    "comparison": "Porovnanie zmeny tlaku",
+    "maxToday": "Maximálny tlak dnes",
+    "minToday": "Minimálny tlak dnes",
+    "pressure": "Tlak"
+  },
   "select": "Vyber",
   "temp": {
     "comparison": "Porovnanie teplôt",

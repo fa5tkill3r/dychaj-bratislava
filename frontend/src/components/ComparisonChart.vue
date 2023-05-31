@@ -87,16 +87,17 @@ const fetchChart = async () => {
 
   chart.clear()
 
-  const zoom = props.zoom ? {
-    dataZoom: [
+  const zoom = props.zoom ?
+    [
       {
         type: 'inside',
       },
       {
         type: 'slider',
       },
-    ],
-  } : null
+    ]
+    :
+    null
 
   const options = {
     title: {

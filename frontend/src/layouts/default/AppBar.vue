@@ -34,12 +34,12 @@
     <v-btn
       to="/humidity"
     >
-      {{ $t('humidity') }}
+      {{ $t('humidity.humidity') }}
     </v-btn>
     <v-btn
       to="/pressure"
     >
-      {{ $t('pressure') }}
+      {{ $t('pressure.pressure') }}
     </v-btn>
 
     <v-menu offset-y>

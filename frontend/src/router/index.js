@@ -22,9 +22,18 @@ const routes = [
       {
         path: '/temp',
         name: 'Temp',
-        component: () => import(/* webpackChunkName: "pm25" */ '@/views/TempView.vue'),
+        component: () => import(/* webpackChunkName: "temp" */ '@/views/TempView.vue'),
       },
-
+      {
+        path: '/humidity',
+        name: 'Humidity',
+        component: () => import(/* webpackChunkName: "humidity" */ '@/views/HumidityView'),
+      },
+      {
+        path: '/pressure',
+        name: 'Pressure',
+        component: () => import(/* webpackChunkName: "pressure" */ '@/views/PressureView'),
+      }
     ],
   },
 ]
