@@ -60,8 +60,14 @@
       </div>
     </div>
 
-    <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart'/>
-    <div ref='comparisonChart' class='chart mt-12' />
+    <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart' />
+    <ComparisonChart
+      :sensors='comparisonChart.sensors'
+      :loading='comparisonChart.loading'
+      unit='°C'
+      title='Porovnanie teplôt'
+      :zoom='true'
+    />
     <div ref='mapContainer' class='map-container mt-12' />
   </v-container>
 </template>
@@ -70,16 +76,19 @@
 import { ky } from '@/lib/ky'
 import { onMounted, ref } from 'vue'
 import SheetInfo from '@/components/SheetInfo.vue'
-import * as echarts from 'echarts'
 import ComparisonSettings from '@/components/ComparisonSettings.vue'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { mapboxToken } from '@/lib/constants'
+import ComparisonChart from '@/components/ComparisonChart.vue'
 
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
 const stats = ref(null)
-const comparisonChart = ref(null)
+const comparisonChart = ref({
+  sensors: [],
+  loading: false,
+})
 const mapContainer = ref(null)
 
 const fetchStats = async (ids) => {
@@ -99,83 +108,22 @@ const fetchLocations = async () => {
 const fetchComparisonChart = async (configure) => {
   let json = {}
 
-  if (configure)
-  {
+  if (configure) {
     json = {
       ...configure,
     }
   }
 
-  const chart = echarts.init(comparisonChart.value)
-  chart.clear()
-
-  chart.showLoading()
+  comparisonChart.value.loading = true
 
   const res = await ky.post('temp', {
-    json
+    json,
   }).json()
 
-  const readingDates = res.sensors[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
-
-  const series = res.sensors.map((sensor) => {
-    return {
-      name: sensor.name,
-      type: 'line',
-      connectNulls: false,
-      data: sensor.readings.map((reading) => reading.value),
-    }
-  })
-
-  chart.hideLoading()
-
-
-  chart.setOption({
-    title: {
-      text: 'Porovnanie teplôt',
-      top: 10
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    legend: {
-      data: series.map((serie) => serie.name),
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
-    },
-    dataZoom: [
-      {
-        type: 'inside',
-      },
-      {
-        type: 'slider',
-      },
-    ],
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: readingDates,
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        formatter: '{value} °C',
-      },
-    },
-    series: series,
-  })
-
-  window.addEventListener('resize', () => {
-    chart.resize()
-  })
+  comparisonChart.value = {
+    sensors: res.sensors,
+    loading: false,
+  }
 }
 
 const fetchMap = async () => {
@@ -313,10 +261,6 @@ onMounted(() => {
 
 
 <style scoped>
-.chart {
-  width: 100%;
-  height: 40em;
-}
 
 .map-container {
   width: 100%;

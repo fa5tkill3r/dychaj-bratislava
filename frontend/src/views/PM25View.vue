@@ -77,9 +77,14 @@
 
     <ComparisonFilter
       :available-sensors='availableSensors'
-      @update='fetchWeeklyComparison'
+      @update='fetchWeeklyChart'
     />
-    <div ref='lineChart' class='chart mt-12' />
+    <ComparisonChart
+      title='Znečistenie vzduchu po týždňoch'
+      :sensors='weeklyComparison.sensors'
+      :loading='weeklyComparison.loading'
+      unit='µg/m³'/>
+
     <div ref='exceedChart' class='chart mt-12' />
     <div class='d-flex justify-center flex-column align-center'>
       <h2>Porovnanie medzi týžnami</h2>
@@ -105,17 +110,20 @@ import CompareChartFilter from '@/components/CompareChartFilter.vue'
 import { mapboxToken } from '@/lib/constants'
 import SheetInfo from '@/components/SheetInfo.vue'
 import ComparisonFilter from '@/components/ComparisonFilter.vue'
+import ComparisonChart from '@/components/ComparisonChart.vue'
 
-const lineChart = ref(null)
+
 const exceedChart = ref(null)
 const comparisonChart = ref(null)
 const mapContainer = ref(null)
 const stats = ref(null)
 const statsSelectedSensors = ref([])
-const weeklyComparisonSelectedSensors = ref([])
-const compareChartDialog = ref(false)
 const showComparisonChart = ref(false)
 const availableSensors = ref([])
+const weeklyComparison = ref({
+  sensors: [],
+  loading: false,
+})
 
 const fetchStats = async (ids) => {
   stats.value = await ky.post('pm25/stats', {
@@ -131,7 +139,8 @@ const fetchLocations = async () => {
   availableSensors.value = await ky.get('pm25').json()
 }
 
-const fetchWeeklyComparison = async (ids) => {
+const fetchWeeklyChart = async (ids) => {
+  weeklyComparison.value.loading = true
   const res = await ky.post('pm25', {
     json: {
       Sensors: ids,
@@ -141,62 +150,8 @@ const fetchWeeklyComparison = async (ids) => {
     },
   }).json()
 
-  weeklyComparisonSelectedSensors.value = res.sensors.map((sensor) => sensor.id)
-
-  const readingDates = res.sensors[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
-
-  const series = res.sensors.map((sensor) => {
-    return {
-      name: sensor.name,
-      type: 'line',
-      connectNulls: false,
-      data: sensor.readings.map((reading) => reading.value),
-    }
-  })
-
-
-  const chart = echarts.init(lineChart.value)
-  chart.clear()
-
-
-  chart.setOption({
-    title: {
-      text: 'Znečistenie vzduchu po týždňoch',
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    legend: {
-      data: series.map((serie) => serie.name),
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: readingDates,
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        formatter: '{value} µg/m3',
-      },
-    },
-    series: series,
-  })
-
-  window.addEventListener('resize', () => {
-    chart.resize()
-  })
+  weeklyComparison.value.sensors = res.sensors
+  weeklyComparison.value.loading = false
 }
 
 const fetchYearlyExceedances = async () => {
@@ -264,7 +219,6 @@ const fetchYearlyExceedances = async () => {
 }
 
 const fetchComparisonChart = async (options) => {
-  compareChartDialog.value = false
   showComparisonChart.value = true
   const res = await ky.post('pm25/compare', {
     json: {
@@ -400,10 +354,11 @@ const fetchComparisonChart = async (options) => {
 
 fetchLocations()
 fetchStats()
-fetchWeeklyComparison()
+fetchWeeklyChart()
 fetchYearlyExceedances()
 
 onMounted(async () => {
+
   const mapResponse = await ky.get('pm25/map').json()
 
   const features = mapResponse.map((sensor) => {
@@ -525,16 +480,6 @@ onMounted(async () => {
 
 
 <style scoped>
-.title {
-  font-size: 2rem;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-
-sub {
-  font-size: initial;
-}
 
 .chart {
   width: 100%;
