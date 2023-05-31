@@ -51,7 +51,7 @@ public class ShmuWeatherService : IWeatherService
                     await _bpContext.Reading.AddAsync(new Reading
                     {
                         Sensor = sensor,
-                        Value = pressure,
+                        Value = pressure*100,
                         DateTime = DateTimeOffset.FromUnixTimeSeconds(feature.properties.prop_weather.dt).UtcDateTime
                     });
                 else
