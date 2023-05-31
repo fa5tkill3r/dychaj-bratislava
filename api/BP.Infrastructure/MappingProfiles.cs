@@ -52,7 +52,7 @@ public class MappingProfiles : Profile
     {
         var cetOffset = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time").GetUtcOffset(dateTime);
 
-        var result = new DateTimeOffset(dateTime, cetOffset);
+        var result = new DateTimeOffset(dateTime);
 
         return result;
     }

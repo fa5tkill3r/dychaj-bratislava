@@ -5,6 +5,7 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref, watch } from 'vue'
+import { getLocale } from '@/lib/i18n'
 
 const props = defineProps({
   loading: {
@@ -68,9 +69,9 @@ watch(() => props.title, () => {
 const fetchChart = async () => {
   const readingDates = props.sensors[0].readings.map((reading) => {
     if (props.displayTime) {
-      return new Date(reading.dateTime).toLocaleString('sk')
+      return new Date(reading.dateTime).toLocaleString(getLocale())
     }
-    return new Date(reading.dateTime).toLocaleDateString('sk')
+    return new Date(reading.dateTime).toLocaleDateString(getLocale())
   })
 
   const series = props.sensors.map((sensor) => {

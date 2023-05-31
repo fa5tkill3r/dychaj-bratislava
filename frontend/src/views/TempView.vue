@@ -76,7 +76,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { mapboxToken } from '@/lib/constants'
 import ComparisonChart from '@/components/ComparisonChart.vue'
-import { t } from '@/lib/i18n'
+import { getLocale, t } from '@/lib/i18n'
 
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
@@ -125,10 +125,6 @@ const fetchComparisonChart = async (configure) => {
 const fetchMap = async () => {
   const mapResponse = await ky.get('temp/map').json()
 
-  const toDayString = (date) => {
-    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toLocaleString('sk')
-  }
-
   const features = mapResponse.map((sensor) => {
     return {
       'type': 'Feature',
@@ -137,7 +133,7 @@ const fetchMap = async () => {
           `<div>
             <h3>${sensor.name}</h3>
             <h4>${t('temperature')}: ${sensor.readings[0].value} °C</h4>
-            <p>${toDayString(new Date(sensor.readings[0].dateTime))}</p>
+            <p>${new Date(sensor.readings[0].dateTime).toLocaleString(getLocale())}</p>
             <p>${sensor.location?.address}</p>
           </div>`,
         'value': sensor.readings[0].value,

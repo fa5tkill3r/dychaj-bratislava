@@ -1,3 +1,4 @@
+using BP.Data.DbHelpers;
 using BP.Data.DbModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,15 @@ public class BpContext : DbContext
 
     public DbSet<Sensor> Sensor { get; set; }
     public DbSet<Module> Module { get; set; }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+        
+        configurationBuilder
+            .Properties<DateTime>()
+            .HaveConversion(typeof(UtcValueConverter));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
