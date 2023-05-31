@@ -1,6 +1,32 @@
 {
+  "airPollutionComparison": "Porovnanie znečistenia ovzdušia",
+  "airPollutionInWeeks": "Znečistenie vzduchu po týždňoch",
+  "airPollutionWeekComparison": "Porovnanie medzi týžnami",
   "app": {
-    "title": "Bakalárska práca"
+    "title": "Dýchaj Slovensko"
   },
-  "login": "Prihlásiť sa"
+  "current": "Aktuálne",
+  "dayValueAvg": "Priemer za deň",
+  "daysAboveThreshold": "Dni nad limitom",
+  "daysSelect": "Vyber dni na porovnanie:",
+  "exceedancesCount": "Počet prekročení",
+  "generate": "Generuj",
+  "hours": "Hodiny:",
+  "humidity": "Vlhkosť",
+  "login": "Prihlásiť sa",
+  "placeSelect": "Vyber miesta na porovananie",
+  "pm10": "PM 10",
+  "pm25": "PM 2.5",
+  "pm25Heading": "PM 2.5",
+  "pressure": "Tlak",
+  "select": "Vyber",
+  "temp": {
+    "comparison": "Porovnanie teplôt",
+    "maxToday": "Maximálna teplota dnes",
+    "minToday": "Minimálna teplota dnes"
+  },
+  "temperature": "Teplota",
+  "weekCount": "Počet týždňov:",
+  "yearValueAvg": "Priemer za posledný rok",
+  "yearlyExceedances": "Prekročenia za posledný rok"
 }

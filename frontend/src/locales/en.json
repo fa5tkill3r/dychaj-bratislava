@@ -1,6 +1,32 @@
 {
+  "airPollutionComparison": "Air pollution comparison",
+  "airPollutionInWeeks": "Air pollution in weeks",
+  "airPollutionWeekComparison": "Comparison between weeks",
   "app": {
-    "title": "Bachaleour Thesis"
+    "title": "Breathe Slovakia"
   },
-  "login": "Login"
+  "current": "Right now",
+  "dayValueAvg": "Day value average",
+  "daysAboveThreshold": "Days above threshold in this year",
+  "daysSelect": "Select week days for comparison",
+  "exceedancesCount": "Number of exceedances",
+  "generate": "Generate",
+  "hours": "Hours:",
+  "humidity": "Humidity",
+  "login": "Login",
+  "placeSelect": "Select places to compare",
+  "pm10": "PM 10",
+  "pm25": "PM 2.5",
+  "pm25Heading": "PM 2.5",
+  "pressure": "Pressure",
+  "select": "Select",
+  "temp": {
+    "comparison": "Temperature Comparison",
+    "maxToday": "Max temperature today",
+    "minToday": "Min temperature today"
+  },
+  "temperature": "Temperature",
+  "weekCount": "Week count:",
+  "yearValueAvg": "Year value average",
+  "yearlyExceedances": "Yearly exceedances"
 }

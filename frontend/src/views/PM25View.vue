@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>PM25View</h1>
+    <h1>{{ $t('pm25Heading') }}</h1>
     <div v-if='stats'>
       <div>
         <v-autocomplete
@@ -11,7 +11,7 @@
           item-title='name'
           item-value='id'
           class='ml-auto mr-0'
-          label='Select'
+          :label='$t("select")'
           :items='availableSensors'
           @update:model-value='fetchStats'
         ></v-autocomplete>
@@ -29,12 +29,8 @@
           >
             <SheetInfo
               :title='sensor.daysAboveThreshold'
-            >
-              <template #subtitle>
-                <span>Prekročených dní</span>
-                <span>za tento rok</span>
-              </template>
-            </SheetInfo>
+              :subtitle='$t("daysAboveThreshold")'
+           />
           </v-col>
           <v-col
             cols='auto'
@@ -42,7 +38,7 @@
             <SheetInfo
               :title='sensor.current'
               unit='µg/m³'
-              subtitle='Aktuálne'
+              :subtitle='$t("current")'
             />
           </v-col>
           <v-col
@@ -51,12 +47,8 @@
             <SheetInfo
               :title='sensor.yearValueAvg'
               unit='µg/m³'
-            >
-              <template #subtitle>
-                <span>Priemer</span>
-                <span>Za posledný rok</span>
-              </template>
-            </SheetInfo>
+              :subtitle='$t("yearValueAvg")'
+            />
           </v-col>
           <v-col
             cols='auto'
@@ -64,12 +56,8 @@
             <SheetInfo
               :title='sensor.dayValueAvg'
               unit='µg/m³'
-            >
-              <template #subtitle>
-                <span>Priemer</span>
-                <span>Za den</span>
-              </template>
-            </SheetInfo>
+              :subtitle='$t("dayValueAvg")'
+            />
           </v-col>
         </v-row>
       </div>
@@ -80,14 +68,14 @@
       @update='fetchWeeklyChart'
     />
     <ComparisonChart
-      title='Znečistenie vzduchu po týždňoch'
+      :title='$t("airPollutionInWeeks")'
       :sensors='weeklyComparison.sensors'
       :loading='weeklyComparison.loading'
       unit='µg/m³'/>
 
     <div ref='exceedChart' class='chart mt-12' />
     <div class='d-flex justify-center flex-column align-center'>
-      <h2>Porovnanie medzi týžnami</h2>
+      <h2>{{ $t('airPollutionWeekComparison') }}</h2>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
 
       <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
@@ -111,6 +99,7 @@ import { mapboxToken } from '@/lib/constants'
 import SheetInfo from '@/components/SheetInfo.vue'
 import ComparisonFilter from '@/components/ComparisonFilter.vue'
 import ComparisonChart from '@/components/ComparisonChart.vue'
+import { getLocale, t } from '@/lib/i18n'
 
 
 const exceedChart = ref(null)
@@ -169,7 +158,7 @@ const fetchYearlyExceedances = async () => {
   })
 
   const series = [{
-    name: 'Počet prekročení',
+    name: t('exceedancesCount'),
     type: 'bar',
     data: values,
   }]
@@ -179,13 +168,13 @@ const fetchYearlyExceedances = async () => {
 
   chart.setOption({
     title: {
-      text: 'Prekročenia limitu PM 2.5 za posledných 365 dní',
+      text: t('yearlyExceedances'),
     },
     tooltip: {
       trigger: 'axis',
     },
     legend: {
-      data: ['Počet prekročení'],
+      data: [t('exceedancesCount')],
     },
     grid: {
       left: '3%',
@@ -229,7 +218,7 @@ const fetchComparisonChart = async (options) => {
     },
   }).json()
 
-  const categories = res[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString('sk'))
+  const categories = res[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString(getLocale()))
 
   let days = []
   const series = res.map((sensor) => {
@@ -246,7 +235,7 @@ const fetchComparisonChart = async (options) => {
       if (date.getDay() === start.getDay() && i !== dates.length - 1)
         continue
 
-      const categoryDate = start.toLocaleDateString('sk', { weekday: 'long' })
+      const categoryDate = start.toLocaleDateString(getLocale(), { weekday: 'long' })
       if (days.indexOf(categoryDate) === -1) {
         days.push(categoryDate)
       }
@@ -258,7 +247,7 @@ const fetchComparisonChart = async (options) => {
 
 
       areas.push({
-        xAxis: end.toLocaleString('sk'),
+        xAxis: end.toLocaleString(getLocale()),
         name: '',
       })
 
@@ -286,7 +275,7 @@ const fetchComparisonChart = async (options) => {
 
   chart.setOption({
     title: {
-      text: 'Porovnanie znečistenia vzduchu',
+      text: t('airPollutionComparison'),
     },
     tooltip: {
       trigger: 'axis',
@@ -368,8 +357,8 @@ onMounted(async () => {
         'description':
           `<div>
             <h3>${sensor.name}</h3>
-            <h4>PM 2.5: ${sensor.readings[0].value} µg/m3</h4>
-            <p>${new Date(sensor.readings[0].dateTime).toLocaleString('sk')}</p>
+            <h4>${t('pm25')}: ${sensor.readings[0].value} µg/m3</h4>
+            <p>${new Date(sensor.readings[0].dateTime).toLocaleString(getLocale())}</p>
             <p>${sensor.location?.address}</p>
           </div>`,
         'value': sensor.readings[0].value,

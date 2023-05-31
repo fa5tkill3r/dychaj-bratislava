@@ -29,6 +29,11 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  displayTime: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const chartContainer = ref(null)
@@ -56,8 +61,17 @@ watch(() => props.loading, () => {
   }
 })
 
+watch(() => props.title, () => {
+  fetchChart()
+})
+
 const fetchChart = async () => {
-  const readingDates = props.sensors[0].readings.map((reading) => new Date(reading.dateTime).toLocaleDateString('sk'))
+  const readingDates = props.sensors[0].readings.map((reading) => {
+    if (props.displayTime) {
+      return new Date(reading.dateTime).toLocaleString('sk')
+    }
+    return new Date(reading.dateTime).toLocaleDateString('sk')
+  })
 
   const series = props.sensors.map((sensor) => {
     return {

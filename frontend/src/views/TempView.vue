@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Temp View</h1>
+    <h1>{{ $t('temperature') }}</h1>
     <div v-if='stats'>
       <div>
         <v-autocomplete
@@ -11,7 +11,7 @@
           item-title='name'
           item-value='id'
           class='ml-auto mr-0'
-          label='Select'
+          :label='$t("select")'
           :items='availableSensors'
           @update:model-value='fetchStats'
         ></v-autocomplete>
@@ -29,7 +29,7 @@
           >
             <SheetInfo
               :title='sensor.current + " °C"'
-              subtitle='Aktualne'
+              :subtitle='$t("current")'
             />
           </v-col>
           <v-col
@@ -37,24 +37,18 @@
           >
             <SheetInfo
               icon='mdi-thermometer-high'
-              :title='sensor.max + " °C"'>
-              <template #subtitle>
-                <span>Maximálna</span>
-                <span>teplota dnes</span>
-              </template>
-            </SheetInfo>
+              :title='sensor.max + " °C"'
+              :subtitle='$t("temp.maxToday")'
+            />
           </v-col>
           <v-col
             cols='auto'
           >
             <SheetInfo
               icon='mdi-thermometer-low'
-              :title='sensor.min + " °C"'>
-              <template #subtitle>
-                <span>Minimálna</span>
-                <span>teplota dnes</span>
-              </template>
-            </SheetInfo>
+              :title='sensor.min + " °C"'
+              :subtitle='$t("temp.minToday")'
+            />
           </v-col>
         </v-row>
       </div>
@@ -65,8 +59,9 @@
       :sensors='comparisonChart.sensors'
       :loading='comparisonChart.loading'
       unit='°C'
-      title='Porovnanie teplôt'
+      :title='$t("temp.comparison")'
       :zoom='true'
+      :display-time='true'
     />
     <div ref='mapContainer' class='map-container mt-12' />
   </v-container>
@@ -81,6 +76,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { mapboxToken } from '@/lib/constants'
 import ComparisonChart from '@/components/ComparisonChart.vue'
+import { t } from '@/lib/i18n'
 
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
@@ -140,7 +136,7 @@ const fetchMap = async () => {
         'description':
           `<div>
             <h3>${sensor.name}</h3>
-            <h4>Teplota: ${sensor.readings[0].value} °C</h4>
+            <h4>${t('temperature')}: ${sensor.readings[0].value} °C</h4>
             <p>${toDayString(new Date(sensor.readings[0].dateTime))}</p>
             <p>${sensor.location?.address}</p>
           </div>`,

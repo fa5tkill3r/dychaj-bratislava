@@ -4,7 +4,7 @@
       color='primary'
       @click='dialog = true'
     >
-      Generuj
+      {{ $t('generate') }}
     </v-btn>
   </div>
 
@@ -25,7 +25,7 @@
       >
 
         <div class='d-flex align-center justify-space-between'>
-          <h2>Porovanie miest</h2>
+          <h2>{{ $t('airPollutionWeekComparison') }}</h2>
           <v-btn
             class='ms-2'
             icon
@@ -37,7 +37,7 @@
       </v-sheet>
 
       <div class='pa-4'>
-        <h3>Vyber miesta na porovnanie: </h3>
+        <h3>{{ $t('placeSelect') }}</h3>
         <v-chip-group
           v-model='selection'
           selected-class='text-primary'
@@ -53,7 +53,7 @@
           </v-chip>
         </v-chip-group>
 
-        <h3>Vyber dni na porovnanie: </h3>
+        <h3>{{ $t('daysSelect') }}</h3>
         <div class='d-flex justify-center'>
           <v-btn-toggle
             v-model='selectedDays'
@@ -68,7 +68,7 @@
 
         </div>
 
-        <h3>Hodiny:</h3>
+        <h3>{{ $t('hours') }} </h3>
         <div class='d-flex justify-center'>
           <v-item-group
             v-model='selectedHours'
@@ -105,7 +105,7 @@
           </v-item-group>
         </div>
 
-        <h3>Počet týždňov:</h3>
+        <h3>{{ $t('weekCount') }}</h3>
         <v-slider
           v-model='selectedWeeks'
           :min='1'
@@ -122,21 +122,25 @@
 
 <script setup>
 import { ref } from 'vue'
+import { getLocale } from '@/lib/i18n'
 
 const selection = ref([])
 const selectedDays = ref([])
 const selectedHours = ref([])
 const selectedWeeks = ref(1)
 const dialog = ref(false)
-const days = ref([
-  'Po',
-  'Ut',
-  'St',
-  'Št',
-  'Pi',
-  'So',
-  'Ne',
-])
+
+const date = new Date();
+
+const options = { weekday: 'short' };
+
+const days = [];
+for (let i = 0; i < 7; i++) {
+  date.setDate(i + 1);
+  let dayOfWeek = date.toLocaleDateString(getLocale(), options);
+  dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+  days.push(dayOfWeek);
+}
 
 
 const props = defineProps({

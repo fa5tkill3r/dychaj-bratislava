@@ -17,6 +17,10 @@ export let i18n = new createI18n({
 
 export let t = i18n.global.t
 
+export const getAvailableLocales = () => {
+  return Object.keys(messages)
+}
+
 export function getLocale() {
   return i18n.global.locale
 }

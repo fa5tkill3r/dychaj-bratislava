@@ -5,7 +5,7 @@
     width='150'
     height='150'
   >
-    <div class='d-flex flex-column justify-center align-center fill-height'>
+    <div class='d-flex flex-column justify-center align-center fill-height text-center pa-1'>
       <span class='title'>{{ title }}
         <slot name='unit'>
           <sub>{{ unit }}</sub>
