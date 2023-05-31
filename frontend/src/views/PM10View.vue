@@ -28,9 +28,18 @@
             cols='auto'
           >
             <SheetInfo
-              :title='sensor.current'
+              :title='sensor.daysAboveThreshold'
+              :subtitle='$t("daysAboveThreshold")'
               unit='µg/m³'
+            />
+          </v-col>
+          <v-col
+            cols='auto'
+          >
+            <SheetInfo
+              :title='sensor.current'
               :subtitle='$t("current")'
+              unit='µg/m³'
             />
           </v-col>
           <v-col
@@ -67,6 +76,13 @@
       :limit='50'
     />
 
+    <ExceedanceChart
+      title='yearlyExceedances'
+      series-name='exceedancesCount'
+      :sensors='exceedChart.sensors'
+      :loading='exceedChart.loading'
+    />
+
     <div class='d-flex justify-center flex-column align-center'>
       <h2>{{ $t('airPollutionWeekComparison') }}</h2>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
@@ -94,6 +110,7 @@ import ComparisonFilter from '@/components/ComparisonFilter.vue'
 import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
+import ExceedanceChart from '@/components/ExceedanceChart.vue'
 
 const comparisonChart = ref(null)
 const stats = ref(null)
@@ -107,6 +124,10 @@ const weeklyComparison = ref({
 const map = ref({
   layers: [],
   features: [],
+})
+const exceedChart = ref({
+  sensors: [],
+  loading: false,
 })
 
 const fetchStats = async (ids) => {
@@ -136,6 +157,17 @@ const fetchWeeklyChart = async (ids) => {
 
   weeklyComparison.value.sensors = res.sensors
   weeklyComparison.value.loading = false
+}
+
+const fetchYearlyExceedances = async () => {
+  exceedChart.value.loading = true
+
+  const res = await ky.get('pm10/exceed').json()
+
+  exceedChart.value = {
+    sensors: res,
+    loading: false,
+  }
 }
 
 const fetchComparisonChart = async (options) => {
@@ -334,8 +366,8 @@ const fetchMap = async () => {
             'circle-stroke-width': 2,
             'circle-stroke-color': '#ffffff',
           },
-        }
-      ]
+        },
+      ],
     }
   }
 
@@ -347,8 +379,8 @@ const fetchMap = async () => {
 fetchLocations()
 fetchStats()
 fetchWeeklyChart()
+fetchYearlyExceedances()
 fetchMap()
-
 
 
 </script>
