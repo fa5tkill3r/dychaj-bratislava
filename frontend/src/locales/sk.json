@@ -7,6 +7,15 @@
   },
   "current": "Aktuálne",
   "dayValueAvg": "Priemer za deň",
+  "days": {
+    "monday": "Po",
+    "thursday": "Št",
+    "tuesday": "Ut",
+    "wednesday": "St",
+    "friday": "Pi",
+    "saturday": "So",
+    "sunday": "Ne"
+  },
   "daysAboveThreshold": "Dni nad limitom",
   "daysSelect": "Vyber dni na porovnanie:",
   "exceedancesCount": "Počet prekročení",

@@ -7,6 +7,15 @@
   },
   "current": "Right now",
   "dayValueAvg": "Day value average",
+  "days": {
+    "monday": "Mon",
+    "thursday": "Thu",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  },
   "daysAboveThreshold": "Days above threshold in this year",
   "daysSelect": "Select week days for comparison",
   "exceedancesCount": "Number of exceedances",

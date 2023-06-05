@@ -122,7 +122,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getLocale } from '@/lib/i18n'
+import { getLocale, t } from '@/lib/i18n'
 
 const selection = ref([])
 const selectedDays = ref([])
@@ -130,17 +130,16 @@ const selectedHours = ref([])
 const selectedWeeks = ref(1)
 const dialog = ref(false)
 
-const date = new Date();
 
-const options = { weekday: 'short' };
-
-const days = [];
-for (let i = 0; i < 7; i++) {
-  date.setDate(i + 1);
-  let dayOfWeek = date.toLocaleDateString(getLocale(), options);
-  dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
-  days.push(dayOfWeek);
-}
+const days = [
+  t('days.monday'),
+  t('days.tuesday'),
+  t('days.wednesday'),
+  t('days.thursday'),
+  t('days.friday'),
+  t('days.saturday'),
+  t('days.sunday'),
+]
 
 
 const props = defineProps({
@@ -156,7 +155,7 @@ const submit = () => {
   dialog.value = false
   emit('update', {
     sensors: selection.value.map((index) => props.availableSensors[index].id).sort(),
-    days: selectedDays.value.map((index) => index + 1).sort(),
+    days: selectedDays.value.map((index) =>(index + 1) % 7).sort(),
     hours: selectedHours.value.map((index) => index).sort(),
     weeks: selectedWeeks.value,
   })

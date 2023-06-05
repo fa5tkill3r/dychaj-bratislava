@@ -129,7 +129,7 @@ public class PmService
 
         foreach (var sensor in sensors)
         {
-            var start = DateTime.UtcNow.Date.AddDays(request.Weeks * -7);
+            var start = DateTime.UtcNow.Date.AddDays(request.Weeks * -7).AddDays(1);
             var sensorDto = _mapper.Map<SensorWithReadingsDto>(sensor);
             sensorDto.Readings = new List<ReadingDto>();
             
@@ -137,10 +137,14 @@ public class PmService
             {
                 foreach (var dayOfWeek in request.WeekDays)
                 {
-                    while (start.DayOfWeek != dayOfWeek)
+                    var date = start;
+                    while (date.DayOfWeek != dayOfWeek)
                     {
-                        start = start.AddDays(1);
+                        date = date.AddDays(1);
                     }
+                    
+                    if (date > DateTime.UtcNow.Date)
+                        break;
 
 
                     var lastReading = DateTime.MinValue;
@@ -155,7 +159,7 @@ public class PmService
                             });
                         }
                         
-                        var from = new DateTime(start.Year, start.Month, start.Day, hour, 0, 0);
+                        var from = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0);
                         
                         var readings = await _bpContext.Reading
                             .Where(r => r.SensorId == sensor.Id)
@@ -185,9 +189,8 @@ public class PmService
                         DateTime = lastReading + TimeSpan.FromMilliseconds(1),
                         Value = null,
                     });
-                    
-                    start = start.AddDays(1);
                 }
+                start = start.AddDays(7);
             }
             
             sensorDto.Readings = sensorDto.Readings.OrderBy(r => r.DateTime).ToList();

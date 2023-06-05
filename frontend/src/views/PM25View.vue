@@ -182,6 +182,7 @@ const fetchComparisonChart = async (options) => {
 
   const categories = res[0].readings.map((reading) => new Date(reading.dateTime).toLocaleString(getLocale()))
 
+  let fetchDays = true
   let days = []
   const series = res.map((sensor) => {
     const dates = res[0].readings.map((reading) => new Date(reading.dateTime))
@@ -193,19 +194,17 @@ const fetchComparisonChart = async (options) => {
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i]
 
-
-      if (date.getDay() === start.getDay() && i !== dates.length - 1)
+      if (date.toDateString() === start.toDateString()) {
         continue
+      }
+      end = dates[i - 1]
+
 
       const categoryDate = start.toLocaleDateString(getLocale(), { weekday: 'long' })
-      if (days.indexOf(categoryDate) === -1) {
+
+
+      if (fetchDays)
         days.push(categoryDate)
-      }
-
-      if (i === dates.length - 1)
-        break
-
-      end = dates[i - 1]
 
 
       areas.push({
@@ -214,8 +213,12 @@ const fetchComparisonChart = async (options) => {
       })
 
       start = date
-      end = null
     }
+
+    if (fetchDays)
+      days.push(start.toLocaleDateString(getLocale(), { weekday: 'long' }))
+
+    fetchDays = false
 
     return {
       name: sensor.name,
