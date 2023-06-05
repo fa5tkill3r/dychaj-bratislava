@@ -3,12 +3,13 @@
 namespace BP.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("")]
 public class TestController : ControllerBase
 {
     [HttpGet]
-    public Task<IActionResult> GetReadings()
+    public Task<IActionResult> GetVersion()
     {
-        return Task.FromResult<IActionResult>(Ok("Ok"));
+        var version = GetType().Assembly.GetName().Version;
+        return Task.FromResult<IActionResult>(Ok(version));
     }
 }
