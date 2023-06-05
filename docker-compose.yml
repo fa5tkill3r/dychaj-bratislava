@@ -29,6 +29,13 @@ services:
       dockerfile: ./Dockerfile.DataFetcher
     depends_on:
       - postgres
+  frontend:
+    image: fastkiller/bp:frontend
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - '9006:80'
 volumes:
   postgres_data:
   
