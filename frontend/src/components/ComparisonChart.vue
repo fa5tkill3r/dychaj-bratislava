@@ -40,6 +40,20 @@ const props = defineProps({
     required: false,
     default: 0,
   },
+  scale: {
+    type: Object,
+    required: false,
+    default: () => ({
+      min: null,
+      max: null,
+      scale: null,
+    }),
+  },
+  connectNulls: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const chartContainer = ref(null)
@@ -99,7 +113,7 @@ const fetchChart = async () => {
     return {
       name: sensor.name,
       type: 'line',
-      connectNulls: false,
+      connectNulls: props.connectNulls,
       data: sensor.readings.map((reading) => reading.value),
       ...markline,
     }
@@ -153,6 +167,7 @@ const fetchChart = async () => {
       axisLabel: {
         formatter: `{value} ${props.unit}`,
       },
+      ...props.scale,
     },
     dataZoom: zoom,
     series: series,

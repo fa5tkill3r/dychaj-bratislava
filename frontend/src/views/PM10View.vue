@@ -86,6 +86,10 @@
       :loading='weeklyComparison.loading'
       unit='µg/m³'
       :limit='50'
+      :scale='{
+        min: 60,
+        max: 0
+      }'
     />
 
     <ExceedanceChart

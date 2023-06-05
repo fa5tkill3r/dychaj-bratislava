@@ -69,7 +69,7 @@
     <ComparisonChart
       :sensors='comparisonChart.sensors'
       :loading='comparisonChart.loading'
-      unit='°C'
+      unit='%'
       :title='$t("humidity.comparison")'
       :zoom='true'
       :display-time='true'

@@ -73,6 +73,10 @@
       :title='$t("pressure.comparison")'
       :zoom='true'
       :display-time='true'
+      :connect-nulls='true'
+      :scale='{
+        scale: "auto",
+      }'
     />
     <MapComponent
       :layers='map.layers'
