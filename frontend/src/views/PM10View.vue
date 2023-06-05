@@ -31,7 +31,7 @@
             <SheetInfo
               :title='sensor.daysAboveThreshold'
               :subtitle='$t("daysAboveThreshold")'
-              unit='µg/m³'
+              :help='$t("pm10daysAboveThresholdHelp")'
             />
           </v-col>
           <v-col

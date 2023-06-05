@@ -8,13 +8,13 @@
   "current": "Aktuálne",
   "dayValueAvg": "Priemer za deň",
   "days": {
+    "friday": "Pi",
     "monday": "Po",
+    "saturday": "So",
+    "sunday": "Ne",
     "thursday": "Št",
     "tuesday": "Ut",
-    "wednesday": "St",
-    "friday": "Pi",
-    "saturday": "So",
-    "sunday": "Ne"
+    "wednesday": "St"
   },
   "daysAboveThreshold": "Dni nad limitom",
   "daysSelect": "Vyber dni na porovnanie:",
@@ -30,8 +30,10 @@
   "login": "Prihlásiť sa",
   "placeSelect": "Vyber miesta na porovananie",
   "pm10": "PM 10",
+  "pm10daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (50µg/m³).",
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
+  "pm25daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (25µg/m³). Maximálny počet dní prekročenej tejto hodnoty je 4.",
   "pressure": {
     "comparison": "Porovnanie zmeny tlaku",
     "maxToday": "Maximálny tlak dnes",

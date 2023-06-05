@@ -4,7 +4,22 @@
     rounded
     width='150'
     height='150'
+    class='position-relative'
   >
+    <v-btn
+      v-if='help'
+      class='help'
+      density='compact'
+      icon
+      variant='text'>
+      <v-icon>mdi-help-circle</v-icon>
+      <v-tooltip
+        activator='parent'
+        max-width='300px'
+      >
+        <span>{{ help }}</span>
+      </v-tooltip>
+    </v-btn>
     <div class='d-flex flex-column justify-center align-center fill-height text-center pa-1'>
       <span class='title'>{{ title }}
         <slot name='unit'>
@@ -35,6 +50,11 @@ defineProps({
     required: false,
     default: null,
   },
+  help: {
+    type: String,
+    required: false,
+    default: null,
+  },
 })
 
 </script>
@@ -49,5 +69,10 @@ defineProps({
 
 sub {
   font-size: initial;
+}
+
+.help {
+  position: absolute;
+  right: 0;
 }
 </style>

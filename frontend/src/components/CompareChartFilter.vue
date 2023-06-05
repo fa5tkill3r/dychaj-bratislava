@@ -122,7 +122,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getLocale, t } from '@/lib/i18n'
+import { t } from '@/lib/i18n'
 
 const selection = ref([])
 const selectedDays = ref([])

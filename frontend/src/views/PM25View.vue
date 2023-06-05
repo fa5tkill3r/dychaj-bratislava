@@ -30,6 +30,7 @@
             <SheetInfo
               :title='sensor.daysAboveThreshold'
               :subtitle='$t("daysAboveThreshold")'
+              :help='$t("pm25daysAboveThresholdHelp")'
             />
           </v-col>
           <v-col

@@ -8,13 +8,13 @@
   "current": "Right now",
   "dayValueAvg": "Day value average",
   "days": {
+    "friday": "Fri",
     "monday": "Mon",
+    "saturday": "Sat",
+    "sunday": "Sun",
     "thursday": "Thu",
     "tuesday": "Tue",
-    "wednesday": "Wed",
-    "friday": "Fri",
-    "saturday": "Sat",
-    "sunday": "Sun"
+    "wednesday": "Wed"
   },
   "daysAboveThreshold": "Days above threshold in this year",
   "daysSelect": "Select week days for comparison",
@@ -30,8 +30,10 @@
   "login": "Login",
   "placeSelect": "Select places to compare",
   "pm10": "PM 10",
+  "pm10daysAboveThresholdHelp": "Number of days with an average value above the limit. (50µg/m³)..",
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
+  "pm25daysAboveThresholdHelp": "Number of days with an average value above the limit. (25µg/m³). The maximum number of days exceeding this value is 4.",
   "pressure": {
     "comparison": "Pressure change comparison",
     "maxToday": "Max pressure today",

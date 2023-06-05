@@ -59,7 +59,7 @@ public class PmService
             var daysAboveThreshold = await _bpContext.Reading
                 .Where(r => r.SensorId == sensor.Id && r.DateTime.Date.Year == DateTime.UtcNow.Date.Year)
                 .GroupBy(r => r.DateTime.Date)
-                .Where(g => g.Average(r => r.Value) > 25)
+                .Where(g => g.Average(r => r.Value) > GetValueTypeLimit(valueType))
                 .CountAsync();
 
 
@@ -90,7 +90,7 @@ public class PmService
                 Exceed = _bpContext.Reading
                     .Where(r => r.SensorId == s.Id && r.DateTime.Date >= DateTime.UtcNow.Date.AddDays(-365))
                     .GroupBy(r => r.DateTime.Date)
-                    .Count(g => g.Average(r => r.Value) > 25),
+                    .Count(g => g.Average(r => r.Value) > GetValueTypeLimit(valueType)),
             })
             .ToListAsync();
 
@@ -201,4 +201,11 @@ public class PmService
 
         return response;
     }
+
+    private int GetValueTypeLimit(ValueType valueType) => valueType switch
+    {
+        ValueType.Pm25 => 25,
+        ValueType.Pm10 => 50,
+        _ => throw new ArgumentOutOfRangeException(nameof(valueType), valueType, null)
+    };
 }
