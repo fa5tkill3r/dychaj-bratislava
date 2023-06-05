@@ -8,7 +8,7 @@ public class Helpers
     {
         return valueType.ToLower().Split('_').Last() switch
         {
-            "temperature" => ValueType.Temp,
+            "temperature" => ValueType.Temperature,
             "humidity" => ValueType.Humidity,
             "pressure" => ValueType.Pressure,
             "p1" => ValueType.Pm10,

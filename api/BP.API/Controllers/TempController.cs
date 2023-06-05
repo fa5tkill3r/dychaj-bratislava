@@ -10,7 +10,7 @@ namespace BP.API.Controllers;
 public class TempController : ControllerBase
 {
     private readonly BasicService _basicService;
-    private const ValueType ValueType = Data.DbHelpers.ValueType.Temp;
+    private const ValueType ValueType = Data.DbHelpers.ValueType.Temperature;
 
     public TempController(BasicService basicService)
     {

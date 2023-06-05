@@ -20,7 +20,18 @@
         v-for='sensor in stats.sensors'
         :key='sensor.sensor.id'
       >
-        <h3>{{ sensor.sensor.name }}</h3>
+        <div class='d-flex'>
+          <v-btn
+            :icon='appStore.isFavorite(sensor.sensor) ? "mdi-heart" : "mdi-heart-outline"'
+            density='compact'
+            variant='text'
+            class='mr-3'
+            :color='appStore.isFavorite(sensor.sensor) ? "red" : ""'
+            @click='appStore.toggleFavorite(sensor.sensor)'
+          />
+
+          <h3>{{ sensor.sensor.name }}</h3>
+        </div>
         <v-row
           justify='center'
         >
@@ -79,7 +90,9 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
+import { useAppStore } from '@/store/app'
 
+const appStore = useAppStore()
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
 const stats = ref(null)
@@ -195,10 +208,12 @@ const fetchMap = async () => {
 }
 
 fetchLocations()
-fetchStats()
+fetchStats(appStore.favorites.pressure)
 
 onMounted(() => {
-  fetchComparisonChart()
+  fetchComparisonChart({
+    sensors: appStore.favorites.pressure,
+  })
   fetchMap()
 })
 

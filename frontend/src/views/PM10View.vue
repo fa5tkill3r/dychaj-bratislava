@@ -21,7 +21,18 @@
         v-for='sensor in stats.sensors'
         :key='sensor.sensor.id'
       >
-        <h3>{{ sensor.sensor.name }}</h3>
+        <div class='d-flex'>
+          <v-btn
+            :icon='appStore.isFavorite(sensor.sensor) ? "mdi-heart" : "mdi-heart-outline"'
+            density='compact'
+            variant='text'
+            class='mr-3'
+            :color='appStore.isFavorite(sensor.sensor) ? "red" : ""'
+            @click='appStore.toggleFavorite(sensor.sensor)'
+          />
+
+          <h3>{{ sensor.sensor.name }}</h3>
+        </div>
         <v-row
           justify='center'
         >
@@ -112,6 +123,9 @@ import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
 import ExceedanceChart from '@/components/ExceedanceChart.vue'
+import { useAppStore } from '@/store/app'
+
+const appStore = useAppStore()
 
 const comparisonChart = ref(null)
 const stats = ref(null)
@@ -381,8 +395,8 @@ const fetchMap = async () => {
 
 
 fetchLocations()
-fetchStats()
-fetchWeeklyChart()
+fetchStats(appStore.favorites.pm10)
+fetchWeeklyChart(appStore.favorites.pm10)
 fetchYearlyExceedances()
 fetchMap()
 

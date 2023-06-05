@@ -89,7 +89,7 @@ public class CykloKoaliciaService : IWeatherService
                 case ValueType.Pressure:
                     await CreateReading(sensor, value.Pressure, datetime);
                     break;
-                case ValueType.Temp:
+                case ValueType.Temperature:
                     await CreateReading(sensor, value.Temperature, datetime);
                     break;
                 case ValueType.Pm10:
@@ -160,7 +160,7 @@ public class CykloKoaliciaService : IWeatherService
         if (sensorsValue.Pressure != 0)
             await CreateSensor(module, sensorsValue, ValueType.Pressure, sensorsValue.Pressure);
         if (sensorsValue.Temperature != 0)
-            await CreateSensor(module, sensorsValue, ValueType.Temp, sensorsValue.Temperature);
+            await CreateSensor(module, sensorsValue, ValueType.Temperature, sensorsValue.Temperature);
 
         await _bpContext.SaveChangesAsync();
     }
@@ -195,7 +195,7 @@ public class CykloKoaliciaService : IWeatherService
             if (sensorValue.Pressure != 0)
                 types.Add(ValueType.Pressure);
             if (sensorValue.Temperature != 0)
-                types.Add(ValueType.Temp);
+                types.Add(ValueType.Temperature);
 
             result.AddRange(types.Select(type => new GetSensorsDto()
                 {Name = sensor.Location, UniqueId = sensor.Number, Type = type}));
@@ -254,7 +254,7 @@ public class CykloKoaliciaService : IWeatherService
                                     continue;
                                 readings.Add(CreateReadingObject(sensor, value.Pressure, datetime));
                                 break;
-                            case ValueType.Temp:
+                            case ValueType.Temperature:
                                 if (value.Temperature is < -100 or > 100)
                                     continue;
                                 readings.Add(CreateReadingObject(sensor, value.Temperature, datetime));

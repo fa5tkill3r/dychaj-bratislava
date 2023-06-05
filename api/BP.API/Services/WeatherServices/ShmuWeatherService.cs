@@ -58,7 +58,7 @@ public class ShmuWeatherService : IWeatherService
                     _logger.LogError("ShmuWeatherService: Sensor {SensorId} has invalid pressure data",
                         sensor.UniqueId);
             }
-            else if (sensor.Type == ValueType.Temp)
+            else if (sensor.Type == ValueType.Temperature)
             {
                 if (feature.properties.prop_weather.ttt == null)
                 {
@@ -129,7 +129,7 @@ public class ShmuWeatherService : IWeatherService
                 Module = module,
                 UniqueId = feature.id.ToString(),
                 Name = feature.properties.prop_name,
-                Type = ValueType.Temp
+                Type = ValueType.Temperature
             };
             await _bpContext.Sensor.AddAsync(sensor);
         }
