@@ -63,7 +63,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </template>
         <v-list-item-title>
-          {{ item.title }}
+          {{ $t(item.title) }}
         </v-list-item-title>
       </v-list-item>
     </v-list>
@@ -95,27 +95,27 @@ const selectLanguage = (language) => {
 const items = [
   {
     icon: 'mdi-chart-bar',
-    title: 'PM2.5',
+    title: 'pm25',
     to: '/pm25'
   },
   {
     icon: 'mdi-chart-bar',
-    title: 'PM10',
+    title: 'pm10',
     to: '/pm10'
   },
   {
     icon: 'mdi-thermometer',
-    title: 'Temperature',
+    title: 'temperature',
     to: '/temp'
   },
   {
     icon: 'mdi-cloud-percent',
-    title: 'Humidity',
+    title: 'humidity.humidity',
     to: '/humidity'
   },
   {
     icon: 'mdi-chart-bar',
-    title: 'Pressure',
+    title: 'pressure.pressure',
     to: '/pressure'
   }
 ]
