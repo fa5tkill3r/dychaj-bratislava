@@ -2,6 +2,10 @@
   <v-app-bar
     :flat='true'
   >
+    <v-app-bar-nav-icon
+      class='d-sm-none'
+      @click.stop='drawer = !drawer'
+    />
     <v-img
       class='ml-2'
       src='/favicon.svg'
@@ -10,59 +14,68 @@
       contain
     />
     <v-app-bar-title>
-
       {{ $t('app.title') }}
     </v-app-bar-title>
 
     <v-spacer />
 
-    <v-btn
-      to="/pm25"
-    >
-      {{ $t('pm25') }}
-    </v-btn>
-    <v-btn
-      to="/pm10"
-    >
-      {{ $t('pm10') }}
-    </v-btn>
-    <v-btn
-      to="/temp"
-    >
-      {{ $t('temperature') }}
-    </v-btn>
-    <v-btn
-      to="/humidity"
-    >
-      {{ $t('humidity.humidity') }}
-    </v-btn>
-    <v-btn
-      to="/pressure"
-    >
-      {{ $t('pressure.pressure') }}
-    </v-btn>
+    <div class='d-none d-sm-flex align-center'>
+      <v-btn
+        v-for='(item, index) in items'
+        :key='index'
+        :to='item.to'
+      >
+        {{ $t(item.title) }}
+      </v-btn>
 
-    <v-menu offset-y>
-      <template #activator="{ props }">
-        <v-btn
-          v-bind='props'
-          icon>
-          <v-icon>mdi-translate</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item v-for="language in languages" :key="language.code" @click="selectLanguage(language)">
-          <v-list-item-title>{{ language.name }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-
+      <v-menu offset-y>
+        <template #activator="{ props }">
+          <v-btn
+            v-bind='props'
+            icon>
+            <v-icon>mdi-translate</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="language in languages" :key="language.code" @click="selectLanguage(language)">
+            <v-list-item-title>{{ language.name }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
 
   </v-app-bar>
+  <v-navigation-drawer
+    v-model='drawer'
+    :absolute='true'
+    :temporary='true'
+  >
+    <v-list
+      :nav='true'
+    >
+      <v-list-item
+        v-for='(item, index) in items'
+        :key='index'
+        :to='item.to'
+        @click='drawer = false'
+      >
+        <template #prepend>
+          <v-icon>{{ item.icon }}</v-icon>
+        </template>
+        <v-list-item-title>
+          {{ item.title }}
+        </v-list-item-title>
+      </v-list-item>
+    </v-list>
+
+  </v-navigation-drawer>
 </template>
 
 <script setup>
 import { i18n } from '@/lib/i18n'
+import { ref } from 'vue'
+
+const drawer = ref(false)
 
 const languages = [
   {
@@ -79,5 +92,40 @@ const selectLanguage = (language) => {
   i18n.global.locale = language.code
 }
 
+const items = [
+  {
+    icon: 'mdi-chart-bar',
+    title: 'PM2.5',
+    to: '/pm25'
+  },
+  {
+    icon: 'mdi-chart-bar',
+    title: 'PM10',
+    to: '/pm10'
+  },
+  {
+    icon: 'mdi-thermometer',
+    title: 'Temperature',
+    to: '/temp'
+  },
+  {
+    icon: 'mdi-cloud-percent',
+    title: 'Humidity',
+    to: '/humidity'
+  },
+  {
+    icon: 'mdi-chart-bar',
+    title: 'Pressure',
+    to: '/pressure'
+  }
+]
 
 </script>
+
+
+<style>
+.v-toolbar-title__placeholder{
+  width: 200px !important;
+}
+</style>
+
