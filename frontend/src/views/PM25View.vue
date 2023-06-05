@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <h1>{{ $t('pm25Heading') }}</h1>
+    <b>{{ $t('pmSubtitle') }}</b>
     <div v-if='stats'>
       <div>
         <v-autocomplete
@@ -342,7 +343,7 @@ const fetchMap = async () => {
             'text-field': ['get', 'value'],
             'text-font': ['Open Sans Regular'],
             'text-size': 12,
-            'text-offset': [0, 0.5],
+            'text-offset': [0, 1],
             'text-anchor': 'top',
           },
           'paint': {
@@ -365,7 +366,7 @@ const fetchMap = async () => {
               20,
               '#ff0000',
             ],
-            'circle-radius': 6,
+            'circle-radius': 10,
             'circle-stroke-width': 2,
             'circle-stroke-color': '#ffffff',
           },

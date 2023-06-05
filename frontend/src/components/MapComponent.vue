@@ -79,7 +79,7 @@ const fetchMap = () => {
       closeOnClick: false,
     })
 
-    map.on('mouseenter', 'places', (e) => {
+    map.on('mouseenter', 'places-circle', (e) => {
       map.getCanvas().style.cursor = 'pointer'
 
       const coordinates = e.features[0].geometry.coordinates.slice()
@@ -92,7 +92,7 @@ const fetchMap = () => {
       popup.setLngLat(coordinates).setHTML(description).addTo(map)
     })
 
-    map.on('mouseleave', 'places', () => {
+    map.on('mouseleave', 'places-circle', () => {
       map.getCanvas().style.cursor = ''
       popup.remove()
     })

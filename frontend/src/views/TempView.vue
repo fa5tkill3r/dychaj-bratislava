@@ -161,7 +161,7 @@ const fetchMap = async () => {
             'text-field': ['get', 'value'],
             'text-font': ['Open Sans Regular'],
             'text-size': 12,
-            'text-offset': [0, 0.5],
+            'text-offset': [0, 1],
             'text-anchor': 'top',
           },
           'paint': {
@@ -190,7 +190,7 @@ const fetchMap = async () => {
               35,
               '#930202',
             ],
-            'circle-radius': 6,
+            'circle-radius': 10,
             'circle-stroke-width': 2,
             'circle-stroke-color': '#ffffff',
           },

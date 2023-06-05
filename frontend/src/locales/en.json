@@ -34,6 +34,7 @@
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
   "pm25daysAboveThresholdHelp": "Number of days with an average value above the limit. (25µg/m³). The maximum number of days exceeding this value is 4.",
+  "pmSubtitle": "Workplace air exposure levels during physical activities.",
   "pressure": {
     "comparison": "Pressure change comparison",
     "maxToday": "Max pressure today",

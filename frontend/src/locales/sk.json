@@ -34,6 +34,7 @@
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
   "pm25daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (25µg/m³). Maximálny počet dní prekročenej tejto hodnoty je 4.",
+  "pmSubtitle": "Úrovne expozicii ovzdušia v lokalitách počas pohyhových aktivít.",
   "pressure": {
     "comparison": "Porovnanie zmeny tlaku",
     "maxToday": "Maximálny tlak dnes",
