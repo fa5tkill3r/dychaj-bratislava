@@ -1,5 +1,5 @@
 <template>
-  <div ref='mapContainer' class='map-container mt-12' />
+  <div ref='mapContainer' class='map-container' />
 </template>
 
 
@@ -22,6 +22,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+const emit = defineEmits(['enter', 'leave'])
 
 watch(() => props.features, () => {
   if (map) {
@@ -90,11 +92,15 @@ const fetchMap = () => {
       }
 
       popup.setLngLat(coordinates).setHTML(description).addTo(map)
+
+      emit('enter', e.features[0].properties.value)
     })
 
     map.on('mouseleave', 'places-circle', () => {
       map.getCanvas().style.cursor = ''
       popup.remove()
+
+      emit('leave')
     })
 
     map.addControl(

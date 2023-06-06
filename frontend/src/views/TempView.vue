@@ -74,9 +74,44 @@
       :zoom='true'
       :display-time='true'
     />
+
+    <LegendComponent
+      :limits='[
+        {
+          value: -20,
+          color: "#00f",
+        },
+        {
+          value: 0,
+          color: "#07a7e7",
+        },
+        {
+          value: 10,
+          color: "#c3f800",
+        },
+        {
+          value: 20,
+          color: "#f8a600",
+        },
+        {
+          value: 30,
+          color: "#e01919",
+        },
+        {
+          value: 35,
+          color: "#930202",
+        },
+      ]'
+      unit='°C'
+      :value='gaugeValue'
+    />
+
     <MapComponent
       :layers='map.layers'
       :features='map.features'
+      class='mt-7'
+      @enter='gaugeValue = $event'
+      @leave='gaugeValue = null'
     />
   </v-container>
 </template>
@@ -91,8 +126,10 @@ import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
 import { useAppStore } from '@/store/app'
+import LegendComponent from '@/components/LegendComponent.vue'
 
 const appStore = useAppStore()
+const gaugeValue = ref(null)
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
 const stats = ref(null)

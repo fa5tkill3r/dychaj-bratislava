@@ -74,9 +74,28 @@
       :zoom='true'
       :display-time='true'
     />
+
+
+    <LegendComponent
+      :limits='[
+        {
+          value: 0,
+          color: "#ffffff",
+        },
+        {
+          value: 100,
+          color: "#002dff",
+        },
+      ]'
+      unit='%'
+      :value='gaugeValue'
+    />
+
     <MapComponent
       :layers='map.layers'
       :features='map.features'
+      @enter='gaugeValue = $event'
+      @leave='gaugeValue = null'
     />
   </v-container>
 </template>
@@ -91,11 +110,13 @@ import ComparisonChart from '@/components/ComparisonChart.vue'
 import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
 import { useAppStore } from '@/store/app'
+import LegendComponent from '@/components/LegendComponent.vue'
 
 const appStore = useAppStore()
 const availableSensors = ref([])
 const statsSelectedSensors = ref([])
 const stats = ref(null)
+const gaugeValue = ref(null)
 const comparisonChart = ref({
   sensors: [],
   loading: false,
@@ -190,18 +211,10 @@ const fetchMap = async () => {
               'interpolate',
               ['linear'],
               ['get', 'value'],
-              -20,
-              '#00f',
               0,
-              '#07a7e7',
-              10,
-              '#c3f800',
-              20,
-              '#f8a600',
-              30,
-              '#e01919',
-              35,
-              '#930202',
+              '#ffffff',
+              100,
+              '#002dff',
             ],
             'circle-radius': 10,
             'circle-stroke-width': 2,

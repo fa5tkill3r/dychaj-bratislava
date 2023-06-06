@@ -106,9 +106,32 @@
       <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
     </div>
     <v-divider class='mt-12' />
+
+    <LegendComponent
+      :limits='[
+        {
+          value: 0,
+          color: "#00e400",
+        },
+        {
+          value: 25,
+          color: "#ffff00",
+        },
+        {
+          value: 50,
+          color: "#ff0000",
+        },
+      ]'
+      unit='µg/m³'
+      :value='gaugeValue'
+    />
+
     <MapComponent
       :layers='map.layers'
       :features='map.features'
+      class='mt-8'
+      @enter='gaugeValue = $event'
+      @leave='gaugeValue = null'
     />
   </v-container>
 </template>
@@ -128,10 +151,12 @@ import { getLocale, t } from '@/lib/i18n'
 import MapComponent from '@/components/MapComponent.vue'
 import ExceedanceChart from '@/components/ExceedanceChart.vue'
 import { useAppStore } from '@/store/app'
+import LegendComponent from '@/components/LegendComponent.vue'
 
 const appStore = useAppStore()
 
 const comparisonChart = ref(null)
+const gaugeValue = ref(null)
 const stats = ref(null)
 const statsSelectedSensors = ref([])
 const showComparisonChart = ref(false)
