@@ -47,8 +47,6 @@
   </v-app-bar>
   <v-navigation-drawer
     v-model='drawer'
-    :absolute='true'
-    :temporary='true'
   >
     <v-list
       :nav='true'
