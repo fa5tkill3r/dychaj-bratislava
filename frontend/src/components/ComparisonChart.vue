@@ -119,7 +119,6 @@ const fetchChart = async () => {
     }
   })
 
-  console.log(series)
 
   chart.clear()
 

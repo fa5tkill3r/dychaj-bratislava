@@ -115,7 +115,6 @@ onMounted(() => {
   chart = echarts.init(exceedChart.value)
 
   window.addEventListener('resize', () => {
-    console.log('resize')
     chart.resize()
   })
 })
