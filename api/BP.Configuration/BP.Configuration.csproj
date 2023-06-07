@@ -23,15 +23,13 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
       <None Remove="appsettings.json" />
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="appsettings.Development.json" />
-      <Content Include="appsettings.Development.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="appsettings.Production.json" />
-      <Content Include="appsettings.Production.json">
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="appsettings.example.json" />
+      <Content Include="appsettings.example.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
