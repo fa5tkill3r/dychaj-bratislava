@@ -1,7 +1,7 @@
 {
   "airPollutionComparison": "Porovnanie znečistenia ovzdušia",
   "airPollutionInWeeks": "Týždenne úrovne znečistenia vzduchu",
-  "airPollutionWeekComparison": "Porovnanie medzi týžnami",
+  "airPollutionWeekComparison": "Porovnanie medzi týždňami",
   "app": {
     "title": "Dýchaj Bratislava"
   },
@@ -25,18 +25,18 @@
   "humidity": {
     "comparison": "Porovnanie zmeny vlhkosti",
     "humidity": "Vlhkosť",
-    "maxToday": "Maximálna vlkosť dnes",
-    "minToday": "Minimálna vlkosť dnes"
+    "maxToday": "Maximálna vlhkosť dnes",
+    "minToday": "Minimálna vlhkosť dnes"
   },
   "login": "Prihlásiť sa",
   "mapHeadlinePM": "Porovnanie aktuálnych úrovní znečistenia lokalít",
-  "placeSelect": "Vyber miesta na porovananie",
+  "placeSelect": "Vyber miesta na porovnávanie",
   "pm10": "PM 10",
   "pm10daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (50µg/m³).",
   "pm25": "PM 2.5",
   "pm25Heading": "PM 2.5",
   "pm25daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (25µg/m³). Maximálny počet dní prekročenej tejto hodnoty je 4.",
-  "pmSubtitle": "Úrovne expozicii ovzdušia v lokalitách počas pohyhových aktivít.",
+  "pmSubtitle": "Úrovne expozícii ovzdušia v lokalitách počas pohybových aktivít.",
   "pressure": {
     "comparison": "Porovnanie zmeny tlaku",
     "maxToday": "Maximálny tlak dnes",
