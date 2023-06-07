@@ -260,9 +260,13 @@ public class CykloKoaliciaService : IWeatherService
                                 readings.Add(CreateReadingObject(sensor, value.Temperature, datetime));
                                 break;
                             case ValueType.Pm10:
+                                if (value.Pm10 >= 300)
+                                    continue;
                                 readings.Add(CreateReadingObject(sensor, value.Pm10, datetime));
                                 break;
                             case ValueType.Pm25:
+                                if (value.Pm25 >= 300)
+                                    continue;
                                 readings.Add(CreateReadingObject(sensor, value.Pm25, datetime));
                                 break;
                         }

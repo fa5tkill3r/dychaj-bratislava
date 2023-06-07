@@ -74,6 +74,10 @@ public class SensorCommunityService : IWeatherService
                 if (isReadingInDb)
                     continue;
 
+                if ((sensor.Type == ValueType.Pm10 && dataValue.value > 300) ||
+                    (sensor.Type == ValueType.Pm25 && dataValue.value > 300))
+                    continue;
+
                 var reading = new Reading
                 {
                     SensorId = sensor.Id,
@@ -84,7 +88,7 @@ public class SensorCommunityService : IWeatherService
                 await bpContext.SaveChangesAsync();
             }
         });
-        
+
         /*
          * This is a workaround for the fact that the API only allows 2 request per second.
          * In case that some other function calls same endpoint, we always have one request left.
@@ -214,7 +218,7 @@ public class SensorCommunityService : IWeatherService
                     sensorUniqueId);
                 return;
             }
-            
+
             var semaphore = new SemaphoreSlim(50);
             var dayFetchTasks = new List<Task>();
             for (var date = from.Date; date.Date <= to.Date; date = date.AddDays(1))
@@ -222,27 +226,27 @@ public class SensorCommunityService : IWeatherService
                 await semaphore.WaitAsync();
                 dayFetchTasks.Add(FetchDayTask(sensorUniqueId, sensorName, date)
                     .ContinueWith((task) =>
-                {
-                    dayFetchTasks.Remove(task);
-                    semaphore.Release();
-                }));
-                
+                    {
+                        dayFetchTasks.Remove(task);
+                        semaphore.Release();
+                    }));
+
                 dayFetchTasks.RemoveAll(t => t.IsCompleted);
             }
-            
+
             await Task.WhenAll(dayFetchTasks);
-            
+
             _logger.LogInformation("SensorCommunityService: Finished getting data for sensor {SensorUniqueId}",
                 sensorUniqueId);
         });
 
         var tasks = sensorUniqueIds.Select(sensor => fetchData(sensor)).ToList();
-        
+
         foreach (var task in tasks)
         {
             await task;
-        }   
-        
+        }
+
         // await Task.WhenAll(tasks);
     }
 
@@ -250,7 +254,7 @@ public class SensorCommunityService : IWeatherService
     {
         var scope = _scopeFactory.CreateScope();
         var bpContext = scope.ServiceProvider.GetRequiredService<BpContext>();
-        
+
         var isReadingInDb = await bpContext.Reading
             .Include(r => r.Sensor)
             .AnyAsync(r =>
@@ -284,7 +288,7 @@ public class SensorCommunityService : IWeatherService
         var valueTypes = new List<Tuple<ValueType, int>>();
         var lines = (await reader.ReadToEndAsync()).Split("\n");
 
-        var readingInterval = TimeSpan.FromMinutes(5); 
+        var readingInterval = TimeSpan.FromMinutes(5);
         var lastReading = DateTime.MinValue;
         var readingsCount = 0;
         foreach (var (line, index) in lines.WithIndex())
@@ -313,10 +317,10 @@ public class SensorCommunityService : IWeatherService
             }
 
             var time = DateTime.Parse(columns[5]);
-            
+
             if (time - lastReading < readingInterval)
                 continue;
-            
+
             var sensors = await bpContext.Sensor
                 .Include(s => s.Module)
                 .Where(s => s.Module.Source == Source.SensorCommunity)
@@ -334,7 +338,7 @@ public class SensorCommunityService : IWeatherService
                         sensorUniqueId, valueType, fetchDate);
                     continue;
                 }
-                
+
                 if (!decimal.TryParse(columns[columnIndex], out var value))
                 {
                     _logger.LogWarning(
@@ -350,7 +354,7 @@ public class SensorCommunityService : IWeatherService
                     Value = value,
                 };
                 await bpContext.Reading.AddAsync(reading);
-                
+
                 lastReading = time;
                 readingsCount++;
 
@@ -359,13 +363,13 @@ public class SensorCommunityService : IWeatherService
                     sensorUniqueId, valueType, fetchDate);
             }
         }
-        
+
         _logger.LogInformation(
             "SensorCommunityService: Finished getting data for sensor {SensorUniqueId} on {Date}. Added {ReadingsCount} readings",
             sensorUniqueId, fetchDate, readingsCount);
 
         await csv.DisposeAsync();
-        
+
         await bpContext.SaveChangesAsync();
     }
 }

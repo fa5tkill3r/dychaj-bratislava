@@ -42,7 +42,7 @@
       <div
         class='limit'
       >
-        <span>{{ limits.at(-1).value }}</span>
+        <span>{{ max }}</span>
         <span>{{ unit }}</span>
       </div>
     </div>
@@ -97,6 +97,14 @@ const position = computed(() => {
   }
 
   return value
+})
+
+const max = computed(() => {
+  let max = props.limits.at(-1).value
+  if (props.value > max) {
+    max = props.value
+  }
+  return max
 })
 
 
