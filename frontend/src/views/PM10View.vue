@@ -61,6 +61,7 @@
               :title='sensor.yearValueAvg'
               unit='µg/m³'
               :subtitle='$t("yearValueAvg")'
+              :description='$t("yearAvgDescription", [new Date().getFullYear()])'
             />
           </v-col>
           <v-col
@@ -70,6 +71,7 @@
               :title='sensor.dayValueAvg'
               unit='µg/m³'
               :subtitle='$t("dayValueAvg")'
+              :description='$t("dayAvgDescription")'
             />
           </v-col>
         </v-row>

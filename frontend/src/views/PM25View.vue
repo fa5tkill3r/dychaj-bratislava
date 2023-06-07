@@ -61,6 +61,7 @@
               :title='sensor.yearValueAvg'
               unit='µg/m³'
               :subtitle='$t("yearValueAvg")'
+              :description='$t("yearAvgDescription", [new Date().getFullYear()])'
             />
           </v-col>
           <v-col
@@ -70,6 +71,7 @@
               :title='sensor.dayValueAvg'
               unit='µg/m³'
               :subtitle='$t("dayValueAvg")'
+              :description='$t("dayAvgDescription")'
             />
           </v-col>
         </v-row>
@@ -105,6 +107,8 @@
       <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
     </div>
     <v-divider class='mt-12 mb-5' />
+
+    <h3>Porovnanie aktuálnych úrnovní znečistenia lokalít</h3>
 
     <LegendComponent
       :limits='[

@@ -1,11 +1,12 @@
 {
   "airPollutionComparison": "Porovnanie znečistenia ovzdušia",
-  "airPollutionInWeeks": "Znečistenie vzduchu po týždňoch",
+  "airPollutionInWeeks": "Týždenne úrovne znečistenia vzduchu",
   "airPollutionWeekComparison": "Porovnanie medzi týžnami",
   "app": {
     "title": "Dýchaj Bratislava"
   },
   "current": "Aktuálne",
+  "dayAvgDescription": "Priemer od 00:00 po 23:59",
   "dayValueAvg": "Priemer za deň",
   "days": {
     "friday": "Pi",
@@ -49,6 +50,7 @@
   },
   "temperature": "Teplota",
   "weekCount": "Počet týždňov:",
-  "yearValueAvg": "Priemer za posledný rok",
+  "yearAvgDescription": "Priemer od 1.1.{0} po 31.12.{0}",
+  "yearValueAvg": "Priemer za tento rok",
   "yearlyExceedances": "Prekročenia za posledný rok"
 }

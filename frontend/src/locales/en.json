@@ -1,11 +1,12 @@
 {
   "airPollutionComparison": "Air pollution comparison",
-  "airPollutionInWeeks": "Air pollution in weeks",
+  "airPollutionInWeeks": "Weekly air pollution levels",
   "airPollutionWeekComparison": "Comparison between weeks",
   "app": {
     "title": "Breathe Bratislava"
   },
   "current": "Right now",
+  "dayAvgDescription": "Average from 00:00 to 23:59",
   "dayValueAvg": "Day value average",
   "days": {
     "friday": "Fri",
@@ -49,6 +50,7 @@
   },
   "temperature": "Temperature",
   "weekCount": "Week count:",
-  "yearValueAvg": "Year value average",
+  "yearAvgDescription": "Average from 1.1.{0} to 31.12.{0}",
+  "yearValueAvg": "Average for this year",
   "yearlyExceedances": "Yearly exceedances"
 }
