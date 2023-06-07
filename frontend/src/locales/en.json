@@ -29,6 +29,7 @@
     "minToday": "Min humidity today"
   },
   "login": "Login",
+  "mapHeadlinePM": "Comparison of current pollution levels in different locations",
   "placeSelect": "Select places to compare",
   "pm10": "PM 10",
   "pm10daysAboveThresholdHelp": "Number of days with an average value above the limit. (50µg/m³)..",

@@ -101,13 +101,17 @@
       :loading='exceedChart.loading'
     />
 
-    <div class='d-flex justify-center flex-column align-center'>
-      <h2>{{ $t('airPollutionWeekComparison') }}</h2>
+    <v-divider class='my-5' />
+
+    <div class='d-flex justify-space-between align-center'>
+      <h3>{{ $t('airPollutionWeekComparison') }}</h3>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
 
       <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
     </div>
-    <v-divider class='mt-12' />
+    <v-divider class='mt-12 mb-5' />
+
+    <h3>{{ $t('mapHeadlinePM') }}</h3>
 
     <LegendComponent
       :limits='[
