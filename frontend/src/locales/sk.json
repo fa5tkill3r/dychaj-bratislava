@@ -5,6 +5,8 @@
   "app": {
     "title": "Dýchaj Bratislava"
   },
+  "chooseAccuracy": "Vyber presnosť: ",
+  "choosePlacesToCompare": "Vyber miesta na porovnanie:",
   "current": "Aktuálne",
   "dayAvgDescription": "Priemer od 00:00 po 23:59",
   "dayValueAvg": "Priemer za deň",
@@ -19,6 +21,7 @@
   },
   "daysAboveThreshold": "Dni nad limitom",
   "daysSelect": "Vyber dni na porovnanie:",
+  "daysToCompare": "Vyber dni na porovnanie (max {0}):",
   "exceedancesCount": "Počet prekročení",
   "generate": "Generuj",
   "hours": "Hodiny:",
@@ -30,6 +33,10 @@
   },
   "login": "Prihlásiť sa",
   "mapHeadlinePM": "Porovnanie aktuálnych úrovní znečistenia lokalít",
+  "oneday": "1 deň",
+  "onehour": "1 hodina",
+  "oneweek": "1 týždeň",
+  "placeComparison": "Porovnanie miest",
   "placeSelect": "Vyber miesta na porovnávanie",
   "pm10": "PM 10",
   "pm10daysAboveThresholdHelp": "Počet dní s priemernou hodnotou nad limitom. (50µg/m³).",
@@ -50,6 +57,7 @@
     "minToday": "Minimálna teplota dnes"
   },
   "temperature": "Teplota",
+  "tenmin": "10 minút",
   "weekCount": "Počet týždňov:",
   "yearAvgDescription": "Priemer od 1.1.{0} po 31.12.{0}",
   "yearValueAvg": "Priemer za tento rok",

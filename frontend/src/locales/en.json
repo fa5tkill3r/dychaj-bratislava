@@ -5,6 +5,8 @@
   "app": {
     "title": "Breathe Bratislava"
   },
+  "chooseAccuracy": "Choose accuracy: ",
+  "choosePlacesToCompare": "Choose places to compare:",
   "current": "Right now",
   "dayAvgDescription": "Average from 00:00 to 23:59",
   "dayValueAvg": "Day value average",
@@ -19,6 +21,7 @@
   },
   "daysAboveThreshold": "Days above threshold in this year",
   "daysSelect": "Select week days for comparison",
+  "daysToCompare": "Choose days to compare (max {0}):",
   "exceedancesCount": "Number of exceedances",
   "generate": "Generate",
   "hours": "Hours:",
@@ -30,6 +33,10 @@
   },
   "login": "Login",
   "mapHeadlinePM": "Comparison of current pollution levels in different locations",
+  "oneday": "1 day",
+  "onehour": "1 hour",
+  "oneweek": "1 week",
+  "placeComparison": "Place comparison",
   "placeSelect": "Select places to compare",
   "pm10": "PM 10",
   "pm10daysAboveThresholdHelp": "Number of days with an average value above the limit. (50µg/m³)..",
@@ -50,6 +57,7 @@
     "minToday": "Min temperature today"
   },
   "temperature": "Temperature",
+  "tenmin": "10 minutes",
   "weekCount": "Week count:",
   "yearAvgDescription": "Average from 1.1.{0} to 31.12.{0}",
   "yearValueAvg": "Average for this year",

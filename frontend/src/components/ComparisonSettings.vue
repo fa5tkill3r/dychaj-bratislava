@@ -22,7 +22,7 @@
       >
 
         <div class='d-flex align-center justify-space-between'>
-          <h2>Porovanie miest</h2>
+          <h2>{{ $t('placeComparison') }}</h2>
           <v-btn
             class='ms-2'
             icon
@@ -34,7 +34,7 @@
       </v-sheet>
 
       <div class='pa-4'>
-        <h3>Vyber miesta na porovnanie: </h3>
+        <h3>{{ $t('choosePlacesToCompare') }} </h3>
         <v-chip-group
           v-model='selection'
           selected-class='text-primary'
@@ -50,7 +50,7 @@
           </v-chip>
         </v-chip-group>
 
-        <h3>Vyber presnosť: </h3>
+        <h3>{{ $t('chooseAccuracy') }}</h3>
         <div class='d-flex justify-center'>
           <v-btn-toggle
             v-model='interval'
@@ -58,31 +58,31 @@
             mandatory
           >
             <v-btn>
-              10 minút
+              {{ $t('tenmin') }}
             </v-btn>
 
             <v-btn>
-              1 hodina
+              {{ $t('onehour') }}
             </v-btn>
 
             <v-btn>
-              1 deň
+              {{ $t('oneday') }}
             </v-btn>
 
             <v-btn>
-              1 týždeň
+              {{ $t('oneweek') }}
             </v-btn>
           </v-btn-toggle>
         </div>
 
-        <h3>Vyber dni na porovnanie (max {{ range }}): </h3>
+        <h3>{{ $t('daysToCompare', [range]) }}</h3>
         <VueDatePicker
           v-model='date'
           range
           :max-range='range'
           position='center'
           auto-apply
-          :max-date='new Date()'
+          :max-date='to'
           inline />
       </div>
 
@@ -92,7 +92,7 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const dialog = ref(false)
 const selection = ref([])
