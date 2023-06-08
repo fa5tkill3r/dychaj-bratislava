@@ -14,7 +14,7 @@
         >&copy; {{ new Date().getFullYear() }} Nicolas Ondráš</span>
 
         <v-btn
-          href='https://github.com/fa5tkill3r/bakalarska-praca'
+          href='https://github.com/fa5tkill3r/dychaj-bratislava'
           target='_blank'
           rel='noopener'
           class='ml-2 github'
