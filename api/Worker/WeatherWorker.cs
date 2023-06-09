@@ -16,27 +16,19 @@ public class WeatherWorker<T> where T : IWeatherService
         _bpContext = bpContext;
     }
 
-    public async Task AddModule(string uniqueId, params string[] uniqueIds)
+    public async Task AddModule(string moduleName, params string[] uniqueIds)
     {
         var module = new Module
         {
-            Name = "temp",
-            UniqueId = uniqueId
+            Name = moduleName,
         };
         await _bpContext.Module.AddAsync(module);
         await _bpContext.SaveChangesAsync();
         try
         {
-            if (uniqueIds.Length > 0)
+            foreach (var id in uniqueIds)
             {
-                foreach (var id in uniqueIds)
-                {
-                    await _tWeatherService.AddSensor(module, id);
-                }
-            }
-            else
-            {
-                await _tWeatherService.AddSensor(module, uniqueId);
+                await _tWeatherService.AddSensor(module, id);
             }
         }
         catch (Exception e)
