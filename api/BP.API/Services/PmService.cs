@@ -145,12 +145,13 @@ public class PmService
                     
                     if (date > DateTime.UtcNow.Date)
                         break;
+                    
+                    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
-
-                    var lastReading = DateTime.MinValue;
+                    var lastReading = DateTimeOffset.MinValue;
                     foreach (var hour in request.Hours)
                     {
-                        if (lastReading != DateTime.MinValue && hour - lastReading.Hour > 1)
+                        if (lastReading != DateTimeOffset.MinValue && hour - timezone.GetUtcOffset(lastReading).Hours - lastReading.Hour > 1)
                         {
                             sensorDto.Readings.Add(new ReadingDto()
                             {
@@ -159,7 +160,6 @@ public class PmService
                             });
                         }
                         
-                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
                         var timeCet = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0);
                         var from = TimeZoneInfo.ConvertTimeToUtc(timeCet, timezone);
 
@@ -176,13 +176,15 @@ public class PmService
                                 .Where(r => r.DateTime.Minute >= startMinute && r.DateTime.Minute < endMinute)
                                 .Average(r => (decimal?) r.Value);
 
-                            sensorDto.Readings.Add(new ReadingDto()
+                            var reading = new ReadingDto()
                             {
                                 DateTime = from.AddMinutes(startMinute),
                                 Value = avg != null ? Math.Round(avg.Value, 2) : null,
-                            });
+                            };
+
+                            sensorDto.Readings.Add(reading);
                             
-                            lastReading = from.AddMinutes(startMinute);
+                            lastReading = reading.DateTime;
                         }
                     }
                     
