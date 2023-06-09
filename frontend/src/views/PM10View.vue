@@ -101,8 +101,8 @@
 
     <v-divider class='my-5' />
 
+    <h3>{{ $t('yearlyExceedances') }}</h3>
     <ExceedanceChart
-      title='yearlyExceedances'
       series-name='exceedancesCount'
       :sensors='exceedChart.sensors'
       :loading='exceedChart.loading'

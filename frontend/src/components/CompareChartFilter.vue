@@ -12,8 +12,6 @@
     v-model='dialog'
     width='auto'
   >
-
-
     <v-sheet
       style='max-width: 50em;'
       elevation='10'
@@ -54,14 +52,13 @@
         </v-chip-group>
 
         <h3>{{ $t('daysSelect') }}</h3>
-        <div class='d-flex justify-center'>
+        <div>
           <v-btn-toggle
             v-model='selectedDays'
             :multiple='true'
-            variant='outlined'
-            :divided='true'
+            class='d-flex justify-center flex-wrap align-content-stretch'
           >
-            <v-btn v-for='(day, index) in days' :key='index'>
+            <v-btn v-for='day in days' :key='day'>
               {{ day }}
             </v-btn>
           </v-btn-toggle>
@@ -110,8 +107,9 @@
           v-model='selectedWeeks'
           :min='1'
           :max='3'
-          thumb-label
           step='1'
+          show-ticks='always'
+          :ticks='[1, 2, 3]'
         >
 
         </v-slider>
@@ -153,10 +151,19 @@ const emit = defineEmits(['update'])
 
 const submit = () => {
   dialog.value = false
+  let days = selectedDays.value.map((index) => (index + 1) % 7).sort()
+  if (days.length === 0) {
+    days = [new Date().getDay()]
+  }
+  let hours = selectedHours.value.map((index) => index).sort()
+  if (hours.length === 0) {
+    hours = [new Date().getHours()]
+  }
+
   emit('update', {
     sensors: selection.value.map((index) => props.availableSensors[index].id).sort(),
-    days: selectedDays.value.map((index) =>(index + 1) % 7).sort(),
-    hours: selectedHours.value.map((index) => index).sort(),
+    days: days,
+    hours: hours,
     weeks: selectedWeeks.value,
   })
 }
