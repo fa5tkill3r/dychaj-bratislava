@@ -159,8 +159,10 @@ public class PmService
                             });
                         }
                         
-                        var from = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0);
-                        
+                        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                        var timeCet = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0);
+                        var from = TimeZoneInfo.ConvertTimeToUtc(timeCet, timezone);
+
                         var readings = await _bpContext.Reading
                             .Where(r => r.SensorId == sensor.Id)
                             .Where(r => r.DateTime >= from && r.DateTime < from.AddHours(1))
@@ -184,11 +186,12 @@ public class PmService
                         }
                     }
                     
-                    sensorDto.Readings.Add(new ReadingDto()
-                    {
-                        DateTime = lastReading + TimeSpan.FromMilliseconds(1),
-                        Value = null,
-                    });
+                    if (request.WeekDays.Count > 1)
+                        sensorDto.Readings.Add(new ReadingDto()
+                        {
+                            DateTime = lastReading + TimeSpan.FromMilliseconds(1),
+                            Value = null,
+                        });
                 }
                 start = start.AddDays(7);
             }
