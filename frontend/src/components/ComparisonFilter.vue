@@ -1,5 +1,5 @@
 <template>
-  <div class='d-flex justify-end mt-12'>
+  <div class='d-flex justify-end'>
     <v-btn
       icon
       @click='dialog = !dialog'

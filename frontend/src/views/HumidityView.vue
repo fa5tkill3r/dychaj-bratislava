@@ -65,16 +65,23 @@
       </div>
     </div>
 
-    <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart' />
+    <v-divider class='my-5' />
+
+    <div class='d-flex justify-space-between align-center'>
+      <h3>{{ $t("humidity.comparison") }}</h3>
+      <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart' />
+    </div>
+
+
     <ComparisonChart
       :sensors='comparisonChart.sensors'
       :loading='comparisonChart.loading'
       unit='%'
-      :title='$t("humidity.comparison")'
       :zoom='true'
       :display-time='true'
     />
 
+    <v-divider class='my-5' />
 
     <LegendComponent
       :limits='[

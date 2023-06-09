@@ -19,7 +19,8 @@ const props = defineProps({
   },
   title: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   sensors: {
     type: Array,

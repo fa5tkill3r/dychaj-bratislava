@@ -28,8 +28,8 @@
   "humidity": {
     "comparison": "Humidity change comparison",
     "humidity": "Humidity",
-    "maxToday": "Max humidity today",
-    "minToday": "Min humidity today"
+    "maxToday": "Max today",
+    "minToday": "Min today"
   },
   "login": "Login",
   "mapHeadlinePM": "Comparison of current pollution levels in different locations",
@@ -46,20 +46,20 @@
   "pmSubtitle": "Workplace air exposure levels during physical activities.",
   "pressure": {
     "comparison": "Pressure change comparison",
-    "maxToday": "Max pressure today",
-    "minToday": "Min pressure today",
+    "maxToday": "Min today",
+    "minToday": "Min today",
     "pressure": "Pressure"
   },
   "select": "Select",
   "temp": {
     "comparison": "Temperature Comparison",
-    "maxToday": "Max temperature today",
-    "minToday": "Min temperature today"
+    "maxToday": "Max today",
+    "minToday": "Min today"
   },
   "temperature": "Temperature",
   "tenmin": "10 minutes",
   "weekCount": "Week count:",
   "yearAvgDescription": "Average from 1.1.{0} to 31.12.{0}",
-  "yearValueAvg": "Average for this year",
+  "yearValueAvg": "Annual average",
   "yearlyExceedances": "Yearly exceedances"
 }

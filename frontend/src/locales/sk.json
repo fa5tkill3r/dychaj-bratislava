@@ -28,8 +28,8 @@
   "humidity": {
     "comparison": "Porovnanie zmeny vlhkosti",
     "humidity": "Vlhkosť",
-    "maxToday": "Maximálna vlhkosť dnes",
-    "minToday": "Minimálna vlhkosť dnes"
+    "maxToday": "Dnešné maximum",
+    "minToday": "Dnešné minimum"
   },
   "login": "Prihlásiť sa",
   "mapHeadlinePM": "Porovnanie aktuálnych úrovní znečistenia lokalít",
@@ -46,20 +46,20 @@
   "pmSubtitle": "Úrovne expozícii ovzdušia v lokalitách počas pohybových aktivít.",
   "pressure": {
     "comparison": "Porovnanie zmeny tlaku",
-    "maxToday": "Maximálny tlak dnes",
-    "minToday": "Minimálny tlak dnes",
+    "maxToday": "Dnešné minimum",
+    "minToday": "Dnešné minimum",
     "pressure": "Tlak"
   },
   "select": "Vyber",
   "temp": {
     "comparison": "Porovnanie teplôt",
-    "maxToday": "Maximálna teplota dnes",
-    "minToday": "Minimálna teplota dnes"
+    "maxToday": "Dnešné maximum",
+    "minToday": "Dnešné minimum"
   },
   "temperature": "Teplota",
   "tenmin": "10 minút",
   "weekCount": "Počet týždňov:",
   "yearAvgDescription": "Priemer od 1.1.{0} po 31.12.{0}",
-  "yearValueAvg": "Priemer za tento rok",
+  "yearValueAvg": "Ročný priemer",
   "yearlyExceedances": "Prekročenia za posledný rok"
 }

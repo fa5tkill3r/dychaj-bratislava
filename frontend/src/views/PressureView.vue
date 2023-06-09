@@ -64,13 +64,17 @@
         </v-row>
       </div>
     </div>
+    <v-divider class='my-5' />
 
-    <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart' />
+    <div class='d-flex align-center justify-space-between'>
+      <h3>{{ $t('pressure.comparison') }}</h3>
+      <comparison-settings :available-sensors='availableSensors' @update='fetchComparisonChart' />
+    </div>
+
     <ComparisonChart
       :sensors='comparisonChart.sensors'
       :loading='comparisonChart.loading'
       unit='pa'
-      :title='$t("pressure.comparison")'
       :zoom='true'
       :display-time='true'
       :connect-nulls='true'
@@ -78,6 +82,9 @@
         scale: "auto",
       }'
     />
+
+    <v-divider class='my-5'/>
+
     <MapComponent
       :layers='map.layers'
       :features='map.features'
@@ -154,11 +161,11 @@ const fetchMap = async () => {
         'description':
           `<div>
             <h3>${sensor.name}</h3>
-            <h4>${t('pressure.pressure')}: ${Math.round(sensor.readings[0].value/100)} hPa</h4>
+            <h4>${t('pressure.pressure')}: ${Math.round(sensor.readings[0].value / 100)} hPa</h4>
             <p>${new Date(sensor.readings[0].dateTime).toLocaleString(getLocale())}</p>
             <p>${sensor.location?.address}</p>
           </div>`,
-        'value': Math.round(sensor.readings[0].value/100),
+        'value': Math.round(sensor.readings[0].value / 100),
       },
       'geometry': {
         'type': 'Point',

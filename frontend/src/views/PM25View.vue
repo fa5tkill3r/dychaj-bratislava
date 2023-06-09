@@ -60,7 +60,7 @@
             <SheetInfo
               :title='sensor.yearValueAvg'
               unit='µg/m³'
-              :subtitle='$t("yearValueAvg")'
+              :subtitle='$t("yearValueAvg", [new Date().getFullYear()])'
               :description='$t("yearAvgDescription", [new Date().getFullYear()])'
             />
           </v-col>
@@ -78,12 +78,19 @@
       </div>
     </div>
 
-    <ComparisonFilter
-      :available-sensors='availableSensors'
-      @update='fetchWeeklyChart'
+    <v-divider
+      class='my-5'
     />
+
+    <div class='d-flex align-center justify-space-between' >
+      <h3>{{ $t("airPollutionInWeeks") }}</h3>
+
+      <ComparisonFilter
+        :available-sensors='availableSensors'
+        @update='fetchWeeklyChart'
+      />
+    </div>
     <ComparisonChart
-      :title='$t("airPollutionInWeeks")'
       :sensors='weeklyComparison.sensors'
       :loading='weeklyComparison.loading'
       unit='µg/m³'
@@ -94,8 +101,12 @@
       }'
     />
 
+    <v-divider
+      class='my-5'/>
+
+    <h3>{{ $t('yearlyExceedances') }}</h3>
+
     <ExceedanceChart
-      title='yearlyExceedances'
       series-name='exceedancesCount'
       :sensors='exceedChart.sensors'
       :loading='exceedChart.loading'
@@ -106,9 +117,10 @@
     <div class='d-flex justify-space-between align-center'>
       <h3>{{ $t('airPollutionWeekComparison') }}</h3>
       <compare-chart-filter :available-sensors='availableSensors' @update='fetchComparisonChart' />
-
-      <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
     </div>
+
+    <div v-if='showComparisonChart' ref='comparisonChart' class='chart mt-12' />
+
     <v-divider class='mt-12 mb-5' />
 
     <h3>{{ $t('mapHeadlinePM') }}</h3>
@@ -289,9 +301,6 @@ const fetchComparisonChart = async (options) => {
   chart.clear()
 
   chart.setOption({
-    title: {
-      text: t('airPollutionComparison'),
-    },
     tooltip: {
       trigger: 'axis',
     },

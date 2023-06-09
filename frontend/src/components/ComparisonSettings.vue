@@ -1,10 +1,12 @@
 <template>
-  <div class='d-flex justify-end mt-12'>
+  <div class='d-flex justify-end'>
     <v-btn
       icon
       @click='dialog = !dialog'
     >
-      <v-icon>mdi-wrench</v-icon>
+      <v-icon
+        size='30'
+      >mdi-note-search</v-icon>
     </v-btn>
   </div>
   <v-dialog
